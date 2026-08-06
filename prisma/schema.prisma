@@ -1,13 +1,132 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
 generator client {
   provider = "prisma-client"
-  output   = "../app/generated/prisma"
+  output   = "../generated/prisma"
 }
 
 datasource db {
   provider = "postgresql"
+}
+
+enum Role {
+  SHIPPER
+  TRUCKER
+}
+
+enum LoadStatus {
+  OPEN
+  MATCHED
+  IN_TRANSIT
+  COMPLETED
+  CANCELLED
+}
+
+enum JourneyStatus {
+  AVAILABLE
+  MATCHED
+  IN_TRANSIT
+  COMPLETED
+  CANCELLED
+}
+
+enum MatchStatus {
+  PENDING
+  ACCEPTED
+  REJECTED
+  CANCELLED
+}
+
+enum ProposedBy {
+  SHIPPER
+  TRUCKER
+}
+
+model User {
+  id           String   @id @default(cuid())
+  name         String
+  email        String   @unique
+  passwordHash String
+  role         Role
+  phone        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  loads    Load[]    @relation("ShipperLoads")
+  journeys Journey[] @relation("TruckerJourneys")
+
+  @@index([role])
+}
+
+model Load {
+  id        String @id @default(cuid())
+  shipper   User   @relation("ShipperLoads", fields: [shipperId], references: [id], onDelete: Cascade)
+  shipperId String
+
+  originCity  String
+  originState String
+  destCity    String
+  destState   String
+
+  cargoType String
+  weightKg  Float
+  budget    Decimal @db.Decimal(10, 2)
+
+  pickupDate       DateTime
+  deliveryDeadline DateTime
+
+  description String?
+  status      LoadStatus @default(OPEN)
+
+  matches Match[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([originCity, originState])
+  @@index([destCity, destState])
+  @@index([status])
+}
+
+model Journey {
+  id        String @id @default(cuid())
+  trucker   User   @relation("TruckerJourneys", fields: [truckerId], references: [id], onDelete: Cascade)
+  truckerId String
+
+  originCity  String
+  originState String
+  destCity    String
+  destState   String
+
+  departureDate       DateTime
+  availableCapacityKg Float
+  truckType           String
+  askingPricePerKg    Decimal @db.Decimal(10, 2)
+
+  status JourneyStatus @default(AVAILABLE)
+
+  matches Match[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([originCity, originState])
+  @@index([destCity, destState])
+  @@index([status])
+}
+
+model Match {
+  id        String  @id @default(cuid())
+  load      Load    @relation(fields: [loadId], references: [id], onDelete: Cascade)
+  loadId    String
+  journey   Journey @relation(fields: [journeyId], references: [id], onDelete: Cascade)
+  journeyId String
+
+  status      MatchStatus @default(PENDING)
+  proposedBy  ProposedBy
+  agreedPrice Decimal?    @db.Decimal(10, 2)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([loadId, journeyId])
+  @@index([status])
 }
