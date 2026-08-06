@@ -48,12 +48,12 @@ export function NexHaulLogo({
     <div className="flex flex-col select-none">
       <div className="flex items-center gap-3">
         {/* LOGO IMAGE */}
-        <div className={`relative flex items-center justify-center transition-transform hover:scale-[1.02] duration-300 flex-shrink-0 ${sizes}`}>
+        <div className={`relative flex items-center justify-center transition-transform hover:scale-[1.05] duration-300 flex-shrink-0 ${sizes}`}>
           {/* Using img for raw logo loaded directly */}
           <img 
             src="/nexhaul-logo.png" 
             alt="NexHaul Logo" 
-            className="w-full h-auto object-contain"
+            className="w-full h-auto object-contain scale-[1.45] origin-center"
           />
         </div>
 

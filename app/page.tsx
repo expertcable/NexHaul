@@ -13,7 +13,7 @@ export default function Home() {
         <img 
           src="/nexhaul-logo.png" 
           alt="NexHaul Logo" 
-          className="w-64 md:w-80 lg:w-96 h-auto object-contain drop-shadow-2xl opacity-90"
+          className="w-64 md:w-80 lg:w-96 h-auto object-contain drop-shadow-2xl opacity-90 scale-[1.45] origin-center"
         />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-start w-full">
