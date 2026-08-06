@@ -93,6 +93,17 @@ export async function POST(req: Request) {
 
     await setLoadLocation(load.id, data.originCoords, data.destCoords);
 
+    if (body.journeyId) {
+      await prisma.match.create({
+        data: {
+          loadId: load.id,
+          journeyId: String(body.journeyId),
+          status: "PENDING",
+          proposedBy: "SHIPPER",
+        },
+      });
+    }
+
     return NextResponse.json({ load }, { status: 201 });
   } catch (error) {
     return handleApiError(error);

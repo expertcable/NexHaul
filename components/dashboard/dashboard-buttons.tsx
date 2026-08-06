@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { LogOut, RefreshCw, Plus, Search } from "lucide-react";
+import { LogOut, RefreshCw, Search } from "lucide-react";
 
 export function SignOutButton() {
   return (
@@ -33,7 +33,7 @@ export function TableControls() {
   };
 
   return (
-    <div className="flex items-center gap-3 w-full sm:w-auto">
+    <div className="flex items-center gap-3">
       <div className="relative flex-1 sm:flex-initial sm:w-64">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-zinc-400" />
         <Input
@@ -54,14 +54,6 @@ export function TableControls() {
         className="h-10 w-10 border-white/10 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-xl flex-shrink-0"
       >
         <RefreshCw className={`h-4 w-4 ${isPending ? "animate-spin text-indigo-400" : ""}`} />
-      </Button>
-
-      <Button
-        className="h-10 px-5 rounded-xl bg-gradient-to-r from-indigo-500 via-indigo-600 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white font-semibold text-sm shadow-lg shadow-indigo-500/25 border border-indigo-400/20 transition-all flex items-center gap-2 flex-shrink-0 hover:scale-[1.02] active:scale-[0.98]"
-        onClick={() => alert("Ready to connect to Post New Load Form or Modal!")}
-      >
-        <Plus className="h-4 w-4 text-indigo-200" />
-        Post New Load
       </Button>
     </div>
   );

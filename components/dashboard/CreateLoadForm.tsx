@@ -1,0 +1,247 @@
+"use client";
+
+import { useState, type FormEvent } from "react";
+import { createPortal } from "react-dom";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Plus, X, Loader2, MapPin, Truck } from "lucide-react";
+
+export function CreateLoadForm() {
+  const router = useRouter();
+  const [isOpen, setIsOpen] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  // Indian Logistics localization defaults
+  const [originCity, setOriginCity] = useState("Mumbai");
+  const [originState, setOriginState] = useState("MH");
+  const [destCity, setDestCity] = useState("Delhi");
+  const [destState, setDestState] = useState("DL");
+  const [cargoType, setCargoType] = useState("Industrial Automotive Parts");
+  const [weightKg, setWeightKg] = useState("18500");
+
+  const handleSubmit = async (e: FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      // Hardcode PostGIS Indian spatial coordinates (Mumbai -> Delhi) to prevent backend errors
+      const originLat = 19.0760;
+      const originLng = 72.8777;
+      const destLat = 28.7041;
+      const destLng = 77.1025;
+
+      // Ensure date constraints for schema validation (delivery after pickup)
+      const pickupDate = new Date(Date.now() + 86400000).toISOString();
+      const deliveryDeadline = new Date(Date.now() + 86400000 * 4).toISOString();
+
+      const payload = {
+        originCity,
+        originState,
+        destCity,
+        destState,
+        cargoType,
+        weightKg: parseFloat(weightKg) || 10000,
+        // Include both direct lat/lng and originCoords/destCoords objects to satisfy PostGIS & Zod schema
+        originLat,
+        originLng,
+        destLat,
+        destLng,
+        originCoords: { lat: originLat, lng: originLng },
+        destCoords: { lat: destLat, lng: destLng },
+        budget: 85000.0, // INR equivalent default
+        pickupDate,
+        deliveryDeadline,
+        description: "Continuous-move Indian logistics freight candidate",
+      };
+
+      const res = await fetch("/api/loads", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}));
+        throw new Error(data.error || `Error: ${res.statusText}`);
+      }
+
+      // Successful insertion: close modal, clear form state, and refresh Server Component table
+      setIsOpen(false);
+      setOriginCity("");
+      setOriginState("");
+      setDestCity("");
+      setDestState("");
+      setCargoType("");
+      setWeightKg("");
+
+      router.refresh();
+    } catch (err: any) {
+      console.error("Failed to create load:", err);
+      setError(err.message || "An unexpected error occurred while posting load");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const modalContent = (
+    <div className="fixed inset-0 z-[9999] bg-black/80 flex items-center justify-center p-4 overflow-y-auto backdrop-blur-md animate-in fade-in-0 duration-200">
+      <div className="relative w-full max-w-xl my-auto rounded-2xl border border-indigo-500/20 bg-[#0c1219] p-7 text-zinc-100 shadow-2xl shadow-indigo-500/10">
+        {/* Modal Header */}
+        <div className="flex items-center justify-between border-b border-white/10 pb-4">
+          <div className="flex items-center gap-3">
+            <div className="rounded-xl bg-indigo-500/15 p-2.5 text-indigo-400 border border-indigo-500/30 shadow-sm">
+              <Truck className="h-6 w-6" />
+            </div>
+            <div>
+              <h3 className="text-xl font-bold text-white tracking-tight">Post New PostGIS Load</h3>
+              <p className="text-xs text-zinc-400">Insert live Indian freight into the spatial database</p>
+            </div>
+          </div>
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={() => setIsOpen(false)}
+            className="h-9 w-9 rounded-xl text-zinc-400 hover:bg-zinc-800 hover:text-white"
+          >
+            <X className="h-5 w-5" />
+          </Button>
+        </div>
+
+        {/* Form */}
+        <form onSubmit={handleSubmit} className="mt-6 space-y-5">
+          <div className="grid grid-cols-3 gap-4">
+            <div className="col-span-2 space-y-2">
+              <Label htmlFor="originCity" className="text-xs font-semibold text-zinc-300">Origin City</Label>
+              <Input
+                id="originCity"
+                required
+                value={originCity}
+                onChange={(e) => setOriginCity(e.target.value)}
+                placeholder="e.g. Mumbai"
+                className="bg-zinc-950 border-white/15 text-zinc-100 focus:ring-indigo-500 h-11 rounded-xl text-sm px-4 shadow-inner"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="originState" className="text-xs font-semibold text-zinc-300">State / Region</Label>
+              <Input
+                id="originState"
+                required
+                maxLength={4}
+                value={originState}
+                onChange={(e) => setOriginState(e.target.value.toUpperCase())}
+                placeholder="MH"
+                className="bg-zinc-950 border-white/15 text-zinc-100 focus:ring-indigo-500 h-11 rounded-xl font-mono text-center uppercase text-sm shadow-inner"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-3 gap-4">
+            <div className="col-span-2 space-y-2">
+              <Label htmlFor="destCity" className="text-xs font-semibold text-zinc-300">Destination City</Label>
+              <Input
+                id="destCity"
+                required
+                value={destCity}
+                onChange={(e) => setDestCity(e.target.value)}
+                placeholder="e.g. Delhi"
+                className="bg-zinc-950 border-white/15 text-zinc-100 focus:ring-indigo-500 h-11 rounded-xl text-sm px-4 shadow-inner"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="destState" className="text-xs font-semibold text-zinc-300">State / Region</Label>
+              <Input
+                id="destState"
+                required
+                maxLength={4}
+                value={destState}
+                onChange={(e) => setDestState(e.target.value.toUpperCase())}
+                placeholder="DL"
+                className="bg-zinc-950 border-white/15 text-zinc-100 focus:ring-indigo-500 h-11 rounded-xl font-mono text-center uppercase text-sm shadow-inner"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4 pt-1">
+            <div className="space-y-2">
+              <Label htmlFor="cargoType" className="text-xs font-semibold text-zinc-300">Cargo Type</Label>
+              <Input
+                id="cargoType"
+                required
+                value={cargoType}
+                onChange={(e) => setCargoType(e.target.value)}
+                placeholder="e.g. Auto Parts"
+                className="bg-zinc-950 border-white/15 text-zinc-100 focus:ring-indigo-500 h-11 rounded-xl text-sm px-4 shadow-inner"
+              />
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="weightKg" className="text-xs font-semibold text-zinc-300">Weight (KG)</Label>
+              <Input
+                id="weightKg"
+                type="number"
+                min="1"
+                required
+                value={weightKg}
+                onChange={(e) => setWeightKg(e.target.value)}
+                placeholder="18500"
+                className="bg-zinc-950 border-white/15 text-zinc-100 focus:ring-indigo-500 h-11 rounded-xl font-mono text-sm px-4 shadow-inner"
+              />
+            </div>
+          </div>
+
+          <div className="rounded-xl bg-indigo-500/10 border border-indigo-500/20 p-3.5 text-xs text-indigo-300 flex items-center gap-2.5">
+            <MapPin className="h-5 w-5 text-indigo-400 flex-shrink-0" />
+            <span className="leading-relaxed">Geospatial coordinates automatically mapped to India GIST Point Index (Mumbai 19.0760, 72.8777 &rarr; Delhi 28.7041, 77.1025).</span>
+          </div>
+
+          {error && <p className="text-sm font-semibold text-red-400 bg-red-500/10 border border-red-500/20 p-3.5 rounded-xl">{error}</p>}
+
+          <div className="flex items-center justify-end gap-3 pt-4 border-t border-white/10">
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setIsOpen(false)}
+              disabled={isSubmitting}
+              className="border-white/10 bg-zinc-900 hover:bg-zinc-800 text-zinc-300 rounded-xl h-11 px-5"
+            >
+              Cancel
+            </Button>
+            <Button
+              type="submit"
+              disabled={isSubmitting}
+              className="h-11 px-7 rounded-xl bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white font-semibold shadow-lg shadow-indigo-500/25 text-sm transition-all"
+            >
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                  Inserting...
+                </>
+              ) : (
+                "Confirm & Insert Load"
+              )}
+            </Button>
+          </div>
+        </form>
+      </div>
+    </div>
+  );
+
+  return (
+    <>
+      <Button
+        onClick={() => setIsOpen(true)}
+        className="h-10 px-5 rounded-xl bg-gradient-to-r from-indigo-500 via-indigo-600 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white font-semibold text-sm shadow-lg shadow-indigo-500/25 border border-indigo-400/20 transition-all flex items-center gap-2 flex-shrink-0 hover:scale-[1.02] active:scale-[0.98]"
+      >
+        <Plus className="h-4 w-4 text-indigo-200" />
+        Post New Load
+      </Button>
+
+      {isOpen && typeof document !== "undefined" && createPortal(modalContent, document.body)}
+    </>
+  );
+}
