@@ -14,12 +14,12 @@ interface RequestActionsProps {
 
 export function RequestActions({ matchId, currentStatus, loadWeight, availableCapacity }: RequestActionsProps) {
   const router = useRouter();
-  const [loadingAction, setLoadingAction] = useState<"ACCEPT" | "REJECT" | null>(null);
+  const [loadingAction, setLoadingAction] = useState<"ACCEPT" | "REJECT" | "ARCHIVE" | null>(null);
 
   if (currentStatus === "ACCEPTED") {
     return (
       <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40 text-xs font-bold font-mono">
-        <Check className="h-3.5 w-3.5" /> ACCEPTED &amp; LOCKED
+        <Check className="h-3.5 w-3.5" /> ACCEPTED & LOCKED
       </span>
     );
   }
@@ -32,7 +32,7 @@ export function RequestActions({ matchId, currentStatus, loadWeight, availableCa
     );
   }
 
-  const handleAction = async (action: "ACCEPT" | "REJECT") => {
+  const handleAction = async (action: "ACCEPT" | "REJECT" | "ARCHIVE") => {
     if (action === "ACCEPT" && loadWeight !== undefined && availableCapacity !== undefined) {
       if (loadWeight > availableCapacity) {
         alert("Insufficient remaining capacity for this load.");
@@ -62,12 +62,12 @@ export function RequestActions({ matchId, currentStatus, loadWeight, availableCa
   };
 
   return (
-    <div className="flex items-center justify-center gap-2">
+    <div className="flex flex-col sm:flex-row items-center justify-center gap-2 w-full">
       <Button
         size="sm"
         disabled={loadingAction !== null}
         onClick={() => handleAction("ACCEPT")}
-        className="h-8 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center gap-1 shadow-md shadow-emerald-500/20"
+        className="h-8 px-3 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs flex items-center justify-center gap-1 shadow-md shadow-emerald-500/20 w-full sm:flex-1"
       >
         {loadingAction === "ACCEPT" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <Check className="h-3.5 w-3.5" />}
         Accept
@@ -77,7 +77,7 @@ export function RequestActions({ matchId, currentStatus, loadWeight, availableCa
         variant="ghost"
         disabled={loadingAction !== null}
         onClick={() => handleAction("REJECT")}
-        className="h-8 px-3 rounded-lg hover:bg-[#D95B61]/10 text-zinc-500 hover:text-[#D95B61] font-semibold text-xs flex items-center gap-1 transition-colors"
+        className="h-8 px-3 rounded-lg hover:bg-[#D95B61]/10 text-zinc-500 hover:text-[#D95B61] font-semibold text-xs flex items-center justify-center gap-1 transition-colors w-full sm:flex-1"
       >
         {loadingAction === "REJECT" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <X className="h-3.5 w-3.5" />}
         Remove

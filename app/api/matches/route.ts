@@ -13,7 +13,7 @@ export async function POST(req: Request) {
 
     const { matchId, action } = await req.json();
 
-    if (!matchId || !["ACCEPT", "REJECT"].includes(action)) {
+    if (!matchId || !["ACCEPT", "REJECT", "ARCHIVE"].includes(action)) {
       return NextResponse.json({ error: "Invalid action or matchId provided" }, { status: 400 });
     }
 
@@ -51,13 +51,20 @@ export async function POST(req: Request) {
         }),
       ]);
       return NextResponse.json({ success: true, status: "ACCEPTED" }, { status: 200 });
-    } else {
+    } else if (action === "REJECT") {
       // Transition Match to REJECTED
       await prisma.match.update({
         where: { id: matchId },
         data: { status: "REJECTED" },
       });
       return NextResponse.json({ success: true, status: "REJECTED" }, { status: 200 });
+    } else if (action === "ARCHIVE") {
+      // Transition Match to ARCHIVED
+      await prisma.match.update({
+        where: { id: matchId },
+        data: { status: "ARCHIVED" },
+      });
+      return NextResponse.json({ success: true, status: "ARCHIVED" }, { status: 200 });
     }
   } catch (error) {
     return handleApiError(error);

@@ -22,7 +22,8 @@ export const LoadStatus = {
   MATCHED: 'MATCHED',
   IN_TRANSIT: 'IN_TRANSIT',
   COMPLETED: 'COMPLETED',
-  CANCELLED: 'CANCELLED'
+  CANCELLED: 'CANCELLED',
+  ARCHIVED: 'ARCHIVED'
 } as const
 
 export type LoadStatus = (typeof LoadStatus)[keyof typeof LoadStatus]
@@ -43,7 +44,8 @@ export const MatchStatus = {
   PENDING: 'PENDING',
   ACCEPTED: 'ACCEPTED',
   REJECTED: 'REJECTED',
-  CANCELLED: 'CANCELLED'
+  CANCELLED: 'CANCELLED',
+  ARCHIVED: 'ARCHIVED'
 } as const
 
 export type MatchStatus = (typeof MatchStatus)[keyof typeof MatchStatus]

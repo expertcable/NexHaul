@@ -45,7 +45,7 @@ export const loadUpdateSchema = z
     deliveryDeadline: z.coerce.date().optional(),
     description: z.string().optional(),
     status: z
-      .enum(["OPEN", "MATCHED", "IN_TRANSIT", "COMPLETED", "CANCELLED"])
+      .enum(["OPEN", "MATCHED", "IN_TRANSIT", "COMPLETED", "CANCELLED", "ARCHIVED"])
       .optional(),
   })
   .refine(bothOrNeitherCoords, {

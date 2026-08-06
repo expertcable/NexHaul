@@ -29,7 +29,7 @@ export function AuthContainer({ onBack }: { onBack?: () => void }) {
         </Button>
       )}
       
-      <Card className="border-white/10 bg-[#0a1528] shadow-2xl text-zinc-100 w-full backdrop-blur-sm">
+      <Card className="border border-yellow-500/30 bg-[#0a1528] shadow-[0_0_40px_-15px_rgba(59,130,246,0.3)] text-zinc-100 w-full backdrop-blur-sm">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold tracking-tight text-white">
             {mode === "login" ? "Sign back in" : "Create an account"}

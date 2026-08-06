@@ -31,15 +31,15 @@ export function NexHaulLogo({
   // Theme configurations for badges
   const theme = isTrucker
     ? {
-        subtitleColor: "text-zinc-400",
-        badgeBg: "bg-brand-green/20 text-brand-green border border-brand-green/30 shadow-sm",
-      }
+      subtitleColor: "text-zinc-400",
+      badgeBg: "bg-brand-green/20 text-brand-green border border-brand-green/30 shadow-sm",
+    }
     : isShipper
-    ? {
+      ? {
         subtitleColor: "text-zinc-400",
         badgeBg: "bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 shadow-sm",
       }
-    : {
+      : {
         subtitleColor: forceDarkText ? "text-zinc-600" : "text-zinc-400",
         badgeBg: "bg-white/10 text-white border border-white/20",
       };
@@ -50,9 +50,9 @@ export function NexHaulLogo({
         {/* LOGO IMAGE */}
         <div className={`relative flex items-center justify-center transition-transform hover:scale-[1.05] duration-300 flex-shrink-0 ${sizes}`}>
           {/* Using img for raw logo loaded directly */}
-          <img 
-            src="/nexhaul-logo.png" 
-            alt="NexHaul Logo" 
+          <img
+            src="/nexhaul-logo.png"
+            alt="NexHaul Logo"
             className="w-full h-auto object-contain scale-[1.45] origin-center"
           />
         </div>

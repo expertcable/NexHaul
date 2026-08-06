@@ -20,6 +20,7 @@ enum LoadStatus {
   IN_TRANSIT
   COMPLETED
   CANCELLED
+  ARCHIVED
 }
 
 enum JourneyStatus {
@@ -35,6 +36,7 @@ enum MatchStatus {
   ACCEPTED
   REJECTED
   CANCELLED
+  ARCHIVED
 }
 
 enum ProposedBy {
