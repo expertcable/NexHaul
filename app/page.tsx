@@ -7,8 +7,8 @@ import { AuthContainer } from "@/components/auth/AuthContainer";
 
 export default function Home() {
   return (
-    <div className="h-screen w-screen overflow-hidden flex flex-col items-center justify-center bg-[#020617] px-4 text-zinc-100 font-sans selection:bg-brand-green/30">
-      <div className="w-full max-w-4xl flex flex-col items-center gap-10">
+    <div className="h-screen w-screen overflow-hidden flex flex-col items-center justify-center bg-gradient-to-b from-[#1e293b] to-[#020617] px-4 text-zinc-100 font-sans selection:bg-brand-green/30">
+      <div className="w-full max-w-4xl flex flex-col items-center gap-10 -mt-20">
         {/* Giant Logo */}
         <img 
           src="/nexhaul-logo.png" 

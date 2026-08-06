@@ -193,6 +193,71 @@ export default async function Dashboard({ searchParams }: DashboardProps) {
             </div>
           </div>
 
+          {/* MY LOAD REQUESTS SECTION */}
+          <div className="space-y-6">
+            <h2 className="text-2xl font-bold tracking-tight text-white" style={{ fontFamily: 'Poppins, sans-serif' }}>
+              My Load Requests
+            </h2>
+            
+            {myRequestedLoads.length === 0 ? (
+              <div className="rounded-2xl border border-white/10 bg-[#111d33]/80 p-8 text-center text-zinc-400">
+                You haven't submitted any load requests yet.
+              </div>
+            ) : (
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                {myRequestedLoads.map((load) => {
+                  const currentMatch = load.matches[0];
+                  const matchStatus = currentMatch?.status || load.status;
+                  
+                  let badgeStyles = "bg-zinc-100 text-zinc-800";
+                  let displayStatus = matchStatus;
+                  
+                  if (matchStatus === "PENDING") {
+                    badgeStyles = "bg-yellow-100 text-yellow-900";
+                  } else if (matchStatus === "ACCEPTED" || matchStatus === "MATCHED" || load.status === "MATCHED") {
+                    badgeStyles = "bg-[#34a853]/20 text-green-900 font-bold";
+                    displayStatus = "ACCEPTED";
+                  } else if (matchStatus === "REJECTED" || matchStatus === "CANCELLED" || load.status === "CANCELLED") {
+                    badgeStyles = "bg-red-50 text-[#D95B61]";
+                    displayStatus = matchStatus === "REJECTED" ? "REJECTED" : "DECLINED";
+                  } else if (load.status === "OPEN") {
+                    badgeStyles = "bg-gray-100 text-gray-800";
+                    displayStatus = "OPEN";
+                  }
+
+                  return (
+                    <div key={load.id} className="rounded-2xl bg-white shadow-sm p-6 flex flex-col gap-4 text-zinc-900">
+                      <div className="flex justify-between items-start gap-2">
+                        <div className="flex-1">
+                          <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider mb-1">Route</div>
+                          <div className="font-bold text-[15px] leading-tight">
+                            {load.originCity} <span className="text-zinc-400 mx-1">&rarr;</span> {load.destCity}
+                          </div>
+                        </div>
+                        <span className={`px-3 py-1 rounded-full text-xs font-bold tracking-wide ${badgeStyles}`}>
+                          {displayStatus}
+                        </span>
+                      </div>
+                      
+                      <div className="mt-2 flex items-center justify-between border-t border-zinc-100 pt-4">
+                        <div>
+                          <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Cargo Weight</div>
+                          <div className="font-semibold text-sm">{Number(load.weightKg).toLocaleString()} kg</div>
+                        </div>
+                        {currentMatch && (
+                          <div className="text-right">
+                            <div className="text-[10px] font-bold text-zinc-400 uppercase tracking-wider">Target Route</div>
+                            <div className="font-mono text-sm text-zinc-600">{currentMatch.journey.id.slice(0, 8)}...</div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+
           {/* TABLE 1: AVAILABLE TRUCK ROUTES */}
           <div className="rounded-2xl border border-white/10 bg-[#111d33]/80 shadow-xl backdrop-blur-sm overflow-hidden">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-4 border-b border-white/10 p-6 bg-white/[0.03]">
