@@ -1,10 +1,12 @@
 generator client {
-  provider = "prisma-client"
-  output   = "../generated/prisma"
+  provider        = "prisma-client"
+  output          = "../generated/prisma"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "postgresql"
+  provider   = "postgresql"
+  extensions = [postgis]
 }
 
 enum Role {
@@ -66,6 +68,12 @@ model Load {
   destCity    String
   destState   String
 
+  // Geospatial points for radius / intersection queries.
+  // Nullable so existing rows aren't broken by this migration;
+  // backfill or require them going forward at the application layer.
+  originPoint Unsupported("geometry(Point, 4326)")?
+  destPoint   Unsupported("geometry(Point, 4326)")?
+
   cargoType String
   weightKg  Float
   budget    Decimal @db.Decimal(10, 2)
@@ -84,6 +92,8 @@ model Load {
   @@index([originCity, originState])
   @@index([destCity, destState])
   @@index([status])
+  @@index([originPoint], type: Gist)
+  @@index([destPoint], type: Gist)
 }
 
 model Journey {
@@ -95,6 +105,9 @@ model Journey {
   originState String
   destCity    String
   destState   String
+
+  originPoint Unsupported("geometry(Point, 4326)")?
+  destPoint   Unsupported("geometry(Point, 4326)")?
 
   departureDate       DateTime
   availableCapacityKg Float
@@ -111,6 +124,8 @@ model Journey {
   @@index([originCity, originState])
   @@index([destCity, destState])
   @@index([status])
+  @@index([originPoint], type: Gist)
+  @@index([destPoint], type: Gist)
 }
 
 model Match {
