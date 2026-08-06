@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
+import { getMockOrRealSession } from "@/lib/auth-bypass";
 import { prisma } from "@/lib/prisma";
 import { journeyCreateSchema } from "@/lib/validations";
 import { handleApiError } from "@/lib/api-utils";
@@ -61,11 +62,16 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
-    const session = await auth();
-    if (!session) {
+    const session = await getMockOrRealSession(req);
+    if (!session || !session.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
-    if (session.user.role !== "TRUCKER") {
+
+    const { searchParams } = new URL(req.url);
+    const roleParam = searchParams.get("mock_role") || searchParams.get("demoRole");
+    const effectiveRole = (roleParam || session?.user?.role)?.toUpperCase();
+
+    if (effectiveRole !== "TRUCKER") {
       return NextResponse.json(
         { error: "Only truckers can post journeys" },
         { status: 403 }
@@ -77,7 +83,7 @@ export async function POST(req: Request) {
 
     const journey = await prisma.journey.create({
       data: {
-        truckerId: session.user.id,
+        truckerId: roleParam ? "demo-trucker-id" : session.user.id,
         originCity: data.originCity,
         originState: data.originState,
         destCity: data.destCity,

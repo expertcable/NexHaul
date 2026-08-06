@@ -8,9 +8,11 @@ import { Check, X, Loader2 } from "lucide-react";
 interface RequestActionsProps {
   matchId: string;
   currentStatus: string;
+  loadWeight?: number;
+  availableCapacity?: number;
 }
 
-export function RequestActions({ matchId, currentStatus }: RequestActionsProps) {
+export function RequestActions({ matchId, currentStatus, loadWeight, availableCapacity }: RequestActionsProps) {
   const router = useRouter();
   const [loadingAction, setLoadingAction] = useState<"ACCEPT" | "REJECT" | null>(null);
 
@@ -31,6 +33,13 @@ export function RequestActions({ matchId, currentStatus }: RequestActionsProps) 
   }
 
   const handleAction = async (action: "ACCEPT" | "REJECT") => {
+    if (action === "ACCEPT" && loadWeight !== undefined && availableCapacity !== undefined) {
+      if (loadWeight > availableCapacity) {
+        alert("Insufficient remaining capacity for this load.");
+        return;
+      }
+    }
+    
     setLoadingAction(action);
     try {
       const res = await fetch("/api/matches", {
@@ -65,13 +74,13 @@ export function RequestActions({ matchId, currentStatus }: RequestActionsProps) 
       </Button>
       <Button
         size="sm"
-        variant="outline"
+        variant="ghost"
         disabled={loadingAction !== null}
         onClick={() => handleAction("REJECT")}
-        className="h-8 px-3 rounded-lg border-red-500/30 bg-red-500/10 hover:bg-red-500/20 text-red-300 font-semibold text-xs flex items-center gap-1"
+        className="h-8 px-3 rounded-lg hover:bg-[#D95B61]/10 text-zinc-500 hover:text-[#D95B61] font-semibold text-xs flex items-center gap-1 transition-colors"
       >
         {loadingAction === "REJECT" ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <X className="h-3.5 w-3.5" />}
-        Reject
+        Remove
       </Button>
     </div>
   );

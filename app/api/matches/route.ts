@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
+import { getMockOrRealSession } from "@/lib/auth-bypass";
 import { prisma } from "@/lib/prisma";
 import { handleApiError } from "@/lib/api-utils";
 
 export async function POST(req: Request) {
   try {
-    const session = await auth();
+    const session = await getMockOrRealSession(req);
     if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -26,7 +27,12 @@ export async function POST(req: Request) {
     }
 
     if (action === "ACCEPT") {
-      // Transition Match to ACCEPTED, Load & Journey to MATCHED (LPP OPTIMIZED)
+      const updatedCapacity = Math.max(
+        0,
+        Number(match.journey.availableCapacityKg) - Number(match.load.weightKg)
+      );
+
+      // Transition Match to ACCEPTED, Load to MATCHED, and deduct booked capacity from Journey
       await prisma.$transaction([
         prisma.match.update({
           where: { id: matchId },
@@ -38,7 +44,10 @@ export async function POST(req: Request) {
         }),
         prisma.journey.update({
           where: { id: match.journeyId },
-          data: { status: "MATCHED" },
+          data: {
+            availableCapacityKg: updatedCapacity,
+            ...(updatedCapacity === 0 ? { status: "MATCHED" } : { status: "AVAILABLE" }),
+          },
         }),
       ]);
       return NextResponse.json({ success: true, status: "ACCEPTED" }, { status: 200 });

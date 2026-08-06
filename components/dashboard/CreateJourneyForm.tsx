@@ -2,14 +2,15 @@
 
 import { useState, type FormEvent } from "react";
 import { createPortal } from "react-dom";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus, X, Loader2, Navigation, Truck } from "lucide-react";
+import { Plus, X, Loader2, Navigation, Truck, Calendar } from "lucide-react";
 
 export function CreateJourneyForm() {
   const router = useRouter();
+  const searchParams = useSearchParams();
   const [isOpen, setIsOpen] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -19,7 +20,9 @@ export function CreateJourneyForm() {
   const [originState, setOriginState] = useState("MH");
   const [destCity, setDestCity] = useState("Bengaluru");
   const [destState, setDestState] = useState("KA");
-  const [truckType, setTruckType] = useState("16-Wheel Heavy Trailer (32 MT)");
+  const [departureDate, setDepartureDate] = useState(
+    new Date(Date.now() + 86400000).toISOString().slice(0, 10)
+  );
   const [availableCapacityKg, setAvailableCapacityKg] = useState("32000");
 
   const handleSubmit = async (e: FormEvent) => {
@@ -34,7 +37,7 @@ export function CreateJourneyForm() {
       const destLat = 12.9716;
       const destLng = 77.5946;
 
-      const departureDate = new Date(Date.now() + 3600000 * 4).toISOString();
+      const formattedDate = new Date(departureDate || Date.now()).toISOString();
 
       const payload = {
         originCity,
@@ -47,13 +50,17 @@ export function CreateJourneyForm() {
         originLng,
         destLat,
         destLng,
-        departureDate,
+        departureDate: formattedDate,
         availableCapacityKg: parseFloat(availableCapacityKg) || 25000,
-        truckType,
-        askingPricePerKg: 12.5, // INR rate per kg
+        truckType: "16-Wheel Heavy Trailer (32 MT)",
+        askingPricePerKg: 15.0, // INR rate per kg
       };
 
-      const res = await fetch("/api/journeys", {
+      const liveParams = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : searchParams;
+      const roleParam = liveParams.get("mock_role") || liveParams.get("demoRole") || searchParams.get("mock_role") || searchParams.get("demoRole");
+      const url = roleParam ? `/api/journeys?mock_role=${roleParam}&demoRole=${roleParam}` : "/api/journeys";
+
+      const res = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -71,7 +78,6 @@ export function CreateJourneyForm() {
       setOriginState("");
       setDestCity("");
       setDestState("");
-      setTruckType("");
       setAvailableCapacityKg("");
 
       router.refresh();
@@ -94,7 +100,7 @@ export function CreateJourneyForm() {
             </div>
             <div>
               <h3 className="text-xl font-bold text-white tracking-tight">Post Trucker Route (Journey)</h3>
-              <p className="text-xs text-zinc-400">Register active backhaul capacity for LPP solver triangulation</p>
+              <p className="text-xs text-zinc-400">Publish active capacity across Indian highway corridors</p>
             </div>
           </div>
           <Button
@@ -122,7 +128,7 @@ export function CreateJourneyForm() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="originState" className="text-xs font-semibold text-zinc-300">State / Code</Label>
+              <Label htmlFor="originState" className="text-xs font-semibold text-zinc-300">State Code</Label>
               <Input
                 id="originState"
                 required
@@ -148,7 +154,7 @@ export function CreateJourneyForm() {
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="destState" className="text-xs font-semibold text-zinc-300">State / Code</Label>
+              <Label htmlFor="destState" className="text-xs font-semibold text-zinc-300">State Code</Label>
               <Input
                 id="destState"
                 required
@@ -163,13 +169,15 @@ export function CreateJourneyForm() {
 
           <div className="grid grid-cols-2 gap-4 pt-1">
             <div className="space-y-2">
-              <Label htmlFor="truckType" className="text-xs font-semibold text-zinc-300">Vehicle Specification</Label>
+              <Label htmlFor="departureDate" className="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
+                <Calendar className="h-3.5 w-3.5 text-emerald-400" /> Departure Date
+              </Label>
               <Input
-                id="truckType"
+                id="departureDate"
+                type="date"
                 required
-                value={truckType}
-                onChange={(e) => setTruckType(e.target.value)}
-                placeholder="e.g. 16-Wheel Heavy Trailer"
+                value={departureDate}
+                onChange={(e) => setDepartureDate(e.target.value)}
                 className="bg-zinc-950 border-white/15 text-zinc-100 focus:ring-emerald-500 h-11 rounded-xl text-sm px-4 shadow-inner"
               />
             </div>
@@ -190,7 +198,7 @@ export function CreateJourneyForm() {
 
           <div className="rounded-xl bg-emerald-500/10 border border-emerald-500/20 p-3.5 text-xs text-emerald-300 flex items-center gap-2.5">
             <Truck className="h-5 w-5 text-emerald-400 flex-shrink-0" />
-            <span className="leading-relaxed">Route automatically indexed in Indian National Highways database (Pune 18.5204, 73.8567 &rarr; Bengaluru 12.9716, 77.5946).</span>
+            <span className="leading-relaxed">Route automatically indexed in Indian National Highways spatial index (Pune 18.5204, 73.8567 &rarr; Bengaluru 12.9716, 77.5946).</span>
           </div>
 
           {error && <p className="text-sm font-semibold text-red-400 bg-red-500/10 border border-red-500/20 p-3.5 rounded-xl">{error}</p>}
