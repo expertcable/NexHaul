@@ -61,3 +61,8 @@ export type Journey = Prisma.JourneyModel
  * 
  */
 export type Match = Prisma.MatchModel
+/**
+ * Model Rating
+ * 
+ */
+export type Rating = Prisma.RatingModel

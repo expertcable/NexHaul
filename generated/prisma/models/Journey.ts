@@ -32,6 +32,7 @@ export type JourneyAvgAggregateOutputType = {
   destLat: number | null
   destLng: number | null
   priceInr: number | null
+  price: number | null
   weightTons: number | null
   availableCapacityKg: number | null
   askingPricePerKg: runtime.Decimal | null
@@ -43,6 +44,7 @@ export type JourneySumAggregateOutputType = {
   destLat: number | null
   destLng: number | null
   priceInr: number | null
+  price: number | null
   weightTons: number | null
   availableCapacityKg: number | null
   askingPricePerKg: runtime.Decimal | null
@@ -61,6 +63,7 @@ export type JourneyMinAggregateOutputType = {
   destLng: number | null
   vehicleType: string | null
   priceInr: number | null
+  price: number | null
   weightTons: number | null
   departureDate: Date | null
   availableCapacityKg: number | null
@@ -84,6 +87,7 @@ export type JourneyMaxAggregateOutputType = {
   destLng: number | null
   vehicleType: string | null
   priceInr: number | null
+  price: number | null
   weightTons: number | null
   departureDate: Date | null
   availableCapacityKg: number | null
@@ -101,12 +105,14 @@ export type JourneyCountAggregateOutputType = {
   originState: number
   destCity: number
   destState: number
+  dropPoints: number
   originLat: number
   originLng: number
   destLat: number
   destLng: number
   vehicleType: number
   priceInr: number
+  price: number
   weightTons: number
   departureDate: number
   availableCapacityKg: number
@@ -125,6 +131,7 @@ export type JourneyAvgAggregateInputType = {
   destLat?: true
   destLng?: true
   priceInr?: true
+  price?: true
   weightTons?: true
   availableCapacityKg?: true
   askingPricePerKg?: true
@@ -136,6 +143,7 @@ export type JourneySumAggregateInputType = {
   destLat?: true
   destLng?: true
   priceInr?: true
+  price?: true
   weightTons?: true
   availableCapacityKg?: true
   askingPricePerKg?: true
@@ -154,6 +162,7 @@ export type JourneyMinAggregateInputType = {
   destLng?: true
   vehicleType?: true
   priceInr?: true
+  price?: true
   weightTons?: true
   departureDate?: true
   availableCapacityKg?: true
@@ -177,6 +186,7 @@ export type JourneyMaxAggregateInputType = {
   destLng?: true
   vehicleType?: true
   priceInr?: true
+  price?: true
   weightTons?: true
   departureDate?: true
   availableCapacityKg?: true
@@ -194,12 +204,14 @@ export type JourneyCountAggregateInputType = {
   originState?: true
   destCity?: true
   destState?: true
+  dropPoints?: true
   originLat?: true
   originLng?: true
   destLat?: true
   destLng?: true
   vehicleType?: true
   priceInr?: true
+  price?: true
   weightTons?: true
   departureDate?: true
   availableCapacityKg?: true
@@ -304,12 +316,14 @@ export type JourneyGroupByOutputType = {
   originState: string
   destCity: string
   destState: string
+  dropPoints: string[]
   originLat: number | null
   originLng: number | null
   destLat: number | null
   destLng: number | null
   vehicleType: string | null
   priceInr: number | null
+  price: number | null
   weightTons: number | null
   departureDate: Date
   availableCapacityKg: number
@@ -350,12 +364,14 @@ export type JourneyWhereInput = {
   originState?: Prisma.StringFilter<"Journey"> | string
   destCity?: Prisma.StringFilter<"Journey"> | string
   destState?: Prisma.StringFilter<"Journey"> | string
+  dropPoints?: Prisma.StringNullableListFilter<"Journey">
   originLat?: Prisma.FloatNullableFilter<"Journey"> | number | null
   originLng?: Prisma.FloatNullableFilter<"Journey"> | number | null
   destLat?: Prisma.FloatNullableFilter<"Journey"> | number | null
   destLng?: Prisma.FloatNullableFilter<"Journey"> | number | null
   vehicleType?: Prisma.StringNullableFilter<"Journey"> | string | null
   priceInr?: Prisma.FloatNullableFilter<"Journey"> | number | null
+  price?: Prisma.FloatNullableFilter<"Journey"> | number | null
   weightTons?: Prisma.FloatNullableFilter<"Journey"> | number | null
   departureDate?: Prisma.DateTimeFilter<"Journey"> | Date | string
   availableCapacityKg?: Prisma.FloatFilter<"Journey"> | number
@@ -375,12 +391,14 @@ export type JourneyOrderByWithRelationInput = {
   originState?: Prisma.SortOrder
   destCity?: Prisma.SortOrder
   destState?: Prisma.SortOrder
+  dropPoints?: Prisma.SortOrder
   originLat?: Prisma.SortOrderInput | Prisma.SortOrder
   originLng?: Prisma.SortOrderInput | Prisma.SortOrder
   destLat?: Prisma.SortOrderInput | Prisma.SortOrder
   destLng?: Prisma.SortOrderInput | Prisma.SortOrder
   vehicleType?: Prisma.SortOrderInput | Prisma.SortOrder
   priceInr?: Prisma.SortOrderInput | Prisma.SortOrder
+  price?: Prisma.SortOrderInput | Prisma.SortOrder
   weightTons?: Prisma.SortOrderInput | Prisma.SortOrder
   departureDate?: Prisma.SortOrder
   availableCapacityKg?: Prisma.SortOrder
@@ -403,12 +421,14 @@ export type JourneyWhereUniqueInput = Prisma.AtLeast<{
   originState?: Prisma.StringFilter<"Journey"> | string
   destCity?: Prisma.StringFilter<"Journey"> | string
   destState?: Prisma.StringFilter<"Journey"> | string
+  dropPoints?: Prisma.StringNullableListFilter<"Journey">
   originLat?: Prisma.FloatNullableFilter<"Journey"> | number | null
   originLng?: Prisma.FloatNullableFilter<"Journey"> | number | null
   destLat?: Prisma.FloatNullableFilter<"Journey"> | number | null
   destLng?: Prisma.FloatNullableFilter<"Journey"> | number | null
   vehicleType?: Prisma.StringNullableFilter<"Journey"> | string | null
   priceInr?: Prisma.FloatNullableFilter<"Journey"> | number | null
+  price?: Prisma.FloatNullableFilter<"Journey"> | number | null
   weightTons?: Prisma.FloatNullableFilter<"Journey"> | number | null
   departureDate?: Prisma.DateTimeFilter<"Journey"> | Date | string
   availableCapacityKg?: Prisma.FloatFilter<"Journey"> | number
@@ -428,12 +448,14 @@ export type JourneyOrderByWithAggregationInput = {
   originState?: Prisma.SortOrder
   destCity?: Prisma.SortOrder
   destState?: Prisma.SortOrder
+  dropPoints?: Prisma.SortOrder
   originLat?: Prisma.SortOrderInput | Prisma.SortOrder
   originLng?: Prisma.SortOrderInput | Prisma.SortOrder
   destLat?: Prisma.SortOrderInput | Prisma.SortOrder
   destLng?: Prisma.SortOrderInput | Prisma.SortOrder
   vehicleType?: Prisma.SortOrderInput | Prisma.SortOrder
   priceInr?: Prisma.SortOrderInput | Prisma.SortOrder
+  price?: Prisma.SortOrderInput | Prisma.SortOrder
   weightTons?: Prisma.SortOrderInput | Prisma.SortOrder
   departureDate?: Prisma.SortOrder
   availableCapacityKg?: Prisma.SortOrder
@@ -459,12 +481,14 @@ export type JourneyScalarWhereWithAggregatesInput = {
   originState?: Prisma.StringWithAggregatesFilter<"Journey"> | string
   destCity?: Prisma.StringWithAggregatesFilter<"Journey"> | string
   destState?: Prisma.StringWithAggregatesFilter<"Journey"> | string
+  dropPoints?: Prisma.StringNullableListFilter<"Journey">
   originLat?: Prisma.FloatNullableWithAggregatesFilter<"Journey"> | number | null
   originLng?: Prisma.FloatNullableWithAggregatesFilter<"Journey"> | number | null
   destLat?: Prisma.FloatNullableWithAggregatesFilter<"Journey"> | number | null
   destLng?: Prisma.FloatNullableWithAggregatesFilter<"Journey"> | number | null
   vehicleType?: Prisma.StringNullableWithAggregatesFilter<"Journey"> | string | null
   priceInr?: Prisma.FloatNullableWithAggregatesFilter<"Journey"> | number | null
+  price?: Prisma.FloatNullableWithAggregatesFilter<"Journey"> | number | null
   weightTons?: Prisma.FloatNullableWithAggregatesFilter<"Journey"> | number | null
   departureDate?: Prisma.DateTimeWithAggregatesFilter<"Journey"> | Date | string
   availableCapacityKg?: Prisma.FloatWithAggregatesFilter<"Journey"> | number
@@ -481,12 +505,14 @@ export type JourneyCreateInput = {
   originState: string
   destCity: string
   destState: string
+  dropPoints?: Prisma.JourneyCreatedropPointsInput | string[]
   originLat?: number | null
   originLng?: number | null
   destLat?: number | null
   destLng?: number | null
   vehicleType?: string | null
   priceInr?: number | null
+  price?: number | null
   weightTons?: number | null
   departureDate: Date | string
   availableCapacityKg: number
@@ -506,12 +532,14 @@ export type JourneyUncheckedCreateInput = {
   originState: string
   destCity: string
   destState: string
+  dropPoints?: Prisma.JourneyCreatedropPointsInput | string[]
   originLat?: number | null
   originLng?: number | null
   destLat?: number | null
   destLng?: number | null
   vehicleType?: string | null
   priceInr?: number | null
+  price?: number | null
   weightTons?: number | null
   departureDate: Date | string
   availableCapacityKg: number
@@ -529,12 +557,14 @@ export type JourneyUpdateInput = {
   originState?: Prisma.StringFieldUpdateOperationsInput | string
   destCity?: Prisma.StringFieldUpdateOperationsInput | string
   destState?: Prisma.StringFieldUpdateOperationsInput | string
+  dropPoints?: Prisma.JourneyUpdatedropPointsInput | string[]
   originLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   originLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   destLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   destLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceInr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   weightTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   departureDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableCapacityKg?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -554,12 +584,14 @@ export type JourneyUncheckedUpdateInput = {
   originState?: Prisma.StringFieldUpdateOperationsInput | string
   destCity?: Prisma.StringFieldUpdateOperationsInput | string
   destState?: Prisma.StringFieldUpdateOperationsInput | string
+  dropPoints?: Prisma.JourneyUpdatedropPointsInput | string[]
   originLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   originLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   destLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   destLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceInr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   weightTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   departureDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableCapacityKg?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -578,12 +610,14 @@ export type JourneyCreateManyInput = {
   originState: string
   destCity: string
   destState: string
+  dropPoints?: Prisma.JourneyCreatedropPointsInput | string[]
   originLat?: number | null
   originLng?: number | null
   destLat?: number | null
   destLng?: number | null
   vehicleType?: string | null
   priceInr?: number | null
+  price?: number | null
   weightTons?: number | null
   departureDate: Date | string
   availableCapacityKg: number
@@ -600,12 +634,14 @@ export type JourneyUpdateManyMutationInput = {
   originState?: Prisma.StringFieldUpdateOperationsInput | string
   destCity?: Prisma.StringFieldUpdateOperationsInput | string
   destState?: Prisma.StringFieldUpdateOperationsInput | string
+  dropPoints?: Prisma.JourneyUpdatedropPointsInput | string[]
   originLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   originLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   destLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   destLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceInr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   weightTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   departureDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableCapacityKg?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -623,12 +659,14 @@ export type JourneyUncheckedUpdateManyInput = {
   originState?: Prisma.StringFieldUpdateOperationsInput | string
   destCity?: Prisma.StringFieldUpdateOperationsInput | string
   destState?: Prisma.StringFieldUpdateOperationsInput | string
+  dropPoints?: Prisma.JourneyUpdatedropPointsInput | string[]
   originLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   originLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   destLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   destLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceInr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   weightTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   departureDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableCapacityKg?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -649,6 +687,14 @@ export type JourneyOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
+export type StringNullableListFilter<$PrismaModel = never> = {
+  equals?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel> | null
+  has?: string | Prisma.StringFieldRefInput<$PrismaModel> | null
+  hasEvery?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  hasSome?: string[] | Prisma.ListStringFieldRefInput<$PrismaModel>
+  isEmpty?: boolean
+}
+
 export type JourneyCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   truckerId?: Prisma.SortOrder
@@ -656,12 +702,14 @@ export type JourneyCountOrderByAggregateInput = {
   originState?: Prisma.SortOrder
   destCity?: Prisma.SortOrder
   destState?: Prisma.SortOrder
+  dropPoints?: Prisma.SortOrder
   originLat?: Prisma.SortOrder
   originLng?: Prisma.SortOrder
   destLat?: Prisma.SortOrder
   destLng?: Prisma.SortOrder
   vehicleType?: Prisma.SortOrder
   priceInr?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   weightTons?: Prisma.SortOrder
   departureDate?: Prisma.SortOrder
   availableCapacityKg?: Prisma.SortOrder
@@ -678,6 +726,7 @@ export type JourneyAvgOrderByAggregateInput = {
   destLat?: Prisma.SortOrder
   destLng?: Prisma.SortOrder
   priceInr?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   weightTons?: Prisma.SortOrder
   availableCapacityKg?: Prisma.SortOrder
   askingPricePerKg?: Prisma.SortOrder
@@ -696,6 +745,7 @@ export type JourneyMaxOrderByAggregateInput = {
   destLng?: Prisma.SortOrder
   vehicleType?: Prisma.SortOrder
   priceInr?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   weightTons?: Prisma.SortOrder
   departureDate?: Prisma.SortOrder
   availableCapacityKg?: Prisma.SortOrder
@@ -719,6 +769,7 @@ export type JourneyMinOrderByAggregateInput = {
   destLng?: Prisma.SortOrder
   vehicleType?: Prisma.SortOrder
   priceInr?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   weightTons?: Prisma.SortOrder
   departureDate?: Prisma.SortOrder
   availableCapacityKg?: Prisma.SortOrder
@@ -735,6 +786,7 @@ export type JourneySumOrderByAggregateInput = {
   destLat?: Prisma.SortOrder
   destLng?: Prisma.SortOrder
   priceInr?: Prisma.SortOrder
+  price?: Prisma.SortOrder
   weightTons?: Prisma.SortOrder
   availableCapacityKg?: Prisma.SortOrder
   askingPricePerKg?: Prisma.SortOrder
@@ -787,6 +839,15 @@ export type JourneyUncheckedUpdateManyWithoutTruckerNestedInput = {
   deleteMany?: Prisma.JourneyScalarWhereInput | Prisma.JourneyScalarWhereInput[]
 }
 
+export type JourneyCreatedropPointsInput = {
+  set: string[]
+}
+
+export type JourneyUpdatedropPointsInput = {
+  set?: string[]
+  push?: string | string[]
+}
+
 export type EnumJourneyStatusFieldUpdateOperationsInput = {
   set?: $Enums.JourneyStatus
 }
@@ -811,12 +872,14 @@ export type JourneyCreateWithoutTruckerInput = {
   originState: string
   destCity: string
   destState: string
+  dropPoints?: Prisma.JourneyCreatedropPointsInput | string[]
   originLat?: number | null
   originLng?: number | null
   destLat?: number | null
   destLng?: number | null
   vehicleType?: string | null
   priceInr?: number | null
+  price?: number | null
   weightTons?: number | null
   departureDate: Date | string
   availableCapacityKg: number
@@ -834,12 +897,14 @@ export type JourneyUncheckedCreateWithoutTruckerInput = {
   originState: string
   destCity: string
   destState: string
+  dropPoints?: Prisma.JourneyCreatedropPointsInput | string[]
   originLat?: number | null
   originLng?: number | null
   destLat?: number | null
   destLng?: number | null
   vehicleType?: string | null
   priceInr?: number | null
+  price?: number | null
   weightTons?: number | null
   departureDate: Date | string
   availableCapacityKg: number
@@ -887,12 +952,14 @@ export type JourneyScalarWhereInput = {
   originState?: Prisma.StringFilter<"Journey"> | string
   destCity?: Prisma.StringFilter<"Journey"> | string
   destState?: Prisma.StringFilter<"Journey"> | string
+  dropPoints?: Prisma.StringNullableListFilter<"Journey">
   originLat?: Prisma.FloatNullableFilter<"Journey"> | number | null
   originLng?: Prisma.FloatNullableFilter<"Journey"> | number | null
   destLat?: Prisma.FloatNullableFilter<"Journey"> | number | null
   destLng?: Prisma.FloatNullableFilter<"Journey"> | number | null
   vehicleType?: Prisma.StringNullableFilter<"Journey"> | string | null
   priceInr?: Prisma.FloatNullableFilter<"Journey"> | number | null
+  price?: Prisma.FloatNullableFilter<"Journey"> | number | null
   weightTons?: Prisma.FloatNullableFilter<"Journey"> | number | null
   departureDate?: Prisma.DateTimeFilter<"Journey"> | Date | string
   availableCapacityKg?: Prisma.FloatFilter<"Journey"> | number
@@ -909,12 +976,14 @@ export type JourneyCreateWithoutMatchesInput = {
   originState: string
   destCity: string
   destState: string
+  dropPoints?: Prisma.JourneyCreatedropPointsInput | string[]
   originLat?: number | null
   originLng?: number | null
   destLat?: number | null
   destLng?: number | null
   vehicleType?: string | null
   priceInr?: number | null
+  price?: number | null
   weightTons?: number | null
   departureDate: Date | string
   availableCapacityKg: number
@@ -933,12 +1002,14 @@ export type JourneyUncheckedCreateWithoutMatchesInput = {
   originState: string
   destCity: string
   destState: string
+  dropPoints?: Prisma.JourneyCreatedropPointsInput | string[]
   originLat?: number | null
   originLng?: number | null
   destLat?: number | null
   destLng?: number | null
   vehicleType?: string | null
   priceInr?: number | null
+  price?: number | null
   weightTons?: number | null
   departureDate: Date | string
   availableCapacityKg: number
@@ -971,12 +1042,14 @@ export type JourneyUpdateWithoutMatchesInput = {
   originState?: Prisma.StringFieldUpdateOperationsInput | string
   destCity?: Prisma.StringFieldUpdateOperationsInput | string
   destState?: Prisma.StringFieldUpdateOperationsInput | string
+  dropPoints?: Prisma.JourneyUpdatedropPointsInput | string[]
   originLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   originLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   destLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   destLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceInr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   weightTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   departureDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableCapacityKg?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -995,12 +1068,14 @@ export type JourneyUncheckedUpdateWithoutMatchesInput = {
   originState?: Prisma.StringFieldUpdateOperationsInput | string
   destCity?: Prisma.StringFieldUpdateOperationsInput | string
   destState?: Prisma.StringFieldUpdateOperationsInput | string
+  dropPoints?: Prisma.JourneyUpdatedropPointsInput | string[]
   originLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   originLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   destLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   destLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceInr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   weightTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   departureDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableCapacityKg?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1017,12 +1092,14 @@ export type JourneyCreateManyTruckerInput = {
   originState: string
   destCity: string
   destState: string
+  dropPoints?: Prisma.JourneyCreatedropPointsInput | string[]
   originLat?: number | null
   originLng?: number | null
   destLat?: number | null
   destLng?: number | null
   vehicleType?: string | null
   priceInr?: number | null
+  price?: number | null
   weightTons?: number | null
   departureDate: Date | string
   availableCapacityKg: number
@@ -1039,12 +1116,14 @@ export type JourneyUpdateWithoutTruckerInput = {
   originState?: Prisma.StringFieldUpdateOperationsInput | string
   destCity?: Prisma.StringFieldUpdateOperationsInput | string
   destState?: Prisma.StringFieldUpdateOperationsInput | string
+  dropPoints?: Prisma.JourneyUpdatedropPointsInput | string[]
   originLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   originLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   destLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   destLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceInr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   weightTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   departureDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableCapacityKg?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1062,12 +1141,14 @@ export type JourneyUncheckedUpdateWithoutTruckerInput = {
   originState?: Prisma.StringFieldUpdateOperationsInput | string
   destCity?: Prisma.StringFieldUpdateOperationsInput | string
   destState?: Prisma.StringFieldUpdateOperationsInput | string
+  dropPoints?: Prisma.JourneyUpdatedropPointsInput | string[]
   originLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   originLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   destLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   destLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceInr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   weightTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   departureDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableCapacityKg?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1085,12 +1166,14 @@ export type JourneyUncheckedUpdateManyWithoutTruckerInput = {
   originState?: Prisma.StringFieldUpdateOperationsInput | string
   destCity?: Prisma.StringFieldUpdateOperationsInput | string
   destState?: Prisma.StringFieldUpdateOperationsInput | string
+  dropPoints?: Prisma.JourneyUpdatedropPointsInput | string[]
   originLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   originLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   destLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   destLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   priceInr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  price?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   weightTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   departureDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   availableCapacityKg?: Prisma.FloatFieldUpdateOperationsInput | number
@@ -1139,12 +1222,14 @@ export type JourneySelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   originState?: boolean
   destCity?: boolean
   destState?: boolean
+  dropPoints?: boolean
   originLat?: boolean
   originLng?: boolean
   destLat?: boolean
   destLng?: boolean
   vehicleType?: boolean
   priceInr?: boolean
+  price?: boolean
   weightTons?: boolean
   departureDate?: boolean
   availableCapacityKg?: boolean
@@ -1165,12 +1250,14 @@ export type JourneySelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   originState?: boolean
   destCity?: boolean
   destState?: boolean
+  dropPoints?: boolean
   originLat?: boolean
   originLng?: boolean
   destLat?: boolean
   destLng?: boolean
   vehicleType?: boolean
   priceInr?: boolean
+  price?: boolean
   weightTons?: boolean
   departureDate?: boolean
   availableCapacityKg?: boolean
@@ -1189,12 +1276,14 @@ export type JourneySelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   originState?: boolean
   destCity?: boolean
   destState?: boolean
+  dropPoints?: boolean
   originLat?: boolean
   originLng?: boolean
   destLat?: boolean
   destLng?: boolean
   vehicleType?: boolean
   priceInr?: boolean
+  price?: boolean
   weightTons?: boolean
   departureDate?: boolean
   availableCapacityKg?: boolean
@@ -1213,12 +1302,14 @@ export type JourneySelectScalar = {
   originState?: boolean
   destCity?: boolean
   destState?: boolean
+  dropPoints?: boolean
   originLat?: boolean
   originLng?: boolean
   destLat?: boolean
   destLng?: boolean
   vehicleType?: boolean
   priceInr?: boolean
+  price?: boolean
   weightTons?: boolean
   departureDate?: boolean
   availableCapacityKg?: boolean
@@ -1229,7 +1320,7 @@ export type JourneySelectScalar = {
   updatedAt?: boolean
 }
 
-export type JourneyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "truckerId" | "originCity" | "originState" | "destCity" | "destState" | "originLat" | "originLng" | "destLat" | "destLng" | "vehicleType" | "priceInr" | "weightTons" | "departureDate" | "availableCapacityKg" | "truckType" | "askingPricePerKg" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["journey"]>
+export type JourneyOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "truckerId" | "originCity" | "originState" | "destCity" | "destState" | "dropPoints" | "originLat" | "originLng" | "destLat" | "destLng" | "vehicleType" | "priceInr" | "price" | "weightTons" | "departureDate" | "availableCapacityKg" | "truckType" | "askingPricePerKg" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["journey"]>
 export type JourneyInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   trucker?: boolean | Prisma.UserDefaultArgs<ExtArgs>
   matches?: boolean | Prisma.Journey$matchesArgs<ExtArgs>
@@ -1255,12 +1346,14 @@ export type $JourneyPayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     originState: string
     destCity: string
     destState: string
+    dropPoints: string[]
     originLat: number | null
     originLng: number | null
     destLat: number | null
     destLng: number | null
     vehicleType: string | null
     priceInr: number | null
+    price: number | null
     weightTons: number | null
     departureDate: Date
     availableCapacityKg: number
@@ -1700,12 +1793,14 @@ export interface JourneyFieldRefs {
   readonly originState: Prisma.FieldRef<"Journey", 'String'>
   readonly destCity: Prisma.FieldRef<"Journey", 'String'>
   readonly destState: Prisma.FieldRef<"Journey", 'String'>
+  readonly dropPoints: Prisma.FieldRef<"Journey", 'String[]'>
   readonly originLat: Prisma.FieldRef<"Journey", 'Float'>
   readonly originLng: Prisma.FieldRef<"Journey", 'Float'>
   readonly destLat: Prisma.FieldRef<"Journey", 'Float'>
   readonly destLng: Prisma.FieldRef<"Journey", 'Float'>
   readonly vehicleType: Prisma.FieldRef<"Journey", 'String'>
   readonly priceInr: Prisma.FieldRef<"Journey", 'Float'>
+  readonly price: Prisma.FieldRef<"Journey", 'Float'>
   readonly weightTons: Prisma.FieldRef<"Journey", 'Float'>
   readonly departureDate: Prisma.FieldRef<"Journey", 'DateTime'>
   readonly availableCapacityKg: Prisma.FieldRef<"Journey", 'Float'>

@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus, X, Loader2, MapPin, Truck, ArrowRight, CheckCircle2 } from "lucide-react";
+import { Plus, X, Loader2, MapPin, Truck, ArrowRight, CheckCircle2, ShieldCheck, DollarSign } from "lucide-react";
 
 interface CreateLoadFormProps {
   journey?: {
@@ -17,6 +17,7 @@ interface CreateLoadFormProps {
     destState: string;
     departureDate?: string | Date;
     availableCapacityKg?: number;
+    truckType?: string;
   };
 }
 
@@ -28,13 +29,15 @@ export function CreateLoadForm({ journey }: CreateLoadFormProps = {}) {
   const [error, setError] = useState<string | null>(null);
 
   // Indian Logistics localization defaults or derived from targeted journey
-  const [originCity, setOriginCity] = useState(journey?.originCity || "Mumbai");
-  const [originState, setOriginState] = useState(journey?.originState || "MH");
-  const [destCity, setDestCity] = useState(journey?.destCity || "Delhi");
-  const [destState, setDestState] = useState(journey?.destState || "DL");
-  const [cargoType, setCargoType] = useState("Industrial Automotive Parts");
+  const [originCity, setOriginCity] = useState(journey?.originCity || "Kochi");
+  const [originState, setOriginState] = useState(journey?.originState || "KL");
+  const [destCity, setDestCity] = useState(journey?.destCity || "Trivandrum");
+  const [destState, setDestState] = useState(journey?.destState || "KL");
+  const [cargoType, setCargoType] = useState("Fresh Fish & Perishables");
+  const [truckType, setTruckType] = useState(journey?.truckType || "Ice Truck / Refrigerated");
+  const [budget, setBudget] = useState("25000");
   const [weightKg, setWeightKg] = useState(
-    journey?.availableCapacityKg ? String(Math.min(15000, journey.availableCapacityKg)) : "18500"
+    journey?.availableCapacityKg ? String(Math.min(10000, journey.availableCapacityKg)) : "10000"
   );
 
   const isRequestingJourney = !!journey;
@@ -60,6 +63,7 @@ export function CreateLoadForm({ journey }: CreateLoadFormProps = {}) {
         destCity: isRequestingJourney ? journey.destCity : destCity,
         destState: isRequestingJourney ? journey.destState : destState,
         cargoType,
+        truckType,
         weightKg: parseFloat(weightKg) || 10000,
         originLat,
         originLng,
@@ -67,7 +71,7 @@ export function CreateLoadForm({ journey }: CreateLoadFormProps = {}) {
         destLng,
         originCoords: { lat: originLat, lng: originLng },
         destCoords: { lat: destLat, lng: destLng },
-        budget: 85000.0,
+        budget: parseFloat(budget) || 45000.0,
         pickupDate,
         deliveryDeadline,
         description: isRequestingJourney ? `Cargo booked against Truck Route ${journey.id}` : "Continuous-move Indian freight",
@@ -120,12 +124,12 @@ export function CreateLoadForm({ journey }: CreateLoadFormProps = {}) {
             </div>
             <div>
               <h3 className="text-xl font-bold text-white tracking-tight">
-                {isRequestingJourney ? "Request Truck Route Capacity" : "Post New PostGIS Load"}
+                {isRequestingJourney ? "Request Truck Route Capacity" : "Post New Freight Load"}
               </h3>
               <p className="text-xs text-zinc-400">
                 {isRequestingJourney
                   ? "Submit cargo details for driver approval on this highway route"
-                  : "Insert live Indian freight into the spatial database"}
+                  : "Specify freight requirements, truck type, and pricing budget"}
               </p>
             </div>
           </div>
@@ -167,7 +171,7 @@ export function CreateLoadForm({ journey }: CreateLoadFormProps = {}) {
                     required
                     value={originCity}
                     onChange={(e) => setOriginCity(e.target.value)}
-                    placeholder="e.g. Mumbai"
+                    placeholder="e.g. Kochi"
                     className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl text-sm px-4 shadow-inner"
                   />
                 </div>
@@ -179,7 +183,7 @@ export function CreateLoadForm({ journey }: CreateLoadFormProps = {}) {
                     maxLength={4}
                     value={originState}
                     onChange={(e) => setOriginState(e.target.value.toUpperCase())}
-                    placeholder="MH"
+                    placeholder="KL"
                     className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl font-mono text-center uppercase text-sm shadow-inner"
                   />
                 </div>
@@ -193,7 +197,7 @@ export function CreateLoadForm({ journey }: CreateLoadFormProps = {}) {
                     required
                     value={destCity}
                     onChange={(e) => setDestCity(e.target.value)}
-                    placeholder="e.g. Delhi"
+                    placeholder="e.g. Trivandrum"
                     className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl text-sm px-4 shadow-inner"
                   />
                 </div>
@@ -205,7 +209,7 @@ export function CreateLoadForm({ journey }: CreateLoadFormProps = {}) {
                     maxLength={4}
                     value={destState}
                     onChange={(e) => setDestState(e.target.value.toUpperCase())}
-                    placeholder="DL"
+                    placeholder="KL"
                     className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl font-mono text-center uppercase text-sm shadow-inner"
                   />
                 </div>
@@ -215,13 +219,13 @@ export function CreateLoadForm({ journey }: CreateLoadFormProps = {}) {
 
           <div className="grid grid-cols-2 gap-4 pt-1">
             <div className="space-y-2">
-              <Label htmlFor="cargoType" className="text-xs font-semibold text-slate-300">Cargo Type</Label>
+              <Label htmlFor="cargoType" className="text-xs font-semibold text-slate-300">Cargo Description</Label>
               <Input
                 id="cargoType"
                 required
                 value={cargoType}
                 onChange={(e) => setCargoType(e.target.value)}
-                placeholder="e.g. Auto Parts"
+                placeholder="e.g. Perishables / Industrial Goods"
                 className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl text-sm px-4 shadow-inner"
               />
             </div>
@@ -234,19 +238,42 @@ export function CreateLoadForm({ journey }: CreateLoadFormProps = {}) {
                 required
                 value={weightKg}
                 onChange={(e) => setWeightKg(e.target.value)}
-                placeholder="18500"
+                placeholder="10000"
                 className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl font-mono text-sm px-4 shadow-inner"
               />
             </div>
           </div>
 
-          <div className="rounded-xl bg-indigo-500/10 border border-indigo-500/20 p-3.5 text-xs text-indigo-300 flex items-center gap-2.5">
-            <MapPin className="h-5 w-5 text-indigo-400 flex-shrink-0" />
-            <span className="leading-relaxed">
-              {isRequestingJourney
-                ? "Submitting will register status as 'PENDING APPROVAL' for the target trucker to review in real time."
-                : "Geospatial coordinates automatically mapped to India GIST Point Index (Mumbai 19.0760, 72.8777 -> Delhi 28.7041, 77.1025)."}
-            </span>
+          <div className="grid grid-cols-2 gap-4 pt-1">
+            <div className="space-y-2">
+              <Label htmlFor="truckType" className="text-xs font-semibold text-slate-300">Required Truck Type</Label>
+              <select
+                id="truckType"
+                value={truckType}
+                onChange={(e) => setTruckType(e.target.value)}
+                className="w-full bg-[#07090E] border border-white/10 text-white focus:ring-2 focus:ring-cyan-500 h-11 rounded-xl text-sm px-3 shadow-inner outline-none transition-all cursor-pointer"
+              >
+                <option value="Ice Truck / Refrigerated">Ice Truck / Refrigerated</option>
+                <option value="Dry Van">Dry Van</option>
+                <option value="Flatbed">Flatbed</option>
+                <option value="Container">Container</option>
+                <option value="16-Wheel Heavy Trailer (32 MT)">16-Wheel Heavy Trailer (32 MT)</option>
+                <option value="Liquid Tanker">Liquid Tanker</option>
+              </select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="budget" className="text-xs font-semibold text-slate-300">Target Budget (₹ INR)</Label>
+              <Input
+                id="budget"
+                type="number"
+                min="1000"
+                required
+                value={budget}
+                onChange={(e) => setBudget(e.target.value)}
+                placeholder="25000"
+                className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl font-mono text-sm px-4 shadow-inner"
+              />
+            </div>
           </div>
 
           {error && <p className="text-sm font-semibold text-red-400 bg-red-500/10 border border-red-500/20 p-3.5 rounded-xl">{error}</p>}

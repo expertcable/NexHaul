@@ -400,7 +400,8 @@ export const ModelName = {
   User: 'User',
   Load: 'Load',
   Journey: 'Journey',
-  Match: 'Match'
+  Match: 'Match',
+  Rating: 'Rating'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -416,7 +417,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "load" | "journey" | "match"
+    modelProps: "user" | "load" | "journey" | "match" | "rating"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -716,6 +717,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Rating: {
+      payload: Prisma.$RatingPayload<ExtArgs>
+      fields: Prisma.RatingFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.RatingFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RatingPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.RatingFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RatingPayload>
+        }
+        findFirst: {
+          args: Prisma.RatingFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RatingPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.RatingFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RatingPayload>
+        }
+        findMany: {
+          args: Prisma.RatingFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RatingPayload>[]
+        }
+        create: {
+          args: Prisma.RatingCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RatingPayload>
+        }
+        createMany: {
+          args: Prisma.RatingCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.RatingCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RatingPayload>[]
+        }
+        delete: {
+          args: Prisma.RatingDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RatingPayload>
+        }
+        update: {
+          args: Prisma.RatingUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RatingPayload>
+        }
+        deleteMany: {
+          args: Prisma.RatingDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.RatingUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.RatingUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RatingPayload>[]
+        }
+        upsert: {
+          args: Prisma.RatingUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$RatingPayload>
+        }
+        aggregate: {
+          args: Prisma.RatingAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateRating>
+        }
+        groupBy: {
+          args: Prisma.RatingGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RatingGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.RatingCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.RatingCountAggregateOutputType> | number
+        }
+      }
+    }
   }
 } & {
   other: {
@@ -762,6 +837,9 @@ export const UserScalarFieldEnum = {
   passwordHash: 'passwordHash',
   role: 'role',
   phone: 'phone',
+  totalCapacity: 'totalCapacity',
+  truckType: 'truckType',
+  averageRating: 'averageRating',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -783,6 +861,7 @@ export const LoadScalarFieldEnum = {
   vehicleType: 'vehicleType',
   priceInr: 'priceInr',
   weightTons: 'weightTons',
+  truckType: 'truckType',
   carrierId: 'carrierId',
   cargoType: 'cargoType',
   weightKg: 'weightKg',
@@ -805,12 +884,14 @@ export const JourneyScalarFieldEnum = {
   originState: 'originState',
   destCity: 'destCity',
   destState: 'destState',
+  dropPoints: 'dropPoints',
   originLat: 'originLat',
   originLng: 'originLng',
   destLat: 'destLat',
   destLng: 'destLng',
   vehicleType: 'vehicleType',
   priceInr: 'priceInr',
+  price: 'price',
   weightTons: 'weightTons',
   departureDate: 'departureDate',
   availableCapacityKg: 'availableCapacityKg',
@@ -836,6 +917,20 @@ export const MatchScalarFieldEnum = {
 } as const
 
 export type MatchScalarFieldEnum = (typeof MatchScalarFieldEnum)[keyof typeof MatchScalarFieldEnum]
+
+
+export const RatingScalarFieldEnum = {
+  id: 'id',
+  score: 'score',
+  review: 'review',
+  shipperId: 'shipperId',
+  truckerId: 'truckerId',
+  loadId: 'loadId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RatingScalarFieldEnum = (typeof RatingScalarFieldEnum)[keyof typeof RatingScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -897,20 +992,6 @@ export type ListEnumRoleFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaM
 
 
 /**
- * Reference to a field of type 'DateTime'
- */
-export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
-    
-
-
-/**
- * Reference to a field of type 'DateTime[]'
- */
-export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
-    
-
-
-/**
  * Reference to a field of type 'Float'
  */
 export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -921,6 +1002,20 @@ export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, '
  * Reference to a field of type 'Float[]'
  */
 export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime'
+ */
+export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+/**
+ * Reference to a field of type 'DateTime[]'
+ */
+export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
     
 
 
@@ -1162,6 +1257,7 @@ export type GlobalOmitConfig = {
   load?: Prisma.LoadOmit
   journey?: Prisma.JourneyOmit
   match?: Prisma.MatchOmit
+  rating?: Prisma.RatingOmit
 }
 
 /* Types for Logging */

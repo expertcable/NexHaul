@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter, Poppins, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/components/providers/session-provider";
@@ -19,6 +19,13 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  themeColor: "#07090E",
+};
 
 export const metadata: Metadata = {
   title: "NexHaul | Continuous-Move Freight Network",

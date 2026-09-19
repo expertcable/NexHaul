@@ -54,7 +54,8 @@ export const ModelName = {
   User: 'User',
   Load: 'Load',
   Journey: 'Journey',
-  Match: 'Match'
+  Match: 'Match',
+  Rating: 'Rating'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -80,6 +81,9 @@ export const UserScalarFieldEnum = {
   passwordHash: 'passwordHash',
   role: 'role',
   phone: 'phone',
+  totalCapacity: 'totalCapacity',
+  truckType: 'truckType',
+  averageRating: 'averageRating',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
@@ -101,6 +105,7 @@ export const LoadScalarFieldEnum = {
   vehicleType: 'vehicleType',
   priceInr: 'priceInr',
   weightTons: 'weightTons',
+  truckType: 'truckType',
   carrierId: 'carrierId',
   cargoType: 'cargoType',
   weightKg: 'weightKg',
@@ -123,12 +128,14 @@ export const JourneyScalarFieldEnum = {
   originState: 'originState',
   destCity: 'destCity',
   destState: 'destState',
+  dropPoints: 'dropPoints',
   originLat: 'originLat',
   originLng: 'originLng',
   destLat: 'destLat',
   destLng: 'destLng',
   vehicleType: 'vehicleType',
   priceInr: 'priceInr',
+  price: 'price',
   weightTons: 'weightTons',
   departureDate: 'departureDate',
   availableCapacityKg: 'availableCapacityKg',
@@ -154,6 +161,20 @@ export const MatchScalarFieldEnum = {
 } as const
 
 export type MatchScalarFieldEnum = (typeof MatchScalarFieldEnum)[keyof typeof MatchScalarFieldEnum]
+
+
+export const RatingScalarFieldEnum = {
+  id: 'id',
+  score: 'score',
+  review: 'review',
+  shipperId: 'shipperId',
+  truckerId: 'truckerId',
+  loadId: 'loadId',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type RatingScalarFieldEnum = (typeof RatingScalarFieldEnum)[keyof typeof RatingScalarFieldEnum]
 
 
 export const SortOrder = {

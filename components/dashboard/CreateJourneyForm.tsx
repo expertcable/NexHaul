@@ -6,7 +6,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Plus, X, Loader2, Navigation, Truck, Calendar } from "lucide-react";
+import { Plus, X, Loader2, Navigation, Truck, Calendar, DollarSign, MapPin, Trash2 } from "lucide-react";
 
 export function CreateJourneyForm() {
   const router = useRouter();
@@ -16,14 +16,29 @@ export function CreateJourneyForm() {
   const [error, setError] = useState<string | null>(null);
 
   // Indian logistics trucker route defaults
-  const [originCity, setOriginCity] = useState("Pune");
-  const [originState, setOriginState] = useState("MH");
-  const [destCity, setDestCity] = useState("Bengaluru");
-  const [destState, setDestState] = useState("KA");
+  const [originCity, setOriginCity] = useState("Kochi");
+  const [originState, setOriginState] = useState("KL");
+  const [destCity, setDestCity] = useState("Trivandrum");
+  const [destState, setDestState] = useState("KL");
+  const [dropPoints, setDropPoints] = useState<string[]>(["Kollam", "Alappuzha"]);
+  const [newDropPoint, setNewDropPoint] = useState("");
   const [departureDate, setDepartureDate] = useState(
     new Date(Date.now() + 86400000).toISOString().slice(0, 10)
   );
-  const [availableCapacityKg, setAvailableCapacityKg] = useState("32000");
+  const [availableCapacityKg, setAvailableCapacityKg] = useState("12000");
+  const [truckType, setTruckType] = useState("Ice Truck / Refrigerated");
+  const [price, setPrice] = useState("18000");
+
+  const handleAddDropPoint = () => {
+    if (newDropPoint.trim() && !dropPoints.includes(newDropPoint.trim())) {
+      setDropPoints([...dropPoints, newDropPoint.trim()]);
+      setNewDropPoint("");
+    }
+  };
+
+  const handleRemoveDropPoint = (index: number) => {
+    setDropPoints(dropPoints.filter((_, i) => i !== index));
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -31,19 +46,22 @@ export function CreateJourneyForm() {
     setError(null);
 
     try {
-      // Hardcode PostGIS Indian spatial coordinates (Pune -> Bengaluru)
-      const originLat = 18.5204;
-      const originLng = 73.8567;
-      const destLat = 12.9716;
-      const destLng = 77.5946;
+      // PostGIS Indian spatial coordinates
+      const originLat = 9.9312;
+      const originLng = 76.2673;
+      const destLat = 8.5241;
+      const destLng = 76.9366;
 
       const formattedDate = new Date(departureDate || Date.now()).toISOString();
+      const numPrice = parseFloat(price) || 18000;
+      const numCap = parseFloat(availableCapacityKg) || 12000;
 
       const payload = {
         originCity,
         originState,
         destCity,
         destState,
+        dropPoints,
         originCoords: { lat: originLat, lng: originLng },
         destCoords: { lat: destLat, lng: destLng },
         originLat,
@@ -51,9 +69,10 @@ export function CreateJourneyForm() {
         destLat,
         destLng,
         departureDate: formattedDate,
-        availableCapacityKg: parseFloat(availableCapacityKg) || 25000,
-        truckType: "16-Wheel Heavy Trailer (32 MT)",
-        askingPricePerKg: 15.0, // INR rate per kg
+        availableCapacityKg: numCap,
+        truckType,
+        price: numPrice,
+        askingPricePerKg: numCap > 0 ? parseFloat((numPrice / numCap).toFixed(2)) : 15.0,
       };
 
       const liveParams = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : searchParams;
@@ -77,7 +96,9 @@ export function CreateJourneyForm() {
       setOriginState("");
       setDestCity("");
       setDestState("");
+      setDropPoints([]);
       setAvailableCapacityKg("");
+      setPrice("");
 
       router.refresh();
     } catch (err: any) {
@@ -99,7 +120,7 @@ export function CreateJourneyForm() {
             </div>
             <div>
               <h3 className="text-xl font-bold text-white tracking-tight">Post Trucker Route (Journey)</h3>
-              <p className="text-xs text-zinc-400">Publish active capacity across Indian highway corridors</p>
+              <p className="text-xs text-zinc-400">Publish active capacity, set manual pricing & intermediate drop points</p>
             </div>
           </div>
           <Button
@@ -122,7 +143,7 @@ export function CreateJourneyForm() {
                 required
                 value={originCity}
                 onChange={(e) => setOriginCity(e.target.value)}
-                placeholder="e.g. Pune"
+                placeholder="e.g. Kochi"
                 className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl text-sm px-4 shadow-inner"
               />
             </div>
@@ -134,21 +155,73 @@ export function CreateJourneyForm() {
                 maxLength={4}
                 value={originState}
                 onChange={(e) => setOriginState(e.target.value.toUpperCase())}
-                placeholder="MH"
+                placeholder="KL"
                 className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl font-mono text-center uppercase text-sm shadow-inner"
               />
             </div>
           </div>
 
+          {/* Dynamic Drop Points / Waypoints Section */}
+          <div className="rounded-xl bg-[#07090E] border border-white/10 p-4 space-y-3">
+            <div className="flex items-center justify-between">
+              <Label className="text-xs font-semibold text-cyan-400 flex items-center gap-1.5">
+                <MapPin className="h-3.5 w-3.5" /> Intermediate Drop Points / Waypoints
+              </Label>
+              <span className="text-[11px] text-slate-400">Stops along the route</span>
+            </div>
+
+            <div className="flex gap-2">
+              <Input
+                value={newDropPoint}
+                onChange={(e) => setNewDropPoint(e.target.value)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter") {
+                    e.preventDefault();
+                    handleAddDropPoint();
+                  }
+                }}
+                placeholder="Add stop (e.g. Kollam, Alappuzha)"
+                className="bg-[#0E131F] border-white/10 text-white focus:ring-cyan-500 h-10 rounded-xl text-sm px-3 shadow-inner"
+              />
+              <Button
+                type="button"
+                onClick={handleAddDropPoint}
+                className="h-10 px-4 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white text-xs font-bold"
+              >
+                <Plus className="h-3.5 w-3.5 mr-1" /> Add Stop
+              </Button>
+            </div>
+
+            {dropPoints.length > 0 && (
+              <div className="flex flex-wrap gap-2 pt-1">
+                {dropPoints.map((pt, idx) => (
+                  <span
+                    key={idx}
+                    className="inline-flex items-center gap-1.5 px-3 py-1 rounded-lg bg-cyan-500/15 border border-cyan-500/30 text-cyan-300 text-xs font-semibold"
+                  >
+                    <span>{pt}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveDropPoint(idx)}
+                      className="text-cyan-400 hover:text-white p-0.5 rounded-full"
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
+          </div>
+
           <div className="grid grid-cols-3 gap-4">
             <div className="col-span-2 space-y-2">
-              <Label htmlFor="destCity" className="text-xs font-semibold text-slate-300">Destination City</Label>
+              <Label htmlFor="destCity" className="text-xs font-semibold text-slate-300">Final Destination City</Label>
               <Input
                 id="destCity"
                 required
                 value={destCity}
                 onChange={(e) => setDestCity(e.target.value)}
-                placeholder="e.g. Bengaluru"
+                placeholder="e.g. Trivandrum"
                 className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl text-sm px-4 shadow-inner"
               />
             </div>
@@ -160,8 +233,42 @@ export function CreateJourneyForm() {
                 maxLength={4}
                 value={destState}
                 onChange={(e) => setDestState(e.target.value.toUpperCase())}
-                placeholder="KA"
+                placeholder="KL"
                 className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl font-mono text-center uppercase text-sm shadow-inner"
+              />
+            </div>
+          </div>
+
+          <div className="grid grid-cols-2 gap-4 pt-1">
+            <div className="space-y-2">
+              <Label htmlFor="truckType" className="text-xs font-semibold text-slate-300">Truck / Vehicle Type</Label>
+              <select
+                id="truckType"
+                value={truckType}
+                onChange={(e) => setTruckType(e.target.value)}
+                className="w-full bg-[#07090E] border border-white/10 text-white focus:ring-2 focus:ring-cyan-500 h-11 rounded-xl text-sm px-3 shadow-inner outline-none transition-all cursor-pointer"
+              >
+                <option value="Ice Truck / Refrigerated">Ice Truck / Refrigerated</option>
+                <option value="Dry Van">Dry Van</option>
+                <option value="Flatbed">Flatbed</option>
+                <option value="Container">Container</option>
+                <option value="16-Wheel Heavy Trailer (32 MT)">16-Wheel Heavy Trailer (32 MT)</option>
+                <option value="Liquid Tanker">Liquid Tanker</option>
+              </select>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="price" className="text-xs font-semibold text-slate-300 flex items-center gap-1">
+                <DollarSign className="h-3.5 w-3.5 text-cyan-400" /> Set Route Price (₹ INR)
+              </Label>
+              <Input
+                id="price"
+                type="number"
+                min="500"
+                required
+                value={price}
+                onChange={(e) => setPrice(e.target.value)}
+                placeholder="18000"
+                className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl font-mono text-sm px-4 shadow-inner"
               />
             </div>
           </div>
@@ -189,15 +296,10 @@ export function CreateJourneyForm() {
                 required
                 value={availableCapacityKg}
                 onChange={(e) => setAvailableCapacityKg(e.target.value)}
-                placeholder="32000"
+                placeholder="12000"
                 className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl font-mono text-sm px-4 shadow-inner"
               />
             </div>
-          </div>
-
-          <div className="rounded-xl bg-cyan-500/10 border border-cyan-500/20 p-3.5 text-xs text-cyan-300 flex items-center gap-2.5">
-            <Truck className="h-5 w-5 text-cyan-400 flex-shrink-0" />
-            <span className="leading-relaxed">Route automatically indexed in Indian National Highways spatial index (Pune 18.5204, 73.8567 &rarr; Bengaluru 12.9716, 77.5946).</span>
           </div>
 
           {error && <p className="text-sm font-semibold text-red-400 bg-red-500/10 border border-red-500/20 p-3.5 rounded-xl">{error}</p>}
@@ -220,10 +322,10 @@ export function CreateJourneyForm() {
               {isSubmitting ? (
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Registering...
+                  Publishing Route...
                 </>
               ) : (
-                "Confirm & Register Route"
+                "Publish Trucker Route"
               )}
             </Button>
           </div>

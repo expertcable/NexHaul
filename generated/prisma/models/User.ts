@@ -20,8 +20,20 @@ export type UserModel = runtime.Types.Result.DefaultSelection<Prisma.$UserPayloa
 
 export type AggregateUser = {
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
+}
+
+export type UserAvgAggregateOutputType = {
+  totalCapacity: number | null
+  averageRating: number | null
+}
+
+export type UserSumAggregateOutputType = {
+  totalCapacity: number | null
+  averageRating: number | null
 }
 
 export type UserMinAggregateOutputType = {
@@ -31,6 +43,9 @@ export type UserMinAggregateOutputType = {
   passwordHash: string | null
   role: $Enums.Role | null
   phone: string | null
+  totalCapacity: number | null
+  truckType: string | null
+  averageRating: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -42,6 +57,9 @@ export type UserMaxAggregateOutputType = {
   passwordHash: string | null
   role: $Enums.Role | null
   phone: string | null
+  totalCapacity: number | null
+  truckType: string | null
+  averageRating: number | null
   createdAt: Date | null
   updatedAt: Date | null
 }
@@ -53,11 +71,24 @@ export type UserCountAggregateOutputType = {
   passwordHash: number
   role: number
   phone: number
+  totalCapacity: number
+  truckType: number
+  averageRating: number
   createdAt: number
   updatedAt: number
   _all: number
 }
 
+
+export type UserAvgAggregateInputType = {
+  totalCapacity?: true
+  averageRating?: true
+}
+
+export type UserSumAggregateInputType = {
+  totalCapacity?: true
+  averageRating?: true
+}
 
 export type UserMinAggregateInputType = {
   id?: true
@@ -66,6 +97,9 @@ export type UserMinAggregateInputType = {
   passwordHash?: true
   role?: true
   phone?: true
+  totalCapacity?: true
+  truckType?: true
+  averageRating?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -77,6 +111,9 @@ export type UserMaxAggregateInputType = {
   passwordHash?: true
   role?: true
   phone?: true
+  totalCapacity?: true
+  truckType?: true
+  averageRating?: true
   createdAt?: true
   updatedAt?: true
 }
@@ -88,6 +125,9 @@ export type UserCountAggregateInputType = {
   passwordHash?: true
   role?: true
   phone?: true
+  totalCapacity?: true
+  truckType?: true
+  averageRating?: true
   createdAt?: true
   updatedAt?: true
   _all?: true
@@ -131,6 +171,18 @@ export type UserAggregateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   /**
    * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
    * 
+   * Select which fields to average
+  **/
+  _avg?: UserAvgAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
+   * Select which fields to sum
+  **/
+  _sum?: UserSumAggregateInputType
+  /**
+   * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+   * 
    * Select which fields to find the minimum value
   **/
   _min?: UserMinAggregateInputType
@@ -161,6 +213,8 @@ export type UserGroupByArgs<ExtArgs extends runtime.Types.Extensions.InternalArg
   take?: number
   skip?: number
   _count?: UserCountAggregateInputType | true
+  _avg?: UserAvgAggregateInputType
+  _sum?: UserSumAggregateInputType
   _min?: UserMinAggregateInputType
   _max?: UserMaxAggregateInputType
 }
@@ -172,9 +226,14 @@ export type UserGroupByOutputType = {
   passwordHash: string
   role: $Enums.Role
   phone: string | null
+  totalCapacity: number | null
+  truckType: string | null
+  averageRating: number | null
   createdAt: Date
   updatedAt: Date
   _count: UserCountAggregateOutputType | null
+  _avg: UserAvgAggregateOutputType | null
+  _sum: UserSumAggregateOutputType | null
   _min: UserMinAggregateOutputType | null
   _max: UserMaxAggregateOutputType | null
 }
@@ -204,11 +263,16 @@ export type UserWhereInput = {
   passwordHash?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   phone?: Prisma.StringNullableFilter<"User"> | string | null
+  totalCapacity?: Prisma.FloatNullableFilter<"User"> | number | null
+  truckType?: Prisma.StringNullableFilter<"User"> | string | null
+  averageRating?: Prisma.FloatNullableFilter<"User"> | number | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   loads?: Prisma.LoadListRelationFilter
   carrierLoads?: Prisma.LoadListRelationFilter
   journeys?: Prisma.JourneyListRelationFilter
+  ratingsReceived?: Prisma.RatingListRelationFilter
+  ratingsGiven?: Prisma.RatingListRelationFilter
 }
 
 export type UserOrderByWithRelationInput = {
@@ -218,11 +282,16 @@ export type UserOrderByWithRelationInput = {
   passwordHash?: Prisma.SortOrder
   role?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  totalCapacity?: Prisma.SortOrderInput | Prisma.SortOrder
+  truckType?: Prisma.SortOrderInput | Prisma.SortOrder
+  averageRating?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   loads?: Prisma.LoadOrderByRelationAggregateInput
   carrierLoads?: Prisma.LoadOrderByRelationAggregateInput
   journeys?: Prisma.JourneyOrderByRelationAggregateInput
+  ratingsReceived?: Prisma.RatingOrderByRelationAggregateInput
+  ratingsGiven?: Prisma.RatingOrderByRelationAggregateInput
 }
 
 export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -235,11 +304,16 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   passwordHash?: Prisma.StringFilter<"User"> | string
   role?: Prisma.EnumRoleFilter<"User"> | $Enums.Role
   phone?: Prisma.StringNullableFilter<"User"> | string | null
+  totalCapacity?: Prisma.FloatNullableFilter<"User"> | number | null
+  truckType?: Prisma.StringNullableFilter<"User"> | string | null
+  averageRating?: Prisma.FloatNullableFilter<"User"> | number | null
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   loads?: Prisma.LoadListRelationFilter
   carrierLoads?: Prisma.LoadListRelationFilter
   journeys?: Prisma.JourneyListRelationFilter
+  ratingsReceived?: Prisma.RatingListRelationFilter
+  ratingsGiven?: Prisma.RatingListRelationFilter
 }, "id" | "email">
 
 export type UserOrderByWithAggregationInput = {
@@ -249,11 +323,16 @@ export type UserOrderByWithAggregationInput = {
   passwordHash?: Prisma.SortOrder
   role?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
+  totalCapacity?: Prisma.SortOrderInput | Prisma.SortOrder
+  truckType?: Prisma.SortOrderInput | Prisma.SortOrder
+  averageRating?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   _count?: Prisma.UserCountOrderByAggregateInput
+  _avg?: Prisma.UserAvgOrderByAggregateInput
   _max?: Prisma.UserMaxOrderByAggregateInput
   _min?: Prisma.UserMinOrderByAggregateInput
+  _sum?: Prisma.UserSumOrderByAggregateInput
 }
 
 export type UserScalarWhereWithAggregatesInput = {
@@ -266,6 +345,9 @@ export type UserScalarWhereWithAggregatesInput = {
   passwordHash?: Prisma.StringWithAggregatesFilter<"User"> | string
   role?: Prisma.EnumRoleWithAggregatesFilter<"User"> | $Enums.Role
   phone?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  totalCapacity?: Prisma.FloatNullableWithAggregatesFilter<"User"> | number | null
+  truckType?: Prisma.StringNullableWithAggregatesFilter<"User"> | string | null
+  averageRating?: Prisma.FloatNullableWithAggregatesFilter<"User"> | number | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"User"> | Date | string
 }
@@ -277,11 +359,16 @@ export type UserCreateInput = {
   passwordHash: string
   role: $Enums.Role
   phone?: string | null
+  totalCapacity?: number | null
+  truckType?: string | null
+  averageRating?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   loads?: Prisma.LoadCreateNestedManyWithoutShipperInput
   carrierLoads?: Prisma.LoadCreateNestedManyWithoutCarrierInput
   journeys?: Prisma.JourneyCreateNestedManyWithoutTruckerInput
+  ratingsReceived?: Prisma.RatingCreateNestedManyWithoutTruckerInput
+  ratingsGiven?: Prisma.RatingCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateInput = {
@@ -291,11 +378,16 @@ export type UserUncheckedCreateInput = {
   passwordHash: string
   role: $Enums.Role
   phone?: string | null
+  totalCapacity?: number | null
+  truckType?: string | null
+  averageRating?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   loads?: Prisma.LoadUncheckedCreateNestedManyWithoutShipperInput
   carrierLoads?: Prisma.LoadUncheckedCreateNestedManyWithoutCarrierInput
   journeys?: Prisma.JourneyUncheckedCreateNestedManyWithoutTruckerInput
+  ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutTruckerInput
+  ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserUpdateInput = {
@@ -305,11 +397,16 @@ export type UserUpdateInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalCapacity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  truckType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loads?: Prisma.LoadUpdateManyWithoutShipperNestedInput
   carrierLoads?: Prisma.LoadUpdateManyWithoutCarrierNestedInput
   journeys?: Prisma.JourneyUpdateManyWithoutTruckerNestedInput
+  ratingsReceived?: Prisma.RatingUpdateManyWithoutTruckerNestedInput
+  ratingsGiven?: Prisma.RatingUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateInput = {
@@ -319,11 +416,16 @@ export type UserUncheckedUpdateInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalCapacity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  truckType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loads?: Prisma.LoadUncheckedUpdateManyWithoutShipperNestedInput
   carrierLoads?: Prisma.LoadUncheckedUpdateManyWithoutCarrierNestedInput
   journeys?: Prisma.JourneyUncheckedUpdateManyWithoutTruckerNestedInput
+  ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutTruckerNestedInput
+  ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateManyInput = {
@@ -333,6 +435,9 @@ export type UserCreateManyInput = {
   passwordHash: string
   role: $Enums.Role
   phone?: string | null
+  totalCapacity?: number | null
+  truckType?: string | null
+  averageRating?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
 }
@@ -344,6 +449,9 @@ export type UserUpdateManyMutationInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalCapacity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  truckType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -355,6 +463,9 @@ export type UserUncheckedUpdateManyInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalCapacity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  truckType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
@@ -366,8 +477,16 @@ export type UserCountOrderByAggregateInput = {
   passwordHash?: Prisma.SortOrder
   role?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  totalCapacity?: Prisma.SortOrder
+  truckType?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type UserAvgOrderByAggregateInput = {
+  totalCapacity?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
 }
 
 export type UserMaxOrderByAggregateInput = {
@@ -377,6 +496,9 @@ export type UserMaxOrderByAggregateInput = {
   passwordHash?: Prisma.SortOrder
   role?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  totalCapacity?: Prisma.SortOrder
+  truckType?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
 }
@@ -388,8 +510,16 @@ export type UserMinOrderByAggregateInput = {
   passwordHash?: Prisma.SortOrder
   role?: Prisma.SortOrder
   phone?: Prisma.SortOrder
+  totalCapacity?: Prisma.SortOrder
+  truckType?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+}
+
+export type UserSumOrderByAggregateInput = {
+  totalCapacity?: Prisma.SortOrder
+  averageRating?: Prisma.SortOrder
 }
 
 export type UserScalarRelationFilter = {
@@ -412,6 +542,14 @@ export type EnumRoleFieldUpdateOperationsInput = {
 
 export type NullableStringFieldUpdateOperationsInput = {
   set?: string | null
+}
+
+export type NullableFloatFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type DateTimeFieldUpdateOperationsInput = {
@@ -462,6 +600,34 @@ export type UserUpdateOneRequiredWithoutJourneysNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutJourneysInput, Prisma.UserUpdateWithoutJourneysInput>, Prisma.UserUncheckedUpdateWithoutJourneysInput>
 }
 
+export type UserCreateNestedOneWithoutRatingsGivenInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRatingsGivenInput, Prisma.UserUncheckedCreateWithoutRatingsGivenInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRatingsGivenInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserCreateNestedOneWithoutRatingsReceivedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRatingsReceivedInput, Prisma.UserUncheckedCreateWithoutRatingsReceivedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRatingsReceivedInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
+export type UserUpdateOneRequiredWithoutRatingsGivenNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRatingsGivenInput, Prisma.UserUncheckedCreateWithoutRatingsGivenInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRatingsGivenInput
+  upsert?: Prisma.UserUpsertWithoutRatingsGivenInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRatingsGivenInput, Prisma.UserUpdateWithoutRatingsGivenInput>, Prisma.UserUncheckedUpdateWithoutRatingsGivenInput>
+}
+
+export type UserUpdateOneRequiredWithoutRatingsReceivedNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutRatingsReceivedInput, Prisma.UserUncheckedCreateWithoutRatingsReceivedInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutRatingsReceivedInput
+  upsert?: Prisma.UserUpsertWithoutRatingsReceivedInput
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutRatingsReceivedInput, Prisma.UserUpdateWithoutRatingsReceivedInput>, Prisma.UserUncheckedUpdateWithoutRatingsReceivedInput>
+}
+
 export type UserCreateWithoutLoadsInput = {
   id?: string
   name: string
@@ -469,10 +635,15 @@ export type UserCreateWithoutLoadsInput = {
   passwordHash: string
   role: $Enums.Role
   phone?: string | null
+  totalCapacity?: number | null
+  truckType?: string | null
+  averageRating?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   carrierLoads?: Prisma.LoadCreateNestedManyWithoutCarrierInput
   journeys?: Prisma.JourneyCreateNestedManyWithoutTruckerInput
+  ratingsReceived?: Prisma.RatingCreateNestedManyWithoutTruckerInput
+  ratingsGiven?: Prisma.RatingCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutLoadsInput = {
@@ -482,10 +653,15 @@ export type UserUncheckedCreateWithoutLoadsInput = {
   passwordHash: string
   role: $Enums.Role
   phone?: string | null
+  totalCapacity?: number | null
+  truckType?: string | null
+  averageRating?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   carrierLoads?: Prisma.LoadUncheckedCreateNestedManyWithoutCarrierInput
   journeys?: Prisma.JourneyUncheckedCreateNestedManyWithoutTruckerInput
+  ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutTruckerInput
+  ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutLoadsInput = {
@@ -500,10 +676,15 @@ export type UserCreateWithoutCarrierLoadsInput = {
   passwordHash: string
   role: $Enums.Role
   phone?: string | null
+  totalCapacity?: number | null
+  truckType?: string | null
+  averageRating?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   loads?: Prisma.LoadCreateNestedManyWithoutShipperInput
   journeys?: Prisma.JourneyCreateNestedManyWithoutTruckerInput
+  ratingsReceived?: Prisma.RatingCreateNestedManyWithoutTruckerInput
+  ratingsGiven?: Prisma.RatingCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutCarrierLoadsInput = {
@@ -513,10 +694,15 @@ export type UserUncheckedCreateWithoutCarrierLoadsInput = {
   passwordHash: string
   role: $Enums.Role
   phone?: string | null
+  totalCapacity?: number | null
+  truckType?: string | null
+  averageRating?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   loads?: Prisma.LoadUncheckedCreateNestedManyWithoutShipperInput
   journeys?: Prisma.JourneyUncheckedCreateNestedManyWithoutTruckerInput
+  ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutTruckerInput
+  ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutCarrierLoadsInput = {
@@ -542,10 +728,15 @@ export type UserUpdateWithoutLoadsInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalCapacity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  truckType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   carrierLoads?: Prisma.LoadUpdateManyWithoutCarrierNestedInput
   journeys?: Prisma.JourneyUpdateManyWithoutTruckerNestedInput
+  ratingsReceived?: Prisma.RatingUpdateManyWithoutTruckerNestedInput
+  ratingsGiven?: Prisma.RatingUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutLoadsInput = {
@@ -555,10 +746,15 @@ export type UserUncheckedUpdateWithoutLoadsInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalCapacity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  truckType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   carrierLoads?: Prisma.LoadUncheckedUpdateManyWithoutCarrierNestedInput
   journeys?: Prisma.JourneyUncheckedUpdateManyWithoutTruckerNestedInput
+  ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutTruckerNestedInput
+  ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUpsertWithoutCarrierLoadsInput = {
@@ -579,10 +775,15 @@ export type UserUpdateWithoutCarrierLoadsInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalCapacity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  truckType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loads?: Prisma.LoadUpdateManyWithoutShipperNestedInput
   journeys?: Prisma.JourneyUpdateManyWithoutTruckerNestedInput
+  ratingsReceived?: Prisma.RatingUpdateManyWithoutTruckerNestedInput
+  ratingsGiven?: Prisma.RatingUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutCarrierLoadsInput = {
@@ -592,10 +793,15 @@ export type UserUncheckedUpdateWithoutCarrierLoadsInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalCapacity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  truckType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loads?: Prisma.LoadUncheckedUpdateManyWithoutShipperNestedInput
   journeys?: Prisma.JourneyUncheckedUpdateManyWithoutTruckerNestedInput
+  ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutTruckerNestedInput
+  ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 export type UserCreateWithoutJourneysInput = {
@@ -605,10 +811,15 @@ export type UserCreateWithoutJourneysInput = {
   passwordHash: string
   role: $Enums.Role
   phone?: string | null
+  totalCapacity?: number | null
+  truckType?: string | null
+  averageRating?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   loads?: Prisma.LoadCreateNestedManyWithoutShipperInput
   carrierLoads?: Prisma.LoadCreateNestedManyWithoutCarrierInput
+  ratingsReceived?: Prisma.RatingCreateNestedManyWithoutTruckerInput
+  ratingsGiven?: Prisma.RatingCreateNestedManyWithoutShipperInput
 }
 
 export type UserUncheckedCreateWithoutJourneysInput = {
@@ -618,10 +829,15 @@ export type UserUncheckedCreateWithoutJourneysInput = {
   passwordHash: string
   role: $Enums.Role
   phone?: string | null
+  totalCapacity?: number | null
+  truckType?: string | null
+  averageRating?: number | null
   createdAt?: Date | string
   updatedAt?: Date | string
   loads?: Prisma.LoadUncheckedCreateNestedManyWithoutShipperInput
   carrierLoads?: Prisma.LoadUncheckedCreateNestedManyWithoutCarrierInput
+  ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutTruckerInput
+  ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutShipperInput
 }
 
 export type UserCreateOrConnectWithoutJourneysInput = {
@@ -647,10 +863,15 @@ export type UserUpdateWithoutJourneysInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalCapacity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  truckType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loads?: Prisma.LoadUpdateManyWithoutShipperNestedInput
   carrierLoads?: Prisma.LoadUpdateManyWithoutCarrierNestedInput
+  ratingsReceived?: Prisma.RatingUpdateManyWithoutTruckerNestedInput
+  ratingsGiven?: Prisma.RatingUpdateManyWithoutShipperNestedInput
 }
 
 export type UserUncheckedUpdateWithoutJourneysInput = {
@@ -660,10 +881,191 @@ export type UserUncheckedUpdateWithoutJourneysInput = {
   passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
   role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalCapacity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  truckType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loads?: Prisma.LoadUncheckedUpdateManyWithoutShipperNestedInput
   carrierLoads?: Prisma.LoadUncheckedUpdateManyWithoutCarrierNestedInput
+  ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutTruckerNestedInput
+  ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutShipperNestedInput
+}
+
+export type UserCreateWithoutRatingsGivenInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  role: $Enums.Role
+  phone?: string | null
+  totalCapacity?: number | null
+  truckType?: string | null
+  averageRating?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  loads?: Prisma.LoadCreateNestedManyWithoutShipperInput
+  carrierLoads?: Prisma.LoadCreateNestedManyWithoutCarrierInput
+  journeys?: Prisma.JourneyCreateNestedManyWithoutTruckerInput
+  ratingsReceived?: Prisma.RatingCreateNestedManyWithoutTruckerInput
+}
+
+export type UserUncheckedCreateWithoutRatingsGivenInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  role: $Enums.Role
+  phone?: string | null
+  totalCapacity?: number | null
+  truckType?: string | null
+  averageRating?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  loads?: Prisma.LoadUncheckedCreateNestedManyWithoutShipperInput
+  carrierLoads?: Prisma.LoadUncheckedCreateNestedManyWithoutCarrierInput
+  journeys?: Prisma.JourneyUncheckedCreateNestedManyWithoutTruckerInput
+  ratingsReceived?: Prisma.RatingUncheckedCreateNestedManyWithoutTruckerInput
+}
+
+export type UserCreateOrConnectWithoutRatingsGivenInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutRatingsGivenInput, Prisma.UserUncheckedCreateWithoutRatingsGivenInput>
+}
+
+export type UserCreateWithoutRatingsReceivedInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  role: $Enums.Role
+  phone?: string | null
+  totalCapacity?: number | null
+  truckType?: string | null
+  averageRating?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  loads?: Prisma.LoadCreateNestedManyWithoutShipperInput
+  carrierLoads?: Prisma.LoadCreateNestedManyWithoutCarrierInput
+  journeys?: Prisma.JourneyCreateNestedManyWithoutTruckerInput
+  ratingsGiven?: Prisma.RatingCreateNestedManyWithoutShipperInput
+}
+
+export type UserUncheckedCreateWithoutRatingsReceivedInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  role: $Enums.Role
+  phone?: string | null
+  totalCapacity?: number | null
+  truckType?: string | null
+  averageRating?: number | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  loads?: Prisma.LoadUncheckedCreateNestedManyWithoutShipperInput
+  carrierLoads?: Prisma.LoadUncheckedCreateNestedManyWithoutCarrierInput
+  journeys?: Prisma.JourneyUncheckedCreateNestedManyWithoutTruckerInput
+  ratingsGiven?: Prisma.RatingUncheckedCreateNestedManyWithoutShipperInput
+}
+
+export type UserCreateOrConnectWithoutRatingsReceivedInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutRatingsReceivedInput, Prisma.UserUncheckedCreateWithoutRatingsReceivedInput>
+}
+
+export type UserUpsertWithoutRatingsGivenInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutRatingsGivenInput, Prisma.UserUncheckedUpdateWithoutRatingsGivenInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutRatingsGivenInput, Prisma.UserUncheckedCreateWithoutRatingsGivenInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutRatingsGivenInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutRatingsGivenInput, Prisma.UserUncheckedUpdateWithoutRatingsGivenInput>
+}
+
+export type UserUpdateWithoutRatingsGivenInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalCapacity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  truckType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loads?: Prisma.LoadUpdateManyWithoutShipperNestedInput
+  carrierLoads?: Prisma.LoadUpdateManyWithoutCarrierNestedInput
+  journeys?: Prisma.JourneyUpdateManyWithoutTruckerNestedInput
+  ratingsReceived?: Prisma.RatingUpdateManyWithoutTruckerNestedInput
+}
+
+export type UserUncheckedUpdateWithoutRatingsGivenInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalCapacity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  truckType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loads?: Prisma.LoadUncheckedUpdateManyWithoutShipperNestedInput
+  carrierLoads?: Prisma.LoadUncheckedUpdateManyWithoutCarrierNestedInput
+  journeys?: Prisma.JourneyUncheckedUpdateManyWithoutTruckerNestedInput
+  ratingsReceived?: Prisma.RatingUncheckedUpdateManyWithoutTruckerNestedInput
+}
+
+export type UserUpsertWithoutRatingsReceivedInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutRatingsReceivedInput, Prisma.UserUncheckedUpdateWithoutRatingsReceivedInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutRatingsReceivedInput, Prisma.UserUncheckedCreateWithoutRatingsReceivedInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutRatingsReceivedInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutRatingsReceivedInput, Prisma.UserUncheckedUpdateWithoutRatingsReceivedInput>
+}
+
+export type UserUpdateWithoutRatingsReceivedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalCapacity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  truckType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loads?: Prisma.LoadUpdateManyWithoutShipperNestedInput
+  carrierLoads?: Prisma.LoadUpdateManyWithoutCarrierNestedInput
+  journeys?: Prisma.JourneyUpdateManyWithoutTruckerNestedInput
+  ratingsGiven?: Prisma.RatingUpdateManyWithoutShipperNestedInput
+}
+
+export type UserUncheckedUpdateWithoutRatingsReceivedInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  totalCapacity?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  truckType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  averageRating?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loads?: Prisma.LoadUncheckedUpdateManyWithoutShipperNestedInput
+  carrierLoads?: Prisma.LoadUncheckedUpdateManyWithoutCarrierNestedInput
+  journeys?: Prisma.JourneyUncheckedUpdateManyWithoutTruckerNestedInput
+  ratingsGiven?: Prisma.RatingUncheckedUpdateManyWithoutShipperNestedInput
 }
 
 
@@ -675,12 +1077,16 @@ export type UserCountOutputType = {
   loads: number
   carrierLoads: number
   journeys: number
+  ratingsReceived: number
+  ratingsGiven: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   loads?: boolean | UserCountOutputTypeCountLoadsArgs
   carrierLoads?: boolean | UserCountOutputTypeCountCarrierLoadsArgs
   journeys?: boolean | UserCountOutputTypeCountJourneysArgs
+  ratingsReceived?: boolean | UserCountOutputTypeCountRatingsReceivedArgs
+  ratingsGiven?: boolean | UserCountOutputTypeCountRatingsGivenArgs
 }
 
 /**
@@ -714,6 +1120,20 @@ export type UserCountOutputTypeCountJourneysArgs<ExtArgs extends runtime.Types.E
   where?: Prisma.JourneyWhereInput
 }
 
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountRatingsReceivedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RatingWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
+export type UserCountOutputTypeCountRatingsGivenArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.RatingWhereInput
+}
+
 
 export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -722,11 +1142,16 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   passwordHash?: boolean
   role?: boolean
   phone?: boolean
+  totalCapacity?: boolean
+  truckType?: boolean
+  averageRating?: boolean
   createdAt?: boolean
   updatedAt?: boolean
   loads?: boolean | Prisma.User$loadsArgs<ExtArgs>
   carrierLoads?: boolean | Prisma.User$carrierLoadsArgs<ExtArgs>
   journeys?: boolean | Prisma.User$journeysArgs<ExtArgs>
+  ratingsReceived?: boolean | Prisma.User$ratingsReceivedArgs<ExtArgs>
+  ratingsGiven?: boolean | Prisma.User$ratingsGivenArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
 
@@ -737,6 +1162,9 @@ export type UserSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   passwordHash?: boolean
   role?: boolean
   phone?: boolean
+  totalCapacity?: boolean
+  truckType?: boolean
+  averageRating?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -748,6 +1176,9 @@ export type UserSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   passwordHash?: boolean
   role?: boolean
   phone?: boolean
+  totalCapacity?: boolean
+  truckType?: boolean
+  averageRating?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }, ExtArgs["result"]["user"]>
@@ -759,15 +1190,20 @@ export type UserSelectScalar = {
   passwordHash?: boolean
   role?: boolean
   phone?: boolean
+  totalCapacity?: boolean
+  truckType?: boolean
+  averageRating?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "role" | "phone" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "role" | "phone" | "totalCapacity" | "truckType" | "averageRating" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   loads?: boolean | Prisma.User$loadsArgs<ExtArgs>
   carrierLoads?: boolean | Prisma.User$carrierLoadsArgs<ExtArgs>
   journeys?: boolean | Prisma.User$journeysArgs<ExtArgs>
+  ratingsReceived?: boolean | Prisma.User$ratingsReceivedArgs<ExtArgs>
+  ratingsGiven?: boolean | Prisma.User$ratingsGivenArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type UserIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
@@ -779,6 +1215,8 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     loads: Prisma.$LoadPayload<ExtArgs>[]
     carrierLoads: Prisma.$LoadPayload<ExtArgs>[]
     journeys: Prisma.$JourneyPayload<ExtArgs>[]
+    ratingsReceived: Prisma.$RatingPayload<ExtArgs>[]
+    ratingsGiven: Prisma.$RatingPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -787,6 +1225,9 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     passwordHash: string
     role: $Enums.Role
     phone: string | null
+    totalCapacity: number | null
+    truckType: string | null
+    averageRating: number | null
     createdAt: Date
     updatedAt: Date
   }, ExtArgs["result"]["user"]>
@@ -1186,6 +1627,8 @@ export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Typ
   loads<T extends Prisma.User$loadsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$loadsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LoadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   carrierLoads<T extends Prisma.User$carrierLoadsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$carrierLoadsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LoadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   journeys<T extends Prisma.User$journeysArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$journeysArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JourneyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  ratingsReceived<T extends Prisma.User$ratingsReceivedArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ratingsReceivedArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  ratingsGiven<T extends Prisma.User$ratingsGivenArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$ratingsGivenArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$RatingPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1221,6 +1664,9 @@ export interface UserFieldRefs {
   readonly passwordHash: Prisma.FieldRef<"User", 'String'>
   readonly role: Prisma.FieldRef<"User", 'Role'>
   readonly phone: Prisma.FieldRef<"User", 'String'>
+  readonly totalCapacity: Prisma.FieldRef<"User", 'Float'>
+  readonly truckType: Prisma.FieldRef<"User", 'String'>
+  readonly averageRating: Prisma.FieldRef<"User", 'Float'>
   readonly createdAt: Prisma.FieldRef<"User", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"User", 'DateTime'>
 }
@@ -1685,6 +2131,54 @@ export type User$journeysArgs<ExtArgs extends runtime.Types.Extensions.InternalA
   take?: number
   skip?: number
   distinct?: Prisma.JourneyScalarFieldEnum | Prisma.JourneyScalarFieldEnum[]
+}
+
+/**
+ * User.ratingsReceived
+ */
+export type User$ratingsReceivedArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Rating
+   */
+  select?: Prisma.RatingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Rating
+   */
+  omit?: Prisma.RatingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RatingInclude<ExtArgs> | null
+  where?: Prisma.RatingWhereInput
+  orderBy?: Prisma.RatingOrderByWithRelationInput | Prisma.RatingOrderByWithRelationInput[]
+  cursor?: Prisma.RatingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RatingScalarFieldEnum | Prisma.RatingScalarFieldEnum[]
+}
+
+/**
+ * User.ratingsGiven
+ */
+export type User$ratingsGivenArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Rating
+   */
+  select?: Prisma.RatingSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Rating
+   */
+  omit?: Prisma.RatingOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.RatingInclude<ExtArgs> | null
+  where?: Prisma.RatingWhereInput
+  orderBy?: Prisma.RatingOrderByWithRelationInput | Prisma.RatingOrderByWithRelationInput[]
+  cursor?: Prisma.RatingWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.RatingScalarFieldEnum | Prisma.RatingScalarFieldEnum[]
 }
 
 /**

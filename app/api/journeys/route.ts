@@ -85,9 +85,12 @@ export async function POST(req: Request) {
         originState: data.originState,
         destCity: data.destCity,
         destState: data.destState,
+        dropPoints: data.dropPoints || body.dropPoints || [],
         departureDate: data.departureDate,
         availableCapacityKg: data.availableCapacityKg,
         truckType: data.truckType,
+        price: data.price ?? body.price ?? 0,
+        priceInr: data.price ?? body.price ?? (data.askingPricePerKg ? Number(data.askingPricePerKg) * Number(data.availableCapacityKg) : 0),
         askingPricePerKg: data.askingPricePerKg,
       },
     });

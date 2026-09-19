@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
-
+import Link from "next/link";
 import { RequestActions } from "@/components/dashboard/RequestActions";
+import { LeaveReviewModal } from "@/components/dashboard/LeaveReviewModal";
+import { Star, User, ExternalLink } from "lucide-react";
 
 type LoadWithRelations = any;
 
@@ -143,15 +145,16 @@ export function ShipperRequestsTabs({ pendingLoads, acceptedLoads }: ShipperRequ
                           {load.carrier?.phone || 'No Contact Info'}
                         </div>
                       </div>
-                      <div className="text-right">
+                      <div className="text-right flex flex-col items-end gap-1">
                         <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">
                           Vehicle Assigned
                         </div>
-                        <div className="font-semibold text-sm text-white mt-0.5">
-                          {load.vehicleType || 'Not Specified'}
+                        <div className="font-semibold text-sm text-white">
+                          {load.vehicleType || 'Commercial Freight'}
                         </div>
                       </div>
                     </div>
+
                     <div className="flex justify-between items-center bg-[#07090E] rounded-lg p-3 border border-white/5 mt-2">
                       <div>
                         <div className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Cargo</div>
@@ -164,6 +167,26 @@ export function ShipperRequestsTabs({ pendingLoads, acceptedLoads }: ShipperRequ
                         </div>
                       </div>
                     </div>
+
+                    {/* Carrier Actions & Rating */}
+                    {load.carrierId && (
+                      <div className="flex items-center justify-between pt-2 border-t border-white/5">
+                        <Link
+                          href={`/dashboard/profile/${load.carrierId}`}
+                          className="text-xs font-semibold text-slate-400 hover:text-cyan-400 flex items-center gap-1 transition-colors"
+                        >
+                          <span>View Carrier Profile</span>
+                          <ExternalLink className="h-3 w-3" />
+                        </Link>
+                        <LeaveReviewModal
+                          loadId={load.id}
+                          truckerId={load.carrierId}
+                          truckerName={load.carrier?.name || "Carrier"}
+                          corridor={`${load.originCity} ➔ ${load.destCity}`}
+                          existingRating={load.ratings?.[0] || null}
+                        />
+                      </div>
+                    )}
                   </div>
                 </div>
               ))}

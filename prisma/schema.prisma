@@ -50,12 +50,17 @@ model User {
   passwordHash String
   role         Role
   phone        String?
+  totalCapacity Float?
+  truckType    String?
+  averageRating Float?  @default(0)
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  loads        Load[]    @relation("ShipperLoads")
-  carrierLoads Load[]    @relation("CarrierLoads")
-  journeys     Journey[] @relation("TruckerJourneys")
+  loads           Load[]    @relation("ShipperLoads")
+  carrierLoads    Load[]    @relation("CarrierLoads")
+  journeys        Journey[] @relation("TruckerJourneys")
+  ratingsReceived Rating[]  @relation("TruckerRatings")
+  ratingsGiven    Rating[]  @relation("ShipperRatings")
 
   @@index([role])
 }
@@ -84,6 +89,7 @@ model Load {
   vehicleType String?
   priceInr    Float?
   weightTons  Float?
+  truckType   String?
 
   carrierId   String?
   carrier     User?  @relation("CarrierLoads", fields: [carrierId], references: [id])
@@ -99,6 +105,7 @@ model Load {
   status      LoadStatus @default(PENDING)
 
   matches Match[]
+  ratings Rating[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -120,6 +127,8 @@ model Journey {
   destCity    String
   destState   String
 
+  dropPoints  String[] @default([])
+
   originPoint Unsupported("geometry(Point, 4326)")?
   destPoint   Unsupported("geometry(Point, 4326)")?
 
@@ -130,6 +139,7 @@ model Journey {
 
   vehicleType String?
   priceInr    Float?
+  price       Float?  @default(0)
   weightTons  Float?
 
   departureDate       DateTime
@@ -168,3 +178,23 @@ model Match {
   @@unique([loadId, journeyId])
   @@index([status])
 }
+
+model Rating {
+  id        String   @id @default(cuid())
+  score     Int      // 1 to 5
+  review    String?
+  shipper   User     @relation("ShipperRatings", fields: [shipperId], references: [id], onDelete: Cascade)
+  shipperId String
+  trucker   User     @relation("TruckerRatings", fields: [truckerId], references: [id], onDelete: Cascade)
+  truckerId String
+  load      Load     @relation(fields: [loadId], references: [id], onDelete: Cascade)
+  loadId    String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([loadId, shipperId])
+  @@index([truckerId])
+  @@index([shipperId])
+}
+

@@ -9,6 +9,8 @@ const registerSchema = z.object({
   password: z.string().min(6, "Password must be at least 6 characters"),
   role: z.enum(["SHIPPER", "TRUCKER"]),
   phone: z.string().optional(),
+  totalCapacity: z.coerce.number().positive().optional(),
+  truckType: z.string().optional(),
 });
 
 export async function POST(req: Request) {
@@ -23,7 +25,7 @@ export async function POST(req: Request) {
       );
     }
 
-    const { name, email, password, role, phone } = parsed.data;
+    const { name, email, password, role, phone, totalCapacity, truckType } = parsed.data;
 
     const existingUser = await prisma.user.findUnique({ where: { email } });
     if (existingUser) {
@@ -36,8 +38,16 @@ export async function POST(req: Request) {
     const passwordHash = await bcrypt.hash(password, 10);
 
     const user = await prisma.user.create({
-      data: { name, email, passwordHash, role, phone },
-      select: { id: true, name: true, email: true, role: true, createdAt: true },
+      data: {
+        name,
+        email,
+        passwordHash,
+        role,
+        phone,
+        totalCapacity: role === "TRUCKER" ? totalCapacity || 25000 : null,
+        truckType: role === "TRUCKER" ? truckType || "16-Wheel Heavy Trailer (32 MT)" : null,
+      },
+      select: { id: true, name: true, email: true, role: true, totalCapacity: true, truckType: true, createdAt: true },
     });
 
     return NextResponse.json({ user }, { status: 201 });

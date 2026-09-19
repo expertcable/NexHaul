@@ -86,6 +86,7 @@ export async function POST(req: Request) {
         destCity: data.destCity,
         destState: data.destState,
         cargoType: data.cargoType,
+        truckType: data.truckType || (body.truckType ? String(body.truckType) : undefined),
         weightKg: data.weightKg,
         budget: data.budget,
         pickupDate: data.pickupDate,

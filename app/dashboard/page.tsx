@@ -80,7 +80,7 @@ export default async function Dashboard({ searchParams }: DashboardProps) {
     const myRequestedLoadsRaw = await prisma.load.findMany({
       where: { shipperId: session.user.id },
       orderBy: { createdAt: "desc" },
-      include: { carrier: true },
+      include: { carrier: true, ratings: true },
     });
 
     const myRequestedLoads = JSON.parse(JSON.stringify(myRequestedLoadsRaw));
@@ -156,54 +156,87 @@ export default async function Dashboard({ searchParams }: DashboardProps) {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {availableJourneys.map((j) => (
-                    <div key={j.id} className="rounded-2xl border border-white/[0.08] bg-[#0E131F] shadow-sm p-6 flex flex-col gap-4">
-                      <div className="flex justify-between items-start">
-                        <div className="flex flex-col">
-                          <span className="text-xs font-bold text-slate-400 uppercase">Route ID</span>
-                          <span className="font-mono text-sm font-bold text-cyan-400">{j.id.slice(0, 10)}...</span>
-                        </div>
-                        <div className="flex items-center gap-2 bg-[#0E131F] px-3 py-1.5 rounded-lg border border-white/[0.08]">
-                          <User className="h-4 w-4 text-slate-400" />
-                          <span className="text-sm font-semibold text-slate-300">{j.trucker?.name || "Driver"}</span>
-                        </div>
-                      </div>
+                  {availableJourneys.map((j) => {
+                    const isFull = Number(j.availableCapacityKg) <= 0 || j.status === "MATCHED";
+                    const dropPoints = (j as any).dropPoints || [];
 
-                      <div className="py-2 flex items-center gap-4">
-                        <div className="flex-1">
-                          <div className="text-xs text-slate-400 mb-1">Origin</div>
-                          <div className="font-bold text-white text-lg leading-tight">{j.originCity}</div>
-                          <div className="text-sm text-slate-400">{j.originState}</div>
+                    return (
+                      <div key={j.id} className={`rounded-2xl border ${isFull ? "border-rose-500/30 bg-[#0A0D14]/90" : "border-white/[0.08] bg-[#0E131F]"} shadow-sm p-6 flex flex-col justify-between gap-4`}>
+                        <div className="flex justify-between items-start">
+                          <div className="flex flex-col">
+                            <span className="text-xs font-bold text-slate-400 uppercase">Route ID</span>
+                            <span className="font-mono text-sm font-bold text-cyan-400">{j.id.slice(0, 10)}...</span>
+                          </div>
+                          {isFull ? (
+                            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-extrabold bg-rose-500/20 text-rose-300 border border-rose-500/40">
+                              CAPACITY FULL
+                            </span>
+                          ) : (
+                            <div className="flex items-center gap-2 bg-[#07090E] px-3 py-1 rounded-lg border border-white/[0.08]">
+                              <User className="h-3.5 w-3.5 text-cyan-400" />
+                              <span className="text-xs font-semibold text-slate-300">{j.trucker?.name || "Driver"}</span>
+                            </div>
+                          )}
                         </div>
-                        <ArrowRight className="h-5 w-5 text-slate-300" />
-                        <div className="flex-1 text-right">
-                          <div className="text-xs text-slate-400 mb-1">Destination</div>
-                          <div className="font-bold text-white text-lg leading-tight">{j.destCity}</div>
-                          <div className="text-sm text-slate-400">{j.destState}</div>
-                        </div>
-                      </div>
 
-                      <div className="flex items-center justify-between border-t border-white/[0.08] pt-4">
-                        <div>
-                          <div className="text-xs text-slate-400 mb-1">Departure</div>
-                          <div className="flex items-center gap-1.5 font-medium text-slate-300">
-                            <Calendar className="h-4 w-4 text-slate-400" />
-                            {new Date(j.departureDate).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
+                        <div className="py-2 flex items-center gap-4">
+                          <div className="flex-1">
+                            <div className="text-xs text-slate-400 mb-1">Origin</div>
+                            <div className="font-bold text-white text-lg leading-tight">{j.originCity}</div>
+                            <div className="text-sm text-slate-400">{j.originState}</div>
+                          </div>
+                          <ArrowRight className="h-5 w-5 text-slate-300" />
+                          <div className="flex-1 text-right">
+                            <div className="text-xs text-slate-400 mb-1">Destination</div>
+                            <div className="font-bold text-white text-lg leading-tight">{j.destCity}</div>
+                            <div className="text-sm text-slate-400">{j.destState}</div>
                           </div>
                         </div>
-                        <div className="text-right">
-                          <div className="text-xs text-slate-400 mb-1">Capacity</div>
-                          <div className="font-bold text-emerald-600">
-                            {Number(j.availableCapacityKg).toLocaleString()} kg
+
+                        {/* Drop points & Truck Type */}
+                        <div className="space-y-1.5 py-1 border-t border-white/[0.08] text-xs">
+                          <div className="flex items-center justify-between text-slate-300">
+                            <span className="text-slate-400">Truck Type:</span>
+                            <span className="font-semibold text-white">{j.truckType}</span>
+                          </div>
+                          {dropPoints.length > 0 && (
+                            <div className="flex items-center justify-between text-cyan-300">
+                              <span className="text-slate-400">Waypoints:</span>
+                              <span className="font-medium text-right truncate max-w-[180px]">{dropPoints.join(", ")}</span>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="flex items-center justify-between border-t border-white/[0.08] pt-3">
+                          <div>
+                            <div className="text-[10px] text-slate-400 mb-0.5">Rate / Price</div>
+                            <div className="font-bold text-cyan-400 text-sm">
+                              {j.price ? `₹${Number(j.price).toLocaleString()}` : j.priceInr ? `₹${Number(j.priceInr).toLocaleString()}` : `₹${j.askingPricePerKg}/kg`}
+                            </div>
+                          </div>
+                          <div className="text-right">
+                            <div className="text-[10px] text-slate-400 mb-0.5">Capacity</div>
+                            <div className={`font-bold ${isFull ? "text-rose-400" : "text-emerald-400"}`}>
+                              {isFull ? "0 kg (FULL)" : `${Number(j.availableCapacityKg).toLocaleString()} kg`}
+                            </div>
                           </div>
                         </div>
-                      </div>
 
-                      <div className="mt-2 w-full">
-                        <CreateLoadForm journey={{ id: j.id, originCity: j.originCity, originState: j.originState, destCity: j.destCity, destState: j.destState, departureDate: j.departureDate, availableCapacityKg: Number(j.availableCapacityKg) }} />
+                        <div className="mt-2 w-full">
+                          {isFull ? (
+                            <button
+                              disabled
+                              className="w-full h-9 rounded-xl bg-zinc-800 text-zinc-500 font-bold text-xs cursor-not-allowed border border-white/5"
+                            >
+                              Capacity Reached
+                            </button>
+                          ) : (
+                            <CreateLoadForm journey={{ id: j.id, originCity: j.originCity, originState: j.originState, destCity: j.destCity, destState: j.destState, departureDate: j.departureDate, availableCapacityKg: Number(j.availableCapacityKg), truckType: j.truckType }} />
+                          )}
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -329,16 +362,25 @@ export default async function Dashboard({ searchParams }: DashboardProps) {
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {myRoutes.map((route) => {
+                    const isFull = Number(route.availableCapacityKg) <= 0 || route.status === "MATCHED";
+                    const dropPoints = route.dropPoints || [];
+
                     return (
-                      <div key={route.id} className="rounded-2xl border border-white/[0.08] bg-[#0E131F] shadow-sm p-6 flex flex-col gap-4">
+                      <div key={route.id} className={`rounded-2xl border ${isFull ? "border-rose-500/30 bg-[#0A0D14]/90" : "border-white/[0.08] bg-[#0E131F]"} shadow-sm p-6 flex flex-col justify-between gap-4`}>
                         <div className="flex justify-between items-start">
                           <div className="flex flex-col">
                             <span className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">Route ID</span>
                             <span className="font-mono text-sm font-bold text-cyan-400">{route.id.slice(0, 8)}...</span>
                           </div>
-                          <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold shadow-sm bg-white/5 text-slate-300 border border-white/10">
-                            {route.status}
-                          </span>
+                          {isFull ? (
+                            <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-extrabold bg-rose-500/20 text-rose-300 border border-rose-500/40">
+                              CAPACITY FULL
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-bold shadow-sm bg-white/5 text-slate-300 border border-white/10">
+                              {route.status}
+                            </span>
+                          )}
                         </div>
 
                         <div className="py-2 flex items-center gap-4">
@@ -355,18 +397,31 @@ export default async function Dashboard({ searchParams }: DashboardProps) {
                           </div>
                         </div>
 
-                        <div className="flex items-center justify-between border-t border-white/[0.08] pt-4">
+                        {/* Drop points & Truck Type */}
+                        <div className="space-y-1.5 py-1 border-t border-white/[0.08] text-xs">
+                          <div className="flex items-center justify-between text-slate-300">
+                            <span className="text-slate-400">Truck Type:</span>
+                            <span className="font-semibold text-white">{route.truckType}</span>
+                          </div>
+                          {dropPoints.length > 0 && (
+                            <div className="flex items-center justify-between text-cyan-300">
+                              <span className="text-slate-400">Waypoints:</span>
+                              <span className="font-medium text-right truncate max-w-[180px]">{dropPoints.join(", ")}</span>
+                            </div>
+                          )}
+                        </div>
+
+                        <div className="flex items-center justify-between border-t border-white/[0.08] pt-3">
                           <div>
-                            <div className="text-xs text-slate-400 mb-1">Departure</div>
-                            <div className="flex items-center gap-1.5 font-medium text-slate-300">
-                              <Calendar className="h-4 w-4 text-slate-400" />
-                              {new Date(route.departureDate).toLocaleDateString("en-IN", { day: "numeric", month: "short" })}
+                            <div className="text-[10px] text-slate-400 mb-0.5">Route Price</div>
+                            <div className="font-bold text-cyan-400 text-sm">
+                              {route.price ? `₹${Number(route.price).toLocaleString()}` : route.priceInr ? `₹${Number(route.priceInr).toLocaleString()}` : `₹${route.askingPricePerKg}/kg`}
                             </div>
                           </div>
                           <div className="text-right">
-                            <div className="text-xs text-slate-400 mb-1">Available Capacity</div>
-                            <div className="font-bold text-emerald-600">
-                              {Number(route.availableCapacityKg).toLocaleString()} kg
+                            <div className="text-[10px] text-slate-400 mb-0.5">Capacity</div>
+                            <div className={`font-bold ${isFull ? "text-rose-400" : "text-emerald-400"}`}>
+                              {isFull ? "0 kg (FULL)" : `${Number(route.availableCapacityKg).toLocaleString()} kg`}
                             </div>
                           </div>
                         </div>

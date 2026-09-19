@@ -13,10 +13,9 @@ import {
   Zap,
   Loader2,
   Check,
-  ShieldCheck,
-  TrendingUp,
-  Inbox,
-  Clock,
+  Ban,
+  Truck,
+  DollarSign,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { getRecommendedLoadsForTrucker } from "@/lib/actions/matching";
@@ -29,6 +28,7 @@ interface RecommendedLoad {
   destCity: string;
   destState: string;
   cargoType: string;
+  truckType?: string | null;
   weightKg: number;
   budget: number | null;
   priceInr: number | null;
@@ -38,6 +38,7 @@ interface RecommendedLoad {
   matchBadge: string;
   matchTier: "PERFECT" | "ROUTE_CAPACITY" | "CAPACITY_MATCH" | "BROADCAST";
   isPerfectMatch: boolean;
+  isFull?: boolean;
   matchedJourneyId?: string | null;
   matchedTruckType?: string | null;
   equipmentReason?: string;
@@ -117,7 +118,7 @@ export function RecommendedLoadsFeed() {
               </span>
             </h2>
             <p className="text-slate-400 text-sm max-w-xl">
-              Automated load recommendations calibrated to your active backhaul routes, capacity limits, and equipment compatibility.
+              Automated load recommendations calibrated to your active backhaul routes, waypoints, capacity limits, and equipment compatibility.
             </p>
           </div>
 
@@ -166,29 +167,39 @@ export function RecommendedLoadsFeed() {
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {loads.map((load) => {
-              const isPerfect = load.isPerfectMatch || load.matchTier === "PERFECT";
+              const isFull = !!load.isFull;
+              const isPerfect = !isFull && (load.isPerfectMatch || load.matchTier === "PERFECT");
 
               return (
                 <div
                   key={load.loadId}
                   className={`group relative rounded-2xl p-6 transition-all duration-300 flex flex-col justify-between ${
-                    isPerfect
+                    isFull
+                      ? "bg-[#0A0D14]/90 border border-rose-500/30 opacity-75"
+                      : isPerfect
                       ? "bg-gradient-to-b from-[#0E1726] to-[#07090E] border-2 border-cyan-500/40 shadow-xl shadow-cyan-500/10 hover:border-cyan-400 hover:shadow-cyan-400/20"
                       : "bg-[#07090E]/80 border border-white/[0.08] hover:border-white/20 shadow-md"
                   }`}
                 >
                   {/* Top Match Criteria Badge */}
                   <div className="flex items-center justify-between gap-2 mb-4">
-                    <span
-                      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold tracking-wide ${
-                        isPerfect
-                          ? "bg-cyan-500/20 text-cyan-300 border border-cyan-400/40 shadow-sm shadow-cyan-500/20 animate-pulse"
-                          : "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30"
-                      }`}
-                    >
-                      <Sparkles className="h-3.5 w-3.5" />
-                      {load.matchBadge}
-                    </span>
+                    {isFull ? (
+                      <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold tracking-wide uppercase bg-rose-500/20 text-rose-300 border border-rose-500/40 shadow-sm">
+                        <Ban className="h-3.5 w-3.5 text-rose-400" />
+                        CAPACITY REACHED / FULL
+                      </span>
+                    ) : (
+                      <span
+                        className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-extrabold tracking-wide ${
+                          isPerfect
+                            ? "bg-cyan-500/20 text-cyan-300 border border-cyan-400/40 shadow-sm shadow-cyan-500/20 animate-pulse"
+                            : "bg-emerald-500/15 text-emerald-300 border border-emerald-500/30"
+                        }`}
+                      >
+                        <Sparkles className="h-3.5 w-3.5" />
+                        {load.matchBadge}
+                      </span>
+                    )}
                     <span className="font-mono text-[10px] text-slate-500">
                       ID: {load.loadId.slice(0, 6)}
                     </span>
@@ -223,12 +234,14 @@ export function RecommendedLoadsFeed() {
                     {/* Cargo & Equipment Specifications */}
                     <div className="p-3 rounded-xl bg-white/[0.03] border border-white/5 space-y-1.5">
                       <div className="flex items-center justify-between">
-                        <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Cargo Type</span>
-                        <span className="text-xs font-extrabold text-white">{load.cargoType}</span>
+                        <span className="text-xs font-bold text-slate-400 uppercase tracking-wider">Cargo & Type</span>
+                        <span className="text-xs font-extrabold text-white text-right">
+                          {load.cargoType} {load.truckType ? `(${load.truckType})` : ""}
+                        </span>
                       </div>
                       {load.equipmentReason && (
                         <div className="flex items-center justify-between text-[11px] text-cyan-300/90 font-medium">
-                          <span>Equipment Verification:</span>
+                          <span>Equipment Fit:</span>
                           <span className="font-semibold">{load.equipmentReason}</span>
                         </div>
                       )}
@@ -249,7 +262,7 @@ export function RecommendedLoadsFeed() {
                           Offering Budget
                         </span>
                         <span className="text-sm font-extrabold text-cyan-400 font-mono">
-                          {load.budget ? `₹${load.budget.toLocaleString()}` : "₹85,000"}
+                          {load.budget ? `₹${load.budget.toLocaleString()}` : "₹25,000"}
                         </span>
                       </div>
                     </div>
@@ -259,13 +272,22 @@ export function RecommendedLoadsFeed() {
                   <div className="mt-5 pt-4 border-t border-white/[0.08]">
                     <Button
                       onClick={() => handleAcceptLoad(load.loadId, `${load.originCity} ➔ ${load.destCity}`)}
-                      disabled={acceptingId !== null}
-                      className="w-full h-11 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 text-white font-extrabold text-sm shadow-lg shadow-cyan-500/25 transition-all duration-200 hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-2"
+                      disabled={acceptingId !== null || isFull}
+                      className={`w-full h-11 rounded-xl text-white font-extrabold text-sm transition-all duration-200 flex items-center justify-center gap-2 ${
+                        isFull
+                          ? "bg-zinc-800 text-zinc-500 cursor-not-allowed border border-white/5"
+                          : "bg-gradient-to-r from-blue-600 to-cyan-500 hover:from-blue-500 hover:to-cyan-400 shadow-lg shadow-cyan-500/25 hover:scale-[1.02] active:scale-[0.98]"
+                      }`}
                     >
                       {acceptingId === load.loadId ? (
                         <>
                           <Loader2 className="h-4 w-4 animate-spin" />
                           Locking Load...
+                        </>
+                      ) : isFull ? (
+                        <>
+                          <Ban className="h-4 w-4" />
+                          Capacity Reached
                         </>
                       ) : (
                         <>

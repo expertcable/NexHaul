@@ -19,6 +19,7 @@ export const loadCreateSchema = z
     originCoords: coordinateSchema,
     destCoords: coordinateSchema,
     cargoType: z.string().min(1, "Cargo type is required"),
+    truckType: z.string().optional(),
     weightKg: z.number().positive("Weight must be positive"),
     budget: z.number().positive("Budget must be positive"),
     pickupDate: z.coerce.date(),
@@ -39,6 +40,7 @@ export const loadUpdateSchema = z
     originCoords: coordinateSchema.optional(),
     destCoords: coordinateSchema.optional(),
     cargoType: z.string().min(1).optional(),
+    truckType: z.string().optional(),
     weightKg: z.number().positive().optional(),
     budget: z.number().positive().optional(),
     pickupDate: z.coerce.date().optional(),
@@ -58,12 +60,14 @@ export const journeyCreateSchema = z.object({
   originState: z.string().min(1, "Origin state is required"),
   destCity: z.string().min(1, "Destination city is required"),
   destState: z.string().min(1, "Destination state is required"),
+  dropPoints: z.array(z.string()).optional().default([]),
   originCoords: coordinateSchema,
   destCoords: coordinateSchema,
   departureDate: z.coerce.date(),
   availableCapacityKg: z.number().positive("Capacity must be positive"),
   truckType: z.string().min(1, "Truck type is required"),
-  askingPricePerKg: z.number().positive("Price must be positive"),
+  price: z.number().nonnegative().optional().default(0),
+  askingPricePerKg: z.number().positive("Price must be positive").optional().default(15),
 });
 
 export const journeyUpdateSchema = z
@@ -72,11 +76,13 @@ export const journeyUpdateSchema = z
     originState: z.string().min(1).optional(),
     destCity: z.string().min(1).optional(),
     destState: z.string().min(1).optional(),
+    dropPoints: z.array(z.string()).optional(),
     originCoords: coordinateSchema.optional(),
     destCoords: coordinateSchema.optional(),
     departureDate: z.coerce.date().optional(),
     availableCapacityKg: z.number().positive().optional(),
     truckType: z.string().min(1).optional(),
+    price: z.number().nonnegative().optional(),
     askingPricePerKg: z.number().positive().optional(),
     status: z
       .enum(["AVAILABLE", "MATCHED", "IN_TRANSIT", "COMPLETED", "CANCELLED"])
