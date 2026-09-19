@@ -34,8 +34,7 @@ export function ProposeRouteForm({ loadId, myRoutes }: ProposeRouteFormProps) {
     setError(null);
 
     try {
-      const mockRole = searchParams.get("mock_role");
-      const url = mockRole ? `/api/matches/propose?mock_role=${mockRole}` : `/api/matches/propose`;
+      const url = `/api/matches/propose`;
 
       const res = await fetch(url, {
         method: "POST",
@@ -64,10 +63,10 @@ export function ProposeRouteForm({ loadId, myRoutes }: ProposeRouteFormProps) {
         onClick={() => !isSubmitting && setIsOpen(false)}
       />
       
-      <div className="relative w-full max-w-md overflow-hidden rounded-2xl bg-[#0f1a2e] border border-white/10 shadow-2xl animate-in fade-in zoom-in-95 duration-200">
+      <div className="relative w-full max-w-md overflow-hidden rounded-2xl bg-[#0E131F] border border-white/[0.08] shadow-2xl animate-in fade-in zoom-in-95 duration-200">
         <div className="flex items-center justify-between border-b border-white/10 px-6 py-4 bg-white/[0.02]">
           <h2 className="text-xl font-bold text-white tracking-tight flex items-center gap-2">
-            <Plus className="h-5 w-5 text-brand-green" />
+            <Plus className="h-5 w-5 text-cyan-400" />
             Offer Your Route
           </h2>
           <button
@@ -93,12 +92,12 @@ export function ProposeRouteForm({ loadId, myRoutes }: ProposeRouteFormProps) {
                     setSelectedJourneyId(e.target.value);
                     setError(null);
                   }}
-                  className="w-full h-11 bg-black/20 border border-white/10 rounded-lg px-3 text-white focus:outline-none focus:ring-2 focus:ring-brand-green/50 appearance-none"
+                  className="w-full h-11 bg-[#07090E] border border-white/10 rounded-lg px-3 text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 appearance-none shadow-inner"
                 >
-                  <option value="" className="bg-[#0f1a2e]">-- Select Route --</option>
+                  <option value="" className="bg-[#07090E] text-white">-- Select Route --</option>
                   {myRoutes.map((route) => (
-                    <option key={route.id} value={route.id} className="bg-[#0f1a2e]">
-                      {route.originCity} -> {route.destCity} ({Number(route.availableCapacityKg).toLocaleString()} kg)
+                    <option key={route.id} value={route.id} className="bg-[#07090E] text-white">
+                      {route.originCity} -{'>'} {route.destCity} ({Number(route.availableCapacityKg).toLocaleString()} kg)
                     </option>
                   ))}
                 </select>
@@ -129,7 +128,7 @@ export function ProposeRouteForm({ loadId, myRoutes }: ProposeRouteFormProps) {
           <Button
             onClick={handleSubmit}
             disabled={isSubmitting || myRoutes.length === 0}
-            className="bg-brand-green hover:bg-emerald-500 text-white font-bold shadow-lg shadow-brand-green/20"
+            className="bg-gradient-to-r from-blue-600 to-cyan-500 hover:brightness-110 text-white font-bold shadow-lg shadow-cyan-500/20 transition-all"
           >
             {isSubmitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
             Submit Offer
@@ -143,7 +142,7 @@ export function ProposeRouteForm({ loadId, myRoutes }: ProposeRouteFormProps) {
     <>
       <Button
         onClick={() => setIsOpen(true)}
-        className="w-full bg-brand-green/10 hover:bg-brand-green/20 text-brand-green hover:text-emerald-400 font-bold border border-brand-green/30"
+        className="w-full bg-cyan-500/10 hover:bg-cyan-500/20 text-cyan-400 font-bold border border-cyan-500/30 transition-all"
       >
         Offer Route
       </Button>

@@ -1,12 +1,11 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { getMockOrRealSession } from "@/lib/auth-bypass";
 import { prisma } from "@/lib/prisma";
 import { handleApiError } from "@/lib/api-utils";
 
 export async function POST(req: Request) {
   try {
-    const session = await getMockOrRealSession(req);
+    const session = await auth();
     if (!session) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -40,7 +39,7 @@ export async function POST(req: Request) {
         }),
         prisma.load.update({
           where: { id: match.loadId },
-          data: { status: "MATCHED" },
+          data: { status: "BOOKED" },
         }),
         prisma.journey.update({
           where: { id: match.journeyId },

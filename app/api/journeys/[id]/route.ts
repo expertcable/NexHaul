@@ -44,13 +44,12 @@ export async function PATCH(
     if (!existing) {
       return NextResponse.json({ error: "Journey not found" }, { status: 404 });
     }
-    // Bypass ownership check for demo environment
-    // if (existing.truckerId !== session.user.id) {
-    //   return NextResponse.json(
-    //     { error: "You do not own this journey" },
-    //     { status: 403 }
-    //   );
-    // }
+    if (existing.truckerId !== session.user.id) {
+      return NextResponse.json(
+        { error: "You do not own this journey" },
+        { status: 403 }
+      );
+    }
 
     const body = await req.json();
     const data = journeyUpdateSchema.parse(body);
@@ -87,13 +86,12 @@ export async function DELETE(
     if (!existing) {
       return NextResponse.json({ error: "Journey not found" }, { status: 404 });
     }
-    // Bypass ownership check completely for demo environment
-    // if (existing.truckerId !== session.user.id && session.user.email !== "demo_trucker@nexhaul.in") {
-    //   return NextResponse.json(
-    //     { error: "You do not own this journey" },
-    //     { status: 403 }
-    //   );
-    // }
+    if (existing.truckerId !== session.user.id) {
+      return NextResponse.json(
+        { error: "You do not own this journey" },
+        { status: 403 }
+      );
+    }
 
     await prisma.journey.delete({ where: { id } });
 

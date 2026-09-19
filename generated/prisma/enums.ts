@@ -18,12 +18,11 @@ export type Role = (typeof Role)[keyof typeof Role]
 
 
 export const LoadStatus = {
-  OPEN: 'OPEN',
-  MATCHED: 'MATCHED',
+  PENDING: 'PENDING',
+  BOOKED: 'BOOKED',
   IN_TRANSIT: 'IN_TRANSIT',
-  COMPLETED: 'COMPLETED',
-  CANCELLED: 'CANCELLED',
-  ARCHIVED: 'ARCHIVED'
+  DELIVERED: 'DELIVERED',
+  CANCELLED: 'CANCELLED'
 } as const
 
 export type LoadStatus = (typeof LoadStatus)[keyof typeof LoadStatus]

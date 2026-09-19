@@ -57,8 +57,7 @@ export function CreateJourneyForm() {
       };
 
       const liveParams = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : searchParams;
-      const roleParam = liveParams.get("mock_role") || liveParams.get("demoRole") || searchParams.get("mock_role") || searchParams.get("demoRole");
-      const url = roleParam ? `/api/journeys?mock_role=${roleParam}&demoRole=${roleParam}` : "/api/journeys";
+      const url = "/api/journeys";
 
       const res = await fetch(url, {
         method: "POST",
@@ -91,11 +90,11 @@ export function CreateJourneyForm() {
 
   const modalContent = (
     <div className="fixed inset-0 z-[9999] bg-black/80 flex items-center justify-center p-4 overflow-y-auto backdrop-blur-md animate-in fade-in-0 duration-200">
-      <div className="relative w-full max-w-xl my-auto rounded-2xl border border-emerald-500/20 bg-[#0c1219] p-7 text-zinc-100 shadow-2xl shadow-emerald-500/10">
+      <div className="relative w-full max-w-xl my-auto rounded-2xl border border-white/[0.08] bg-[#0E131F] p-7 text-white shadow-2xl shadow-black/40">
         {/* Modal Header */}
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <div className="flex items-center gap-3">
-            <div className="rounded-xl bg-emerald-500/15 p-2.5 text-emerald-400 border border-emerald-500/30 shadow-sm">
+            <div className="rounded-xl bg-cyan-500/15 p-2.5 text-cyan-400 border border-cyan-500/30 shadow-sm">
               <Navigation className="h-6 w-6" />
             </div>
             <div>
@@ -117,18 +116,18 @@ export function CreateJourneyForm() {
         <form onSubmit={handleSubmit} className="mt-6 space-y-5">
           <div className="grid grid-cols-3 gap-4">
             <div className="col-span-2 space-y-2">
-              <Label htmlFor="originCity" className="text-xs font-semibold text-zinc-300">Departure City</Label>
+              <Label htmlFor="originCity" className="text-xs font-semibold text-slate-300">Departure City</Label>
               <Input
                 id="originCity"
                 required
                 value={originCity}
                 onChange={(e) => setOriginCity(e.target.value)}
                 placeholder="e.g. Pune"
-                className="bg-zinc-950 border-white/15 text-zinc-100 focus:ring-emerald-500 h-11 rounded-xl text-sm px-4 shadow-inner"
+                className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl text-sm px-4 shadow-inner"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="originState" className="text-xs font-semibold text-zinc-300">State Code</Label>
+              <Label htmlFor="originState" className="text-xs font-semibold text-slate-300">State Code</Label>
               <Input
                 id="originState"
                 required
@@ -136,25 +135,25 @@ export function CreateJourneyForm() {
                 value={originState}
                 onChange={(e) => setOriginState(e.target.value.toUpperCase())}
                 placeholder="MH"
-                className="bg-zinc-950 border-white/15 text-zinc-100 focus:ring-emerald-500 h-11 rounded-xl font-mono text-center uppercase text-sm shadow-inner"
+                className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl font-mono text-center uppercase text-sm shadow-inner"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-3 gap-4">
             <div className="col-span-2 space-y-2">
-              <Label htmlFor="destCity" className="text-xs font-semibold text-zinc-300">Destination City</Label>
+              <Label htmlFor="destCity" className="text-xs font-semibold text-slate-300">Destination City</Label>
               <Input
                 id="destCity"
                 required
                 value={destCity}
                 onChange={(e) => setDestCity(e.target.value)}
                 placeholder="e.g. Bengaluru"
-                className="bg-zinc-950 border-white/15 text-zinc-100 focus:ring-emerald-500 h-11 rounded-xl text-sm px-4 shadow-inner"
+                className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl text-sm px-4 shadow-inner"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="destState" className="text-xs font-semibold text-zinc-300">State Code</Label>
+              <Label htmlFor="destState" className="text-xs font-semibold text-slate-300">State Code</Label>
               <Input
                 id="destState"
                 required
@@ -162,15 +161,15 @@ export function CreateJourneyForm() {
                 value={destState}
                 onChange={(e) => setDestState(e.target.value.toUpperCase())}
                 placeholder="KA"
-                className="bg-zinc-950 border-white/15 text-zinc-100 focus:ring-emerald-500 h-11 rounded-xl font-mono text-center uppercase text-sm shadow-inner"
+                className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl font-mono text-center uppercase text-sm shadow-inner"
               />
             </div>
           </div>
 
           <div className="grid grid-cols-2 gap-4 pt-1">
             <div className="space-y-2">
-              <Label htmlFor="departureDate" className="text-xs font-semibold text-zinc-300 flex items-center gap-1.5">
-                <Calendar className="h-3.5 w-3.5 text-emerald-400" /> Departure Date
+              <Label htmlFor="departureDate" className="text-xs font-semibold text-slate-300 flex items-center gap-1.5">
+                <Calendar className="h-3.5 w-3.5 text-cyan-400" /> Departure Date
               </Label>
               <Input
                 id="departureDate"
@@ -178,11 +177,11 @@ export function CreateJourneyForm() {
                 required
                 value={departureDate}
                 onChange={(e) => setDepartureDate(e.target.value)}
-                className="bg-zinc-950 border-white/15 text-zinc-100 focus:ring-emerald-500 h-11 rounded-xl text-sm px-4 shadow-inner"
+                className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl text-sm px-4 shadow-inner"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="availableCapacityKg" className="text-xs font-semibold text-zinc-300">Available Capacity (KG)</Label>
+              <Label htmlFor="availableCapacityKg" className="text-xs font-semibold text-slate-300">Available Capacity (KG)</Label>
               <Input
                 id="availableCapacityKg"
                 type="number"
@@ -191,13 +190,13 @@ export function CreateJourneyForm() {
                 value={availableCapacityKg}
                 onChange={(e) => setAvailableCapacityKg(e.target.value)}
                 placeholder="32000"
-                className="bg-zinc-950 border-white/15 text-zinc-100 focus:ring-emerald-500 h-11 rounded-xl font-mono text-sm px-4 shadow-inner"
+                className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl font-mono text-sm px-4 shadow-inner"
               />
             </div>
           </div>
 
-          <div className="rounded-xl bg-emerald-500/10 border border-emerald-500/20 p-3.5 text-xs text-emerald-300 flex items-center gap-2.5">
-            <Truck className="h-5 w-5 text-emerald-400 flex-shrink-0" />
+          <div className="rounded-xl bg-cyan-500/10 border border-cyan-500/20 p-3.5 text-xs text-cyan-300 flex items-center gap-2.5">
+            <Truck className="h-5 w-5 text-cyan-400 flex-shrink-0" />
             <span className="leading-relaxed">Route automatically indexed in Indian National Highways spatial index (Pune 18.5204, 73.8567 &rarr; Bengaluru 12.9716, 77.5946).</span>
           </div>
 
@@ -216,7 +215,7 @@ export function CreateJourneyForm() {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="h-11 px-7 rounded-xl bg-gradient-to-r from-emerald-500 to-cyan-600 hover:from-emerald-600 hover:to-cyan-700 text-white font-semibold shadow-lg shadow-emerald-500/25 text-sm transition-all"
+              className="h-11 px-7 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:brightness-110 text-white font-semibold shadow-lg shadow-cyan-500/20 text-sm transition-all"
             >
               {isSubmitting ? (
                 <>
@@ -237,9 +236,9 @@ export function CreateJourneyForm() {
     <>
       <Button
         onClick={() => setIsOpen(true)}
-        className="h-10 px-5 rounded-xl bg-gradient-to-r from-emerald-500 via-teal-600 to-cyan-600 hover:from-emerald-600 hover:to-cyan-700 text-white font-semibold text-sm shadow-lg shadow-emerald-500/25 border border-emerald-400/20 transition-all flex items-center justify-center gap-2 flex-shrink-0 hover:scale-[1.02] active:scale-[0.98] w-full"
+        className="h-10 px-5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:brightness-110 text-white font-semibold text-sm shadow-lg shadow-cyan-500/20 border border-white/[0.08] transition-all flex items-center justify-center gap-2 flex-shrink-0 hover:scale-[1.02] active:scale-[0.98] w-full"
       >
-        <Plus className="h-4 w-4 text-emerald-200" />
+        <Plus className="h-4 w-4 text-white" />
         Post Your Route
       </Button>
 

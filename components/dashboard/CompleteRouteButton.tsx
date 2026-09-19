@@ -43,7 +43,7 @@ export function CompleteRouteButton({ routeId }: CompleteRouteButtonProps) {
       size="sm"
       disabled={isCompleting}
       onClick={handleComplete}
-      className="h-8 px-2 rounded-lg bg-brand-green/20 text-brand-green hover:bg-brand-green/30 hover:text-emerald-400 flex items-center justify-center transition-colors ml-2 border border-brand-green/30 shadow-sm"
+      className="h-8 px-2 rounded-lg bg-cyan-500/10 text-cyan-400 hover:bg-cyan-500/20 hover:text-cyan-300 flex items-center justify-center transition-colors ml-2 border border-cyan-500/30 shadow-sm"
       title="Complete Trip"
     >
       {isCompleting ? <Loader2 className="h-4 w-4 animate-spin mr-1.5" /> : <CheckCircle2 className="h-4 w-4 mr-1.5" />}

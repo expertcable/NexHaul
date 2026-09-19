@@ -27,11 +27,23 @@ export type AggregateLoad = {
 }
 
 export type LoadAvgAggregateOutputType = {
+  originLat: number | null
+  originLng: number | null
+  destLat: number | null
+  destLng: number | null
+  priceInr: number | null
+  weightTons: number | null
   weightKg: number | null
   budget: runtime.Decimal | null
 }
 
 export type LoadSumAggregateOutputType = {
+  originLat: number | null
+  originLng: number | null
+  destLat: number | null
+  destLng: number | null
+  priceInr: number | null
+  weightTons: number | null
   weightKg: number | null
   budget: runtime.Decimal | null
 }
@@ -43,6 +55,14 @@ export type LoadMinAggregateOutputType = {
   originState: string | null
   destCity: string | null
   destState: string | null
+  originLat: number | null
+  originLng: number | null
+  destLat: number | null
+  destLng: number | null
+  vehicleType: string | null
+  priceInr: number | null
+  weightTons: number | null
+  carrierId: string | null
   cargoType: string | null
   weightKg: number | null
   budget: runtime.Decimal | null
@@ -61,6 +81,14 @@ export type LoadMaxAggregateOutputType = {
   originState: string | null
   destCity: string | null
   destState: string | null
+  originLat: number | null
+  originLng: number | null
+  destLat: number | null
+  destLng: number | null
+  vehicleType: string | null
+  priceInr: number | null
+  weightTons: number | null
+  carrierId: string | null
   cargoType: string | null
   weightKg: number | null
   budget: runtime.Decimal | null
@@ -79,6 +107,14 @@ export type LoadCountAggregateOutputType = {
   originState: number
   destCity: number
   destState: number
+  originLat: number
+  originLng: number
+  destLat: number
+  destLng: number
+  vehicleType: number
+  priceInr: number
+  weightTons: number
+  carrierId: number
   cargoType: number
   weightKg: number
   budget: number
@@ -93,11 +129,23 @@ export type LoadCountAggregateOutputType = {
 
 
 export type LoadAvgAggregateInputType = {
+  originLat?: true
+  originLng?: true
+  destLat?: true
+  destLng?: true
+  priceInr?: true
+  weightTons?: true
   weightKg?: true
   budget?: true
 }
 
 export type LoadSumAggregateInputType = {
+  originLat?: true
+  originLng?: true
+  destLat?: true
+  destLng?: true
+  priceInr?: true
+  weightTons?: true
   weightKg?: true
   budget?: true
 }
@@ -109,6 +157,14 @@ export type LoadMinAggregateInputType = {
   originState?: true
   destCity?: true
   destState?: true
+  originLat?: true
+  originLng?: true
+  destLat?: true
+  destLng?: true
+  vehicleType?: true
+  priceInr?: true
+  weightTons?: true
+  carrierId?: true
   cargoType?: true
   weightKg?: true
   budget?: true
@@ -127,6 +183,14 @@ export type LoadMaxAggregateInputType = {
   originState?: true
   destCity?: true
   destState?: true
+  originLat?: true
+  originLng?: true
+  destLat?: true
+  destLng?: true
+  vehicleType?: true
+  priceInr?: true
+  weightTons?: true
+  carrierId?: true
   cargoType?: true
   weightKg?: true
   budget?: true
@@ -145,6 +209,14 @@ export type LoadCountAggregateInputType = {
   originState?: true
   destCity?: true
   destState?: true
+  originLat?: true
+  originLng?: true
+  destLat?: true
+  destLng?: true
+  vehicleType?: true
+  priceInr?: true
+  weightTons?: true
+  carrierId?: true
   cargoType?: true
   weightKg?: true
   budget?: true
@@ -250,6 +322,14 @@ export type LoadGroupByOutputType = {
   originState: string
   destCity: string
   destState: string
+  originLat: number | null
+  originLng: number | null
+  destLat: number | null
+  destLng: number | null
+  vehicleType: string | null
+  priceInr: number | null
+  weightTons: number | null
+  carrierId: string | null
   cargoType: string
   weightKg: number
   budget: runtime.Decimal
@@ -291,6 +371,14 @@ export type LoadWhereInput = {
   originState?: Prisma.StringFilter<"Load"> | string
   destCity?: Prisma.StringFilter<"Load"> | string
   destState?: Prisma.StringFilter<"Load"> | string
+  originLat?: Prisma.FloatNullableFilter<"Load"> | number | null
+  originLng?: Prisma.FloatNullableFilter<"Load"> | number | null
+  destLat?: Prisma.FloatNullableFilter<"Load"> | number | null
+  destLng?: Prisma.FloatNullableFilter<"Load"> | number | null
+  vehicleType?: Prisma.StringNullableFilter<"Load"> | string | null
+  priceInr?: Prisma.FloatNullableFilter<"Load"> | number | null
+  weightTons?: Prisma.FloatNullableFilter<"Load"> | number | null
+  carrierId?: Prisma.StringNullableFilter<"Load"> | string | null
   cargoType?: Prisma.StringFilter<"Load"> | string
   weightKg?: Prisma.FloatFilter<"Load"> | number
   budget?: Prisma.DecimalFilter<"Load"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -301,6 +389,7 @@ export type LoadWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"Load"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Load"> | Date | string
   shipper?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  carrier?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   matches?: Prisma.MatchListRelationFilter
 }
 
@@ -311,6 +400,14 @@ export type LoadOrderByWithRelationInput = {
   originState?: Prisma.SortOrder
   destCity?: Prisma.SortOrder
   destState?: Prisma.SortOrder
+  originLat?: Prisma.SortOrderInput | Prisma.SortOrder
+  originLng?: Prisma.SortOrderInput | Prisma.SortOrder
+  destLat?: Prisma.SortOrderInput | Prisma.SortOrder
+  destLng?: Prisma.SortOrderInput | Prisma.SortOrder
+  vehicleType?: Prisma.SortOrderInput | Prisma.SortOrder
+  priceInr?: Prisma.SortOrderInput | Prisma.SortOrder
+  weightTons?: Prisma.SortOrderInput | Prisma.SortOrder
+  carrierId?: Prisma.SortOrderInput | Prisma.SortOrder
   cargoType?: Prisma.SortOrder
   weightKg?: Prisma.SortOrder
   budget?: Prisma.SortOrder
@@ -321,6 +418,7 @@ export type LoadOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   shipper?: Prisma.UserOrderByWithRelationInput
+  carrier?: Prisma.UserOrderByWithRelationInput
   matches?: Prisma.MatchOrderByRelationAggregateInput
 }
 
@@ -334,6 +432,14 @@ export type LoadWhereUniqueInput = Prisma.AtLeast<{
   originState?: Prisma.StringFilter<"Load"> | string
   destCity?: Prisma.StringFilter<"Load"> | string
   destState?: Prisma.StringFilter<"Load"> | string
+  originLat?: Prisma.FloatNullableFilter<"Load"> | number | null
+  originLng?: Prisma.FloatNullableFilter<"Load"> | number | null
+  destLat?: Prisma.FloatNullableFilter<"Load"> | number | null
+  destLng?: Prisma.FloatNullableFilter<"Load"> | number | null
+  vehicleType?: Prisma.StringNullableFilter<"Load"> | string | null
+  priceInr?: Prisma.FloatNullableFilter<"Load"> | number | null
+  weightTons?: Prisma.FloatNullableFilter<"Load"> | number | null
+  carrierId?: Prisma.StringNullableFilter<"Load"> | string | null
   cargoType?: Prisma.StringFilter<"Load"> | string
   weightKg?: Prisma.FloatFilter<"Load"> | number
   budget?: Prisma.DecimalFilter<"Load"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -344,6 +450,7 @@ export type LoadWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"Load"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Load"> | Date | string
   shipper?: Prisma.XOR<Prisma.UserScalarRelationFilter, Prisma.UserWhereInput>
+  carrier?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   matches?: Prisma.MatchListRelationFilter
 }, "id">
 
@@ -354,6 +461,14 @@ export type LoadOrderByWithAggregationInput = {
   originState?: Prisma.SortOrder
   destCity?: Prisma.SortOrder
   destState?: Prisma.SortOrder
+  originLat?: Prisma.SortOrderInput | Prisma.SortOrder
+  originLng?: Prisma.SortOrderInput | Prisma.SortOrder
+  destLat?: Prisma.SortOrderInput | Prisma.SortOrder
+  destLng?: Prisma.SortOrderInput | Prisma.SortOrder
+  vehicleType?: Prisma.SortOrderInput | Prisma.SortOrder
+  priceInr?: Prisma.SortOrderInput | Prisma.SortOrder
+  weightTons?: Prisma.SortOrderInput | Prisma.SortOrder
+  carrierId?: Prisma.SortOrderInput | Prisma.SortOrder
   cargoType?: Prisma.SortOrder
   weightKg?: Prisma.SortOrder
   budget?: Prisma.SortOrder
@@ -380,6 +495,14 @@ export type LoadScalarWhereWithAggregatesInput = {
   originState?: Prisma.StringWithAggregatesFilter<"Load"> | string
   destCity?: Prisma.StringWithAggregatesFilter<"Load"> | string
   destState?: Prisma.StringWithAggregatesFilter<"Load"> | string
+  originLat?: Prisma.FloatNullableWithAggregatesFilter<"Load"> | number | null
+  originLng?: Prisma.FloatNullableWithAggregatesFilter<"Load"> | number | null
+  destLat?: Prisma.FloatNullableWithAggregatesFilter<"Load"> | number | null
+  destLng?: Prisma.FloatNullableWithAggregatesFilter<"Load"> | number | null
+  vehicleType?: Prisma.StringNullableWithAggregatesFilter<"Load"> | string | null
+  priceInr?: Prisma.FloatNullableWithAggregatesFilter<"Load"> | number | null
+  weightTons?: Prisma.FloatNullableWithAggregatesFilter<"Load"> | number | null
+  carrierId?: Prisma.StringNullableWithAggregatesFilter<"Load"> | string | null
   cargoType?: Prisma.StringWithAggregatesFilter<"Load"> | string
   weightKg?: Prisma.FloatWithAggregatesFilter<"Load"> | number
   budget?: Prisma.DecimalWithAggregatesFilter<"Load"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -397,6 +520,13 @@ export type LoadCreateInput = {
   originState: string
   destCity: string
   destState: string
+  originLat?: number | null
+  originLng?: number | null
+  destLat?: number | null
+  destLng?: number | null
+  vehicleType?: string | null
+  priceInr?: number | null
+  weightTons?: number | null
   cargoType: string
   weightKg: number
   budget: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -407,6 +537,7 @@ export type LoadCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   shipper: Prisma.UserCreateNestedOneWithoutLoadsInput
+  carrier?: Prisma.UserCreateNestedOneWithoutCarrierLoadsInput
   matches?: Prisma.MatchCreateNestedManyWithoutLoadInput
 }
 
@@ -417,6 +548,14 @@ export type LoadUncheckedCreateInput = {
   originState: string
   destCity: string
   destState: string
+  originLat?: number | null
+  originLng?: number | null
+  destLat?: number | null
+  destLng?: number | null
+  vehicleType?: string | null
+  priceInr?: number | null
+  weightTons?: number | null
+  carrierId?: string | null
   cargoType: string
   weightKg: number
   budget: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -435,6 +574,13 @@ export type LoadUpdateInput = {
   originState?: Prisma.StringFieldUpdateOperationsInput | string
   destCity?: Prisma.StringFieldUpdateOperationsInput | string
   destState?: Prisma.StringFieldUpdateOperationsInput | string
+  originLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  originLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  destLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  destLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceInr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  weightTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   cargoType?: Prisma.StringFieldUpdateOperationsInput | string
   weightKg?: Prisma.FloatFieldUpdateOperationsInput | number
   budget?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -445,6 +591,7 @@ export type LoadUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shipper?: Prisma.UserUpdateOneRequiredWithoutLoadsNestedInput
+  carrier?: Prisma.UserUpdateOneWithoutCarrierLoadsNestedInput
   matches?: Prisma.MatchUpdateManyWithoutLoadNestedInput
 }
 
@@ -455,6 +602,14 @@ export type LoadUncheckedUpdateInput = {
   originState?: Prisma.StringFieldUpdateOperationsInput | string
   destCity?: Prisma.StringFieldUpdateOperationsInput | string
   destState?: Prisma.StringFieldUpdateOperationsInput | string
+  originLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  originLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  destLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  destLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceInr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  weightTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  carrierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cargoType?: Prisma.StringFieldUpdateOperationsInput | string
   weightKg?: Prisma.FloatFieldUpdateOperationsInput | number
   budget?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -474,6 +629,14 @@ export type LoadCreateManyInput = {
   originState: string
   destCity: string
   destState: string
+  originLat?: number | null
+  originLng?: number | null
+  destLat?: number | null
+  destLng?: number | null
+  vehicleType?: string | null
+  priceInr?: number | null
+  weightTons?: number | null
+  carrierId?: string | null
   cargoType: string
   weightKg: number
   budget: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -491,6 +654,13 @@ export type LoadUpdateManyMutationInput = {
   originState?: Prisma.StringFieldUpdateOperationsInput | string
   destCity?: Prisma.StringFieldUpdateOperationsInput | string
   destState?: Prisma.StringFieldUpdateOperationsInput | string
+  originLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  originLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  destLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  destLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceInr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  weightTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   cargoType?: Prisma.StringFieldUpdateOperationsInput | string
   weightKg?: Prisma.FloatFieldUpdateOperationsInput | number
   budget?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -509,6 +679,14 @@ export type LoadUncheckedUpdateManyInput = {
   originState?: Prisma.StringFieldUpdateOperationsInput | string
   destCity?: Prisma.StringFieldUpdateOperationsInput | string
   destState?: Prisma.StringFieldUpdateOperationsInput | string
+  originLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  originLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  destLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  destLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceInr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  weightTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  carrierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cargoType?: Prisma.StringFieldUpdateOperationsInput | string
   weightKg?: Prisma.FloatFieldUpdateOperationsInput | number
   budget?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -537,6 +715,14 @@ export type LoadCountOrderByAggregateInput = {
   originState?: Prisma.SortOrder
   destCity?: Prisma.SortOrder
   destState?: Prisma.SortOrder
+  originLat?: Prisma.SortOrder
+  originLng?: Prisma.SortOrder
+  destLat?: Prisma.SortOrder
+  destLng?: Prisma.SortOrder
+  vehicleType?: Prisma.SortOrder
+  priceInr?: Prisma.SortOrder
+  weightTons?: Prisma.SortOrder
+  carrierId?: Prisma.SortOrder
   cargoType?: Prisma.SortOrder
   weightKg?: Prisma.SortOrder
   budget?: Prisma.SortOrder
@@ -549,6 +735,12 @@ export type LoadCountOrderByAggregateInput = {
 }
 
 export type LoadAvgOrderByAggregateInput = {
+  originLat?: Prisma.SortOrder
+  originLng?: Prisma.SortOrder
+  destLat?: Prisma.SortOrder
+  destLng?: Prisma.SortOrder
+  priceInr?: Prisma.SortOrder
+  weightTons?: Prisma.SortOrder
   weightKg?: Prisma.SortOrder
   budget?: Prisma.SortOrder
 }
@@ -560,6 +752,14 @@ export type LoadMaxOrderByAggregateInput = {
   originState?: Prisma.SortOrder
   destCity?: Prisma.SortOrder
   destState?: Prisma.SortOrder
+  originLat?: Prisma.SortOrder
+  originLng?: Prisma.SortOrder
+  destLat?: Prisma.SortOrder
+  destLng?: Prisma.SortOrder
+  vehicleType?: Prisma.SortOrder
+  priceInr?: Prisma.SortOrder
+  weightTons?: Prisma.SortOrder
+  carrierId?: Prisma.SortOrder
   cargoType?: Prisma.SortOrder
   weightKg?: Prisma.SortOrder
   budget?: Prisma.SortOrder
@@ -578,6 +778,14 @@ export type LoadMinOrderByAggregateInput = {
   originState?: Prisma.SortOrder
   destCity?: Prisma.SortOrder
   destState?: Prisma.SortOrder
+  originLat?: Prisma.SortOrder
+  originLng?: Prisma.SortOrder
+  destLat?: Prisma.SortOrder
+  destLng?: Prisma.SortOrder
+  vehicleType?: Prisma.SortOrder
+  priceInr?: Prisma.SortOrder
+  weightTons?: Prisma.SortOrder
+  carrierId?: Prisma.SortOrder
   cargoType?: Prisma.SortOrder
   weightKg?: Prisma.SortOrder
   budget?: Prisma.SortOrder
@@ -590,6 +798,12 @@ export type LoadMinOrderByAggregateInput = {
 }
 
 export type LoadSumOrderByAggregateInput = {
+  originLat?: Prisma.SortOrder
+  originLng?: Prisma.SortOrder
+  destLat?: Prisma.SortOrder
+  destLng?: Prisma.SortOrder
+  priceInr?: Prisma.SortOrder
+  weightTons?: Prisma.SortOrder
   weightKg?: Prisma.SortOrder
   budget?: Prisma.SortOrder
 }
@@ -606,10 +820,24 @@ export type LoadCreateNestedManyWithoutShipperInput = {
   connect?: Prisma.LoadWhereUniqueInput | Prisma.LoadWhereUniqueInput[]
 }
 
+export type LoadCreateNestedManyWithoutCarrierInput = {
+  create?: Prisma.XOR<Prisma.LoadCreateWithoutCarrierInput, Prisma.LoadUncheckedCreateWithoutCarrierInput> | Prisma.LoadCreateWithoutCarrierInput[] | Prisma.LoadUncheckedCreateWithoutCarrierInput[]
+  connectOrCreate?: Prisma.LoadCreateOrConnectWithoutCarrierInput | Prisma.LoadCreateOrConnectWithoutCarrierInput[]
+  createMany?: Prisma.LoadCreateManyCarrierInputEnvelope
+  connect?: Prisma.LoadWhereUniqueInput | Prisma.LoadWhereUniqueInput[]
+}
+
 export type LoadUncheckedCreateNestedManyWithoutShipperInput = {
   create?: Prisma.XOR<Prisma.LoadCreateWithoutShipperInput, Prisma.LoadUncheckedCreateWithoutShipperInput> | Prisma.LoadCreateWithoutShipperInput[] | Prisma.LoadUncheckedCreateWithoutShipperInput[]
   connectOrCreate?: Prisma.LoadCreateOrConnectWithoutShipperInput | Prisma.LoadCreateOrConnectWithoutShipperInput[]
   createMany?: Prisma.LoadCreateManyShipperInputEnvelope
+  connect?: Prisma.LoadWhereUniqueInput | Prisma.LoadWhereUniqueInput[]
+}
+
+export type LoadUncheckedCreateNestedManyWithoutCarrierInput = {
+  create?: Prisma.XOR<Prisma.LoadCreateWithoutCarrierInput, Prisma.LoadUncheckedCreateWithoutCarrierInput> | Prisma.LoadCreateWithoutCarrierInput[] | Prisma.LoadUncheckedCreateWithoutCarrierInput[]
+  connectOrCreate?: Prisma.LoadCreateOrConnectWithoutCarrierInput | Prisma.LoadCreateOrConnectWithoutCarrierInput[]
+  createMany?: Prisma.LoadCreateManyCarrierInputEnvelope
   connect?: Prisma.LoadWhereUniqueInput | Prisma.LoadWhereUniqueInput[]
 }
 
@@ -627,6 +855,20 @@ export type LoadUpdateManyWithoutShipperNestedInput = {
   deleteMany?: Prisma.LoadScalarWhereInput | Prisma.LoadScalarWhereInput[]
 }
 
+export type LoadUpdateManyWithoutCarrierNestedInput = {
+  create?: Prisma.XOR<Prisma.LoadCreateWithoutCarrierInput, Prisma.LoadUncheckedCreateWithoutCarrierInput> | Prisma.LoadCreateWithoutCarrierInput[] | Prisma.LoadUncheckedCreateWithoutCarrierInput[]
+  connectOrCreate?: Prisma.LoadCreateOrConnectWithoutCarrierInput | Prisma.LoadCreateOrConnectWithoutCarrierInput[]
+  upsert?: Prisma.LoadUpsertWithWhereUniqueWithoutCarrierInput | Prisma.LoadUpsertWithWhereUniqueWithoutCarrierInput[]
+  createMany?: Prisma.LoadCreateManyCarrierInputEnvelope
+  set?: Prisma.LoadWhereUniqueInput | Prisma.LoadWhereUniqueInput[]
+  disconnect?: Prisma.LoadWhereUniqueInput | Prisma.LoadWhereUniqueInput[]
+  delete?: Prisma.LoadWhereUniqueInput | Prisma.LoadWhereUniqueInput[]
+  connect?: Prisma.LoadWhereUniqueInput | Prisma.LoadWhereUniqueInput[]
+  update?: Prisma.LoadUpdateWithWhereUniqueWithoutCarrierInput | Prisma.LoadUpdateWithWhereUniqueWithoutCarrierInput[]
+  updateMany?: Prisma.LoadUpdateManyWithWhereWithoutCarrierInput | Prisma.LoadUpdateManyWithWhereWithoutCarrierInput[]
+  deleteMany?: Prisma.LoadScalarWhereInput | Prisma.LoadScalarWhereInput[]
+}
+
 export type LoadUncheckedUpdateManyWithoutShipperNestedInput = {
   create?: Prisma.XOR<Prisma.LoadCreateWithoutShipperInput, Prisma.LoadUncheckedCreateWithoutShipperInput> | Prisma.LoadCreateWithoutShipperInput[] | Prisma.LoadUncheckedCreateWithoutShipperInput[]
   connectOrCreate?: Prisma.LoadCreateOrConnectWithoutShipperInput | Prisma.LoadCreateOrConnectWithoutShipperInput[]
@@ -639,6 +881,28 @@ export type LoadUncheckedUpdateManyWithoutShipperNestedInput = {
   update?: Prisma.LoadUpdateWithWhereUniqueWithoutShipperInput | Prisma.LoadUpdateWithWhereUniqueWithoutShipperInput[]
   updateMany?: Prisma.LoadUpdateManyWithWhereWithoutShipperInput | Prisma.LoadUpdateManyWithWhereWithoutShipperInput[]
   deleteMany?: Prisma.LoadScalarWhereInput | Prisma.LoadScalarWhereInput[]
+}
+
+export type LoadUncheckedUpdateManyWithoutCarrierNestedInput = {
+  create?: Prisma.XOR<Prisma.LoadCreateWithoutCarrierInput, Prisma.LoadUncheckedCreateWithoutCarrierInput> | Prisma.LoadCreateWithoutCarrierInput[] | Prisma.LoadUncheckedCreateWithoutCarrierInput[]
+  connectOrCreate?: Prisma.LoadCreateOrConnectWithoutCarrierInput | Prisma.LoadCreateOrConnectWithoutCarrierInput[]
+  upsert?: Prisma.LoadUpsertWithWhereUniqueWithoutCarrierInput | Prisma.LoadUpsertWithWhereUniqueWithoutCarrierInput[]
+  createMany?: Prisma.LoadCreateManyCarrierInputEnvelope
+  set?: Prisma.LoadWhereUniqueInput | Prisma.LoadWhereUniqueInput[]
+  disconnect?: Prisma.LoadWhereUniqueInput | Prisma.LoadWhereUniqueInput[]
+  delete?: Prisma.LoadWhereUniqueInput | Prisma.LoadWhereUniqueInput[]
+  connect?: Prisma.LoadWhereUniqueInput | Prisma.LoadWhereUniqueInput[]
+  update?: Prisma.LoadUpdateWithWhereUniqueWithoutCarrierInput | Prisma.LoadUpdateWithWhereUniqueWithoutCarrierInput[]
+  updateMany?: Prisma.LoadUpdateManyWithWhereWithoutCarrierInput | Prisma.LoadUpdateManyWithWhereWithoutCarrierInput[]
+  deleteMany?: Prisma.LoadScalarWhereInput | Prisma.LoadScalarWhereInput[]
+}
+
+export type NullableFloatFieldUpdateOperationsInput = {
+  set?: number | null
+  increment?: number
+  decrement?: number
+  multiply?: number
+  divide?: number
 }
 
 export type FloatFieldUpdateOperationsInput = {
@@ -681,6 +945,13 @@ export type LoadCreateWithoutShipperInput = {
   originState: string
   destCity: string
   destState: string
+  originLat?: number | null
+  originLng?: number | null
+  destLat?: number | null
+  destLng?: number | null
+  vehicleType?: string | null
+  priceInr?: number | null
+  weightTons?: number | null
   cargoType: string
   weightKg: number
   budget: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -690,6 +961,7 @@ export type LoadCreateWithoutShipperInput = {
   status?: $Enums.LoadStatus
   createdAt?: Date | string
   updatedAt?: Date | string
+  carrier?: Prisma.UserCreateNestedOneWithoutCarrierLoadsInput
   matches?: Prisma.MatchCreateNestedManyWithoutLoadInput
 }
 
@@ -699,6 +971,14 @@ export type LoadUncheckedCreateWithoutShipperInput = {
   originState: string
   destCity: string
   destState: string
+  originLat?: number | null
+  originLng?: number | null
+  destLat?: number | null
+  destLng?: number | null
+  vehicleType?: string | null
+  priceInr?: number | null
+  weightTons?: number | null
+  carrierId?: string | null
   cargoType: string
   weightKg: number
   budget: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -718,6 +998,68 @@ export type LoadCreateOrConnectWithoutShipperInput = {
 
 export type LoadCreateManyShipperInputEnvelope = {
   data: Prisma.LoadCreateManyShipperInput | Prisma.LoadCreateManyShipperInput[]
+  skipDuplicates?: boolean
+}
+
+export type LoadCreateWithoutCarrierInput = {
+  id?: string
+  originCity: string
+  originState: string
+  destCity: string
+  destState: string
+  originLat?: number | null
+  originLng?: number | null
+  destLat?: number | null
+  destLng?: number | null
+  vehicleType?: string | null
+  priceInr?: number | null
+  weightTons?: number | null
+  cargoType: string
+  weightKg: number
+  budget: runtime.Decimal | runtime.DecimalJsLike | number | string
+  pickupDate: Date | string
+  deliveryDeadline: Date | string
+  description?: string | null
+  status?: $Enums.LoadStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  shipper: Prisma.UserCreateNestedOneWithoutLoadsInput
+  matches?: Prisma.MatchCreateNestedManyWithoutLoadInput
+}
+
+export type LoadUncheckedCreateWithoutCarrierInput = {
+  id?: string
+  shipperId: string
+  originCity: string
+  originState: string
+  destCity: string
+  destState: string
+  originLat?: number | null
+  originLng?: number | null
+  destLat?: number | null
+  destLng?: number | null
+  vehicleType?: string | null
+  priceInr?: number | null
+  weightTons?: number | null
+  cargoType: string
+  weightKg: number
+  budget: runtime.Decimal | runtime.DecimalJsLike | number | string
+  pickupDate: Date | string
+  deliveryDeadline: Date | string
+  description?: string | null
+  status?: $Enums.LoadStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  matches?: Prisma.MatchUncheckedCreateNestedManyWithoutLoadInput
+}
+
+export type LoadCreateOrConnectWithoutCarrierInput = {
+  where: Prisma.LoadWhereUniqueInput
+  create: Prisma.XOR<Prisma.LoadCreateWithoutCarrierInput, Prisma.LoadUncheckedCreateWithoutCarrierInput>
+}
+
+export type LoadCreateManyCarrierInputEnvelope = {
+  data: Prisma.LoadCreateManyCarrierInput | Prisma.LoadCreateManyCarrierInput[]
   skipDuplicates?: boolean
 }
 
@@ -747,6 +1089,14 @@ export type LoadScalarWhereInput = {
   originState?: Prisma.StringFilter<"Load"> | string
   destCity?: Prisma.StringFilter<"Load"> | string
   destState?: Prisma.StringFilter<"Load"> | string
+  originLat?: Prisma.FloatNullableFilter<"Load"> | number | null
+  originLng?: Prisma.FloatNullableFilter<"Load"> | number | null
+  destLat?: Prisma.FloatNullableFilter<"Load"> | number | null
+  destLng?: Prisma.FloatNullableFilter<"Load"> | number | null
+  vehicleType?: Prisma.StringNullableFilter<"Load"> | string | null
+  priceInr?: Prisma.FloatNullableFilter<"Load"> | number | null
+  weightTons?: Prisma.FloatNullableFilter<"Load"> | number | null
+  carrierId?: Prisma.StringNullableFilter<"Load"> | string | null
   cargoType?: Prisma.StringFilter<"Load"> | string
   weightKg?: Prisma.FloatFilter<"Load"> | number
   budget?: Prisma.DecimalFilter<"Load"> | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -758,12 +1108,35 @@ export type LoadScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Load"> | Date | string
 }
 
+export type LoadUpsertWithWhereUniqueWithoutCarrierInput = {
+  where: Prisma.LoadWhereUniqueInput
+  update: Prisma.XOR<Prisma.LoadUpdateWithoutCarrierInput, Prisma.LoadUncheckedUpdateWithoutCarrierInput>
+  create: Prisma.XOR<Prisma.LoadCreateWithoutCarrierInput, Prisma.LoadUncheckedCreateWithoutCarrierInput>
+}
+
+export type LoadUpdateWithWhereUniqueWithoutCarrierInput = {
+  where: Prisma.LoadWhereUniqueInput
+  data: Prisma.XOR<Prisma.LoadUpdateWithoutCarrierInput, Prisma.LoadUncheckedUpdateWithoutCarrierInput>
+}
+
+export type LoadUpdateManyWithWhereWithoutCarrierInput = {
+  where: Prisma.LoadScalarWhereInput
+  data: Prisma.XOR<Prisma.LoadUpdateManyMutationInput, Prisma.LoadUncheckedUpdateManyWithoutCarrierInput>
+}
+
 export type LoadCreateWithoutMatchesInput = {
   id?: string
   originCity: string
   originState: string
   destCity: string
   destState: string
+  originLat?: number | null
+  originLng?: number | null
+  destLat?: number | null
+  destLng?: number | null
+  vehicleType?: string | null
+  priceInr?: number | null
+  weightTons?: number | null
   cargoType: string
   weightKg: number
   budget: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -774,6 +1147,7 @@ export type LoadCreateWithoutMatchesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   shipper: Prisma.UserCreateNestedOneWithoutLoadsInput
+  carrier?: Prisma.UserCreateNestedOneWithoutCarrierLoadsInput
 }
 
 export type LoadUncheckedCreateWithoutMatchesInput = {
@@ -783,6 +1157,14 @@ export type LoadUncheckedCreateWithoutMatchesInput = {
   originState: string
   destCity: string
   destState: string
+  originLat?: number | null
+  originLng?: number | null
+  destLat?: number | null
+  destLng?: number | null
+  vehicleType?: string | null
+  priceInr?: number | null
+  weightTons?: number | null
+  carrierId?: string | null
   cargoType: string
   weightKg: number
   budget: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -816,6 +1198,13 @@ export type LoadUpdateWithoutMatchesInput = {
   originState?: Prisma.StringFieldUpdateOperationsInput | string
   destCity?: Prisma.StringFieldUpdateOperationsInput | string
   destState?: Prisma.StringFieldUpdateOperationsInput | string
+  originLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  originLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  destLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  destLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceInr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  weightTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   cargoType?: Prisma.StringFieldUpdateOperationsInput | string
   weightKg?: Prisma.FloatFieldUpdateOperationsInput | number
   budget?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -826,6 +1215,7 @@ export type LoadUpdateWithoutMatchesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   shipper?: Prisma.UserUpdateOneRequiredWithoutLoadsNestedInput
+  carrier?: Prisma.UserUpdateOneWithoutCarrierLoadsNestedInput
 }
 
 export type LoadUncheckedUpdateWithoutMatchesInput = {
@@ -835,6 +1225,14 @@ export type LoadUncheckedUpdateWithoutMatchesInput = {
   originState?: Prisma.StringFieldUpdateOperationsInput | string
   destCity?: Prisma.StringFieldUpdateOperationsInput | string
   destState?: Prisma.StringFieldUpdateOperationsInput | string
+  originLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  originLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  destLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  destLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceInr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  weightTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  carrierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cargoType?: Prisma.StringFieldUpdateOperationsInput | string
   weightKg?: Prisma.FloatFieldUpdateOperationsInput | number
   budget?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -852,6 +1250,39 @@ export type LoadCreateManyShipperInput = {
   originState: string
   destCity: string
   destState: string
+  originLat?: number | null
+  originLng?: number | null
+  destLat?: number | null
+  destLng?: number | null
+  vehicleType?: string | null
+  priceInr?: number | null
+  weightTons?: number | null
+  carrierId?: string | null
+  cargoType: string
+  weightKg: number
+  budget: runtime.Decimal | runtime.DecimalJsLike | number | string
+  pickupDate: Date | string
+  deliveryDeadline: Date | string
+  description?: string | null
+  status?: $Enums.LoadStatus
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type LoadCreateManyCarrierInput = {
+  id?: string
+  shipperId: string
+  originCity: string
+  originState: string
+  destCity: string
+  destState: string
+  originLat?: number | null
+  originLng?: number | null
+  destLat?: number | null
+  destLng?: number | null
+  vehicleType?: string | null
+  priceInr?: number | null
+  weightTons?: number | null
   cargoType: string
   weightKg: number
   budget: runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -869,6 +1300,13 @@ export type LoadUpdateWithoutShipperInput = {
   originState?: Prisma.StringFieldUpdateOperationsInput | string
   destCity?: Prisma.StringFieldUpdateOperationsInput | string
   destState?: Prisma.StringFieldUpdateOperationsInput | string
+  originLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  originLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  destLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  destLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceInr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  weightTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   cargoType?: Prisma.StringFieldUpdateOperationsInput | string
   weightKg?: Prisma.FloatFieldUpdateOperationsInput | number
   budget?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -878,6 +1316,7 @@ export type LoadUpdateWithoutShipperInput = {
   status?: Prisma.EnumLoadStatusFieldUpdateOperationsInput | $Enums.LoadStatus
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  carrier?: Prisma.UserUpdateOneWithoutCarrierLoadsNestedInput
   matches?: Prisma.MatchUpdateManyWithoutLoadNestedInput
 }
 
@@ -887,6 +1326,14 @@ export type LoadUncheckedUpdateWithoutShipperInput = {
   originState?: Prisma.StringFieldUpdateOperationsInput | string
   destCity?: Prisma.StringFieldUpdateOperationsInput | string
   destState?: Prisma.StringFieldUpdateOperationsInput | string
+  originLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  originLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  destLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  destLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceInr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  weightTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  carrierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   cargoType?: Prisma.StringFieldUpdateOperationsInput | string
   weightKg?: Prisma.FloatFieldUpdateOperationsInput | number
   budget?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -905,6 +1352,91 @@ export type LoadUncheckedUpdateManyWithoutShipperInput = {
   originState?: Prisma.StringFieldUpdateOperationsInput | string
   destCity?: Prisma.StringFieldUpdateOperationsInput | string
   destState?: Prisma.StringFieldUpdateOperationsInput | string
+  originLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  originLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  destLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  destLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceInr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  weightTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  carrierId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  cargoType?: Prisma.StringFieldUpdateOperationsInput | string
+  weightKg?: Prisma.FloatFieldUpdateOperationsInput | number
+  budget?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  pickupDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deliveryDeadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumLoadStatusFieldUpdateOperationsInput | $Enums.LoadStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type LoadUpdateWithoutCarrierInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  originCity?: Prisma.StringFieldUpdateOperationsInput | string
+  originState?: Prisma.StringFieldUpdateOperationsInput | string
+  destCity?: Prisma.StringFieldUpdateOperationsInput | string
+  destState?: Prisma.StringFieldUpdateOperationsInput | string
+  originLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  originLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  destLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  destLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceInr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  weightTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cargoType?: Prisma.StringFieldUpdateOperationsInput | string
+  weightKg?: Prisma.FloatFieldUpdateOperationsInput | number
+  budget?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  pickupDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deliveryDeadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumLoadStatusFieldUpdateOperationsInput | $Enums.LoadStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  shipper?: Prisma.UserUpdateOneRequiredWithoutLoadsNestedInput
+  matches?: Prisma.MatchUpdateManyWithoutLoadNestedInput
+}
+
+export type LoadUncheckedUpdateWithoutCarrierInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  shipperId?: Prisma.StringFieldUpdateOperationsInput | string
+  originCity?: Prisma.StringFieldUpdateOperationsInput | string
+  originState?: Prisma.StringFieldUpdateOperationsInput | string
+  destCity?: Prisma.StringFieldUpdateOperationsInput | string
+  destState?: Prisma.StringFieldUpdateOperationsInput | string
+  originLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  originLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  destLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  destLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceInr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  weightTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  cargoType?: Prisma.StringFieldUpdateOperationsInput | string
+  weightKg?: Prisma.FloatFieldUpdateOperationsInput | number
+  budget?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
+  pickupDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deliveryDeadline?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumLoadStatusFieldUpdateOperationsInput | $Enums.LoadStatus
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  matches?: Prisma.MatchUncheckedUpdateManyWithoutLoadNestedInput
+}
+
+export type LoadUncheckedUpdateManyWithoutCarrierInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  shipperId?: Prisma.StringFieldUpdateOperationsInput | string
+  originCity?: Prisma.StringFieldUpdateOperationsInput | string
+  originState?: Prisma.StringFieldUpdateOperationsInput | string
+  destCity?: Prisma.StringFieldUpdateOperationsInput | string
+  destState?: Prisma.StringFieldUpdateOperationsInput | string
+  originLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  originLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  destLat?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  destLng?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  vehicleType?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceInr?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
+  weightTons?: Prisma.NullableFloatFieldUpdateOperationsInput | number | null
   cargoType?: Prisma.StringFieldUpdateOperationsInput | string
   weightKg?: Prisma.FloatFieldUpdateOperationsInput | number
   budget?: Prisma.DecimalFieldUpdateOperationsInput | runtime.Decimal | runtime.DecimalJsLike | number | string
@@ -954,6 +1486,14 @@ export type LoadSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   originState?: boolean
   destCity?: boolean
   destState?: boolean
+  originLat?: boolean
+  originLng?: boolean
+  destLat?: boolean
+  destLng?: boolean
+  vehicleType?: boolean
+  priceInr?: boolean
+  weightTons?: boolean
+  carrierId?: boolean
   cargoType?: boolean
   weightKg?: boolean
   budget?: boolean
@@ -964,6 +1504,7 @@ export type LoadSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   shipper?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  carrier?: boolean | Prisma.Load$carrierArgs<ExtArgs>
   matches?: boolean | Prisma.Load$matchesArgs<ExtArgs>
   _count?: boolean | Prisma.LoadCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["load"]>
@@ -975,6 +1516,14 @@ export type LoadSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   originState?: boolean
   destCity?: boolean
   destState?: boolean
+  originLat?: boolean
+  originLng?: boolean
+  destLat?: boolean
+  destLng?: boolean
+  vehicleType?: boolean
+  priceInr?: boolean
+  weightTons?: boolean
+  carrierId?: boolean
   cargoType?: boolean
   weightKg?: boolean
   budget?: boolean
@@ -985,6 +1534,7 @@ export type LoadSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   shipper?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  carrier?: boolean | Prisma.Load$carrierArgs<ExtArgs>
 }, ExtArgs["result"]["load"]>
 
 export type LoadSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -994,6 +1544,14 @@ export type LoadSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   originState?: boolean
   destCity?: boolean
   destState?: boolean
+  originLat?: boolean
+  originLng?: boolean
+  destLat?: boolean
+  destLng?: boolean
+  vehicleType?: boolean
+  priceInr?: boolean
+  weightTons?: boolean
+  carrierId?: boolean
   cargoType?: boolean
   weightKg?: boolean
   budget?: boolean
@@ -1004,6 +1562,7 @@ export type LoadSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensio
   createdAt?: boolean
   updatedAt?: boolean
   shipper?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  carrier?: boolean | Prisma.Load$carrierArgs<ExtArgs>
 }, ExtArgs["result"]["load"]>
 
 export type LoadSelectScalar = {
@@ -1013,6 +1572,14 @@ export type LoadSelectScalar = {
   originState?: boolean
   destCity?: boolean
   destState?: boolean
+  originLat?: boolean
+  originLng?: boolean
+  destLat?: boolean
+  destLng?: boolean
+  vehicleType?: boolean
+  priceInr?: boolean
+  weightTons?: boolean
+  carrierId?: boolean
   cargoType?: boolean
   weightKg?: boolean
   budget?: boolean
@@ -1024,23 +1591,27 @@ export type LoadSelectScalar = {
   updatedAt?: boolean
 }
 
-export type LoadOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "shipperId" | "originCity" | "originState" | "destCity" | "destState" | "cargoType" | "weightKg" | "budget" | "pickupDate" | "deliveryDeadline" | "description" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["load"]>
+export type LoadOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "shipperId" | "originCity" | "originState" | "destCity" | "destState" | "originLat" | "originLng" | "destLat" | "destLng" | "vehicleType" | "priceInr" | "weightTons" | "carrierId" | "cargoType" | "weightKg" | "budget" | "pickupDate" | "deliveryDeadline" | "description" | "status" | "createdAt" | "updatedAt", ExtArgs["result"]["load"]>
 export type LoadInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   shipper?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  carrier?: boolean | Prisma.Load$carrierArgs<ExtArgs>
   matches?: boolean | Prisma.Load$matchesArgs<ExtArgs>
   _count?: boolean | Prisma.LoadCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type LoadIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   shipper?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  carrier?: boolean | Prisma.Load$carrierArgs<ExtArgs>
 }
 export type LoadIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   shipper?: boolean | Prisma.UserDefaultArgs<ExtArgs>
+  carrier?: boolean | Prisma.Load$carrierArgs<ExtArgs>
 }
 
 export type $LoadPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Load"
   objects: {
     shipper: Prisma.$UserPayload<ExtArgs>
+    carrier: Prisma.$UserPayload<ExtArgs> | null
     matches: Prisma.$MatchPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1050,6 +1621,14 @@ export type $LoadPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
     originState: string
     destCity: string
     destState: string
+    originLat: number | null
+    originLng: number | null
+    destLat: number | null
+    destLng: number | null
+    vehicleType: string | null
+    priceInr: number | null
+    weightTons: number | null
+    carrierId: string | null
     cargoType: string
     weightKg: number
     budget: runtime.Decimal
@@ -1454,6 +2033,7 @@ readonly fields: LoadFieldRefs;
 export interface Prisma__LoadClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   shipper<T extends Prisma.UserDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.UserDefaultArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  carrier<T extends Prisma.Load$carrierArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Load$carrierArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   matches<T extends Prisma.Load$matchesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Load$matchesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$MatchPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1490,6 +2070,14 @@ export interface LoadFieldRefs {
   readonly originState: Prisma.FieldRef<"Load", 'String'>
   readonly destCity: Prisma.FieldRef<"Load", 'String'>
   readonly destState: Prisma.FieldRef<"Load", 'String'>
+  readonly originLat: Prisma.FieldRef<"Load", 'Float'>
+  readonly originLng: Prisma.FieldRef<"Load", 'Float'>
+  readonly destLat: Prisma.FieldRef<"Load", 'Float'>
+  readonly destLng: Prisma.FieldRef<"Load", 'Float'>
+  readonly vehicleType: Prisma.FieldRef<"Load", 'String'>
+  readonly priceInr: Prisma.FieldRef<"Load", 'Float'>
+  readonly weightTons: Prisma.FieldRef<"Load", 'Float'>
+  readonly carrierId: Prisma.FieldRef<"Load", 'String'>
   readonly cargoType: Prisma.FieldRef<"Load", 'String'>
   readonly weightKg: Prisma.FieldRef<"Load", 'Float'>
   readonly budget: Prisma.FieldRef<"Load", 'Decimal'>
@@ -1897,6 +2485,25 @@ export type LoadDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Limit how many Loads to delete.
    */
   limit?: number
+}
+
+/**
+ * Load.carrier
+ */
+export type Load$carrierArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**

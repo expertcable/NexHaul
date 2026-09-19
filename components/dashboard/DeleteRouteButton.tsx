@@ -41,7 +41,7 @@ export function DeleteRouteButton({ routeId }: DeleteRouteButtonProps) {
       size="sm"
       disabled={isDeleting}
       onClick={handleDelete}
-      className="h-8 w-8 p-0 rounded-lg hover:bg-red-500/10 text-zinc-500 hover:text-red-400 flex items-center justify-center transition-colors ml-2"
+      className="h-8 w-8 p-0 rounded-lg text-slate-400 hover:text-white hover:bg-white/[0.05] flex items-center justify-center transition-colors ml-2"
       title="Delete Route"
     >
       {isDeleting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Trash2 className="h-4 w-4" />}

@@ -56,7 +56,7 @@ export function TableControls() {
           placeholder="Filter routes by city..."
           value={search}
           onChange={(e) => handleSearch(e.target.value)}
-          className="pl-9 bg-white border-zinc-200 text-zinc-900 placeholder:text-zinc-400 focus-visible:ring-brand-green text-sm h-10 rounded-xl shadow-sm"
+          className="pl-9 bg-[#07090E] border-white/10 text-white placeholder:text-slate-500 focus-visible:ring-cyan-500 text-sm h-10 rounded-xl shadow-inner"
         />
       </div>
 
@@ -66,9 +66,9 @@ export function TableControls() {
         size="icon"
         title="Refresh PostGIS Loads"
         disabled={isPending}
-        className="h-10 w-10 border-white/10 bg-zinc-800 hover:bg-zinc-700 text-zinc-300 rounded-xl flex-shrink-0"
+        className="h-10 w-10 border-white/10 bg-[#0E131F] hover:bg-[#07090E] text-slate-300 rounded-xl flex-shrink-0"
       >
-        <RefreshCw className={`h-4 w-4 ${isPending ? "animate-spin text-indigo-400" : ""}`} />
+        <RefreshCw className={`h-4 w-4 ${isPending ? "animate-spin text-cyan-400" : ""}`} />
       </Button>
     </div>
   );

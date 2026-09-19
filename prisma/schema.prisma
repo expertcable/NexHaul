@@ -15,12 +15,11 @@ enum Role {
 }
 
 enum LoadStatus {
-  OPEN
-  MATCHED
+  PENDING
+  BOOKED
   IN_TRANSIT
-  COMPLETED
+  DELIVERED
   CANCELLED
-  ARCHIVED
 }
 
 enum JourneyStatus {
@@ -54,8 +53,9 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  loads    Load[]    @relation("ShipperLoads")
-  journeys Journey[] @relation("TruckerJourneys")
+  loads        Load[]    @relation("ShipperLoads")
+  carrierLoads Load[]    @relation("CarrierLoads")
+  journeys     Journey[] @relation("TruckerJourneys")
 
   @@index([role])
 }
@@ -76,6 +76,18 @@ model Load {
   originPoint Unsupported("geometry(Point, 4326)")?
   destPoint   Unsupported("geometry(Point, 4326)")?
 
+  originLat   Float?
+  originLng   Float?
+  destLat     Float?
+  destLng     Float?
+
+  vehicleType String?
+  priceInr    Float?
+  weightTons  Float?
+
+  carrierId   String?
+  carrier     User?  @relation("CarrierLoads", fields: [carrierId], references: [id])
+
   cargoType String
   weightKg  Float
   budget    Decimal @db.Decimal(10, 2)
@@ -84,7 +96,7 @@ model Load {
   deliveryDeadline DateTime
 
   description String?
-  status      LoadStatus @default(OPEN)
+  status      LoadStatus @default(PENDING)
 
   matches Match[]
 
@@ -110,6 +122,15 @@ model Journey {
 
   originPoint Unsupported("geometry(Point, 4326)")?
   destPoint   Unsupported("geometry(Point, 4326)")?
+
+  originLat   Float?
+  originLng   Float?
+  destLat     Float?
+  destLng     Float?
+
+  vehicleType String?
+  priceInr    Float?
+  weightTons  Float?
 
   departureDate       DateTime
   availableCapacityKg Float

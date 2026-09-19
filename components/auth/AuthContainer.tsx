@@ -29,12 +29,12 @@ export function AuthContainer({ onBack }: { onBack?: () => void }) {
         </Button>
       )}
       
-      <Card className="border border-yellow-500/30 bg-[#0a1528] shadow-[0_0_40px_-15px_rgba(59,130,246,0.3)] text-zinc-100 w-full backdrop-blur-sm">
+      <Card className="border border-white/[0.08] bg-[#0E131F] shadow-md shadow-black/40 text-slate-200 w-full backdrop-blur-sm">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold tracking-tight text-white">
             {mode === "login" ? "Sign back in" : "Create an account"}
           </CardTitle>
-          <CardDescription className="text-zinc-400 text-xs sm:text-sm">
+          <CardDescription className="text-slate-400 text-xs sm:text-sm">
             {mode === "login" 
               ? "Enter your NexHaul operator credentials to access your live terminal & LPP routing hub"
               : "Join NexHaul as a Shipper or Trucker"}

@@ -27,7 +27,7 @@ export function DeleteLoadButton({ loadId }: { loadId: string }) {
     <button
       onClick={handleDelete}
       disabled={isDeleting}
-      className="inline-flex items-center gap-1 text-xs font-semibold text-red-500 hover:text-red-700 hover:bg-red-50 px-2 py-1 rounded-lg transition-colors disabled:opacity-40"
+      className="inline-flex items-center gap-1 text-xs font-semibold text-slate-400 hover:text-white hover:bg-white/[0.05] px-2 py-1 rounded-lg transition-colors disabled:opacity-40"
       title="Remove this cargo request"
     >
       <Trash2 className="h-3.5 w-3.5" />

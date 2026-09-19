@@ -75,8 +75,7 @@ export function CreateLoadForm({ journey }: CreateLoadFormProps = {}) {
       };
 
       const liveParams = typeof window !== "undefined" ? new URLSearchParams(window.location.search) : searchParams;
-      const roleParam = liveParams.get("mock_role") || liveParams.get("demoRole") || searchParams.get("mock_role") || searchParams.get("demoRole");
-      const url = roleParam ? `/api/loads?mock_role=${roleParam}&demoRole=${roleParam}` : "/api/loads";
+      const url = "/api/loads";
 
       const res = await fetch(url, {
         method: "POST",
@@ -112,7 +111,7 @@ export function CreateLoadForm({ journey }: CreateLoadFormProps = {}) {
 
   const modalContent = (
     <div className="fixed inset-0 z-[9999] bg-black/80 flex items-center justify-center p-4 overflow-y-auto backdrop-blur-md animate-in fade-in-0 duration-200">
-      <div className="relative w-full max-w-xl my-auto rounded-2xl border border-indigo-500/20 bg-[#0c1219] p-7 text-zinc-100 shadow-2xl shadow-indigo-500/10">
+      <div className="relative w-full max-w-xl my-auto rounded-2xl border border-white/[0.08] bg-[#0E131F] p-7 text-white shadow-2xl shadow-black/40">
         {/* Modal Header */}
         <div className="flex items-center justify-between border-b border-white/10 pb-4">
           <div className="flex items-center gap-3">
@@ -162,18 +161,18 @@ export function CreateLoadForm({ journey }: CreateLoadFormProps = {}) {
             <>
               <div className="grid grid-cols-3 gap-4">
                 <div className="col-span-2 space-y-2">
-                  <Label htmlFor="originCity" className="text-xs font-semibold text-zinc-300">Origin City</Label>
+                  <Label htmlFor="originCity" className="text-xs font-semibold text-slate-300">Origin City</Label>
                   <Input
                     id="originCity"
                     required
                     value={originCity}
                     onChange={(e) => setOriginCity(e.target.value)}
                     placeholder="e.g. Mumbai"
-                    className="bg-zinc-950 border-white/15 text-zinc-100 focus:ring-indigo-500 h-11 rounded-xl text-sm px-4 shadow-inner"
+                    className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl text-sm px-4 shadow-inner"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="originState" className="text-xs font-semibold text-zinc-300">State / Region</Label>
+                  <Label htmlFor="originState" className="text-xs font-semibold text-slate-300">State / Region</Label>
                   <Input
                     id="originState"
                     required
@@ -181,25 +180,25 @@ export function CreateLoadForm({ journey }: CreateLoadFormProps = {}) {
                     value={originState}
                     onChange={(e) => setOriginState(e.target.value.toUpperCase())}
                     placeholder="MH"
-                    className="bg-zinc-950 border-white/15 text-zinc-100 focus:ring-indigo-500 h-11 rounded-xl font-mono text-center uppercase text-sm shadow-inner"
+                    className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl font-mono text-center uppercase text-sm shadow-inner"
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-3 gap-4">
                 <div className="col-span-2 space-y-2">
-                  <Label htmlFor="destCity" className="text-xs font-semibold text-zinc-300">Destination City</Label>
+                  <Label htmlFor="destCity" className="text-xs font-semibold text-slate-300">Destination City</Label>
                   <Input
                     id="destCity"
                     required
                     value={destCity}
                     onChange={(e) => setDestCity(e.target.value)}
                     placeholder="e.g. Delhi"
-                    className="bg-zinc-950 border-white/15 text-zinc-100 focus:ring-indigo-500 h-11 rounded-xl text-sm px-4 shadow-inner"
+                    className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl text-sm px-4 shadow-inner"
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="destState" className="text-xs font-semibold text-zinc-300">State / Region</Label>
+                  <Label htmlFor="destState" className="text-xs font-semibold text-slate-300">State / Region</Label>
                   <Input
                     id="destState"
                     required
@@ -207,7 +206,7 @@ export function CreateLoadForm({ journey }: CreateLoadFormProps = {}) {
                     value={destState}
                     onChange={(e) => setDestState(e.target.value.toUpperCase())}
                     placeholder="DL"
-                    className="bg-zinc-950 border-white/15 text-zinc-100 focus:ring-indigo-500 h-11 rounded-xl font-mono text-center uppercase text-sm shadow-inner"
+                    className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl font-mono text-center uppercase text-sm shadow-inner"
                   />
                 </div>
               </div>
@@ -216,18 +215,18 @@ export function CreateLoadForm({ journey }: CreateLoadFormProps = {}) {
 
           <div className="grid grid-cols-2 gap-4 pt-1">
             <div className="space-y-2">
-              <Label htmlFor="cargoType" className="text-xs font-semibold text-zinc-300">Cargo Type</Label>
+              <Label htmlFor="cargoType" className="text-xs font-semibold text-slate-300">Cargo Type</Label>
               <Input
                 id="cargoType"
                 required
                 value={cargoType}
                 onChange={(e) => setCargoType(e.target.value)}
                 placeholder="e.g. Auto Parts"
-                className="bg-zinc-950 border-white/15 text-zinc-100 focus:ring-indigo-500 h-11 rounded-xl text-sm px-4 shadow-inner"
+                className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl text-sm px-4 shadow-inner"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="weightKg" className="text-xs font-semibold text-zinc-300">Weight (KG)</Label>
+              <Label htmlFor="weightKg" className="text-xs font-semibold text-slate-300">Weight (KG)</Label>
               <Input
                 id="weightKg"
                 type="number"
@@ -236,7 +235,7 @@ export function CreateLoadForm({ journey }: CreateLoadFormProps = {}) {
                 value={weightKg}
                 onChange={(e) => setWeightKg(e.target.value)}
                 placeholder="18500"
-                className="bg-zinc-950 border-white/15 text-zinc-100 focus:ring-indigo-500 h-11 rounded-xl font-mono text-sm px-4 shadow-inner"
+                className="bg-[#07090E] border-white/10 text-white focus:ring-cyan-500 h-11 rounded-xl font-mono text-sm px-4 shadow-inner"
               />
             </div>
           </div>
@@ -265,7 +264,7 @@ export function CreateLoadForm({ journey }: CreateLoadFormProps = {}) {
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="h-11 px-7 rounded-xl bg-gradient-to-r from-indigo-500 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white font-semibold shadow-lg shadow-indigo-500/25 text-sm transition-all"
+              className="h-11 px-7 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:brightness-110 text-white font-semibold shadow-lg shadow-cyan-500/20 text-sm transition-all"
             >
               {isSubmitting ? (
                 <>
@@ -303,9 +302,9 @@ export function CreateLoadForm({ journey }: CreateLoadFormProps = {}) {
     <>
       <Button
         onClick={() => setIsOpen(true)}
-        className="h-10 px-5 rounded-xl bg-gradient-to-r from-indigo-500 via-indigo-600 to-blue-600 hover:from-indigo-600 hover:to-blue-700 text-white font-semibold text-sm shadow-lg shadow-indigo-500/25 border border-indigo-400/20 transition-all flex items-center gap-2 flex-shrink-0 hover:scale-[1.02] active:scale-[0.98]"
+        className="h-10 px-5 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 hover:brightness-110 text-white font-semibold text-sm shadow-lg shadow-cyan-500/20 border border-white/[0.08] transition-all flex items-center gap-2 flex-shrink-0 hover:scale-[1.02] active:scale-[0.98]"
       >
-        <Plus className="h-4 w-4 text-indigo-200" />
+        <Plus className="h-4 w-4 text-white" />
         Post New Load
       </Button>
 

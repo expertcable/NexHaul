@@ -1,11 +1,10 @@
 import { NextResponse } from "next/server";
 import { auth } from "@/auth";
-import { getMockOrRealSession } from "@/lib/auth-bypass";
 import { prisma } from "@/lib/prisma";
 import { journeyCreateSchema } from "@/lib/validations";
 import { handleApiError } from "@/lib/api-utils";
 import { setJourneyLocation } from "@/lib/geo";
-import { Prisma } from "@/generated/prisma/client";
+
 
 export async function GET(req: Request) {
   try {
@@ -23,9 +22,9 @@ export async function GET(req: Request) {
       Math.max(1, parseInt(searchParams.get("limit") ?? "10", 10))
     );
 
-    const where: Prisma.JourneyWhereInput = {};
+    const where: any = {};
     if (status) {
-      where.status = status as Prisma.EnumJourneyStatusFilter["equals"];
+      where.status = status;
     }
     if (search) {
       where.OR = [
@@ -62,14 +61,12 @@ export async function GET(req: Request) {
 
 export async function POST(req: Request) {
   try {
-    const session = await getMockOrRealSession(req);
+    const session = await auth();
     if (!session || !session.user) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { searchParams } = new URL(req.url);
-    const roleParam = searchParams.get("mock_role") || searchParams.get("demoRole");
-    const effectiveRole = (roleParam || session?.user?.role)?.toUpperCase();
+    const effectiveRole = session.user.role?.toUpperCase();
 
     if (effectiveRole !== "TRUCKER") {
       return NextResponse.json(
@@ -83,7 +80,7 @@ export async function POST(req: Request) {
 
     const journey = await prisma.journey.create({
       data: {
-        truckerId: roleParam ? "demo-trucker-id" : session.user.id,
+        truckerId: session.user.id,
         originCity: data.originCity,
         originState: data.originState,
         destCity: data.destCity,

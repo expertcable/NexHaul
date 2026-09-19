@@ -207,6 +207,7 @@ export type UserWhereInput = {
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   loads?: Prisma.LoadListRelationFilter
+  carrierLoads?: Prisma.LoadListRelationFilter
   journeys?: Prisma.JourneyListRelationFilter
 }
 
@@ -220,6 +221,7 @@ export type UserOrderByWithRelationInput = {
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
   loads?: Prisma.LoadOrderByRelationAggregateInput
+  carrierLoads?: Prisma.LoadOrderByRelationAggregateInput
   journeys?: Prisma.JourneyOrderByRelationAggregateInput
 }
 
@@ -236,6 +238,7 @@ export type UserWhereUniqueInput = Prisma.AtLeast<{
   createdAt?: Prisma.DateTimeFilter<"User"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"User"> | Date | string
   loads?: Prisma.LoadListRelationFilter
+  carrierLoads?: Prisma.LoadListRelationFilter
   journeys?: Prisma.JourneyListRelationFilter
 }, "id" | "email">
 
@@ -277,6 +280,7 @@ export type UserCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   loads?: Prisma.LoadCreateNestedManyWithoutShipperInput
+  carrierLoads?: Prisma.LoadCreateNestedManyWithoutCarrierInput
   journeys?: Prisma.JourneyCreateNestedManyWithoutTruckerInput
 }
 
@@ -290,6 +294,7 @@ export type UserUncheckedCreateInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   loads?: Prisma.LoadUncheckedCreateNestedManyWithoutShipperInput
+  carrierLoads?: Prisma.LoadUncheckedCreateNestedManyWithoutCarrierInput
   journeys?: Prisma.JourneyUncheckedCreateNestedManyWithoutTruckerInput
 }
 
@@ -303,6 +308,7 @@ export type UserUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loads?: Prisma.LoadUpdateManyWithoutShipperNestedInput
+  carrierLoads?: Prisma.LoadUpdateManyWithoutCarrierNestedInput
   journeys?: Prisma.JourneyUpdateManyWithoutTruckerNestedInput
 }
 
@@ -316,6 +322,7 @@ export type UserUncheckedUpdateInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loads?: Prisma.LoadUncheckedUpdateManyWithoutShipperNestedInput
+  carrierLoads?: Prisma.LoadUncheckedUpdateManyWithoutCarrierNestedInput
   journeys?: Prisma.JourneyUncheckedUpdateManyWithoutTruckerNestedInput
 }
 
@@ -390,6 +397,11 @@ export type UserScalarRelationFilter = {
   isNot?: Prisma.UserWhereInput
 }
 
+export type UserNullableScalarRelationFilter = {
+  is?: Prisma.UserWhereInput | null
+  isNot?: Prisma.UserWhereInput | null
+}
+
 export type StringFieldUpdateOperationsInput = {
   set?: string
 }
@@ -412,12 +424,28 @@ export type UserCreateNestedOneWithoutLoadsInput = {
   connect?: Prisma.UserWhereUniqueInput
 }
 
+export type UserCreateNestedOneWithoutCarrierLoadsInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCarrierLoadsInput, Prisma.UserUncheckedCreateWithoutCarrierLoadsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCarrierLoadsInput
+  connect?: Prisma.UserWhereUniqueInput
+}
+
 export type UserUpdateOneRequiredWithoutLoadsNestedInput = {
   create?: Prisma.XOR<Prisma.UserCreateWithoutLoadsInput, Prisma.UserUncheckedCreateWithoutLoadsInput>
   connectOrCreate?: Prisma.UserCreateOrConnectWithoutLoadsInput
   upsert?: Prisma.UserUpsertWithoutLoadsInput
   connect?: Prisma.UserWhereUniqueInput
   update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutLoadsInput, Prisma.UserUpdateWithoutLoadsInput>, Prisma.UserUncheckedUpdateWithoutLoadsInput>
+}
+
+export type UserUpdateOneWithoutCarrierLoadsNestedInput = {
+  create?: Prisma.XOR<Prisma.UserCreateWithoutCarrierLoadsInput, Prisma.UserUncheckedCreateWithoutCarrierLoadsInput>
+  connectOrCreate?: Prisma.UserCreateOrConnectWithoutCarrierLoadsInput
+  upsert?: Prisma.UserUpsertWithoutCarrierLoadsInput
+  disconnect?: Prisma.UserWhereInput | boolean
+  delete?: Prisma.UserWhereInput | boolean
+  connect?: Prisma.UserWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.UserUpdateToOneWithWhereWithoutCarrierLoadsInput, Prisma.UserUpdateWithoutCarrierLoadsInput>, Prisma.UserUncheckedUpdateWithoutCarrierLoadsInput>
 }
 
 export type UserCreateNestedOneWithoutJourneysInput = {
@@ -443,6 +471,7 @@ export type UserCreateWithoutLoadsInput = {
   phone?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  carrierLoads?: Prisma.LoadCreateNestedManyWithoutCarrierInput
   journeys?: Prisma.JourneyCreateNestedManyWithoutTruckerInput
 }
 
@@ -455,12 +484,44 @@ export type UserUncheckedCreateWithoutLoadsInput = {
   phone?: string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  carrierLoads?: Prisma.LoadUncheckedCreateNestedManyWithoutCarrierInput
   journeys?: Prisma.JourneyUncheckedCreateNestedManyWithoutTruckerInput
 }
 
 export type UserCreateOrConnectWithoutLoadsInput = {
   where: Prisma.UserWhereUniqueInput
   create: Prisma.XOR<Prisma.UserCreateWithoutLoadsInput, Prisma.UserUncheckedCreateWithoutLoadsInput>
+}
+
+export type UserCreateWithoutCarrierLoadsInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  role: $Enums.Role
+  phone?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  loads?: Prisma.LoadCreateNestedManyWithoutShipperInput
+  journeys?: Prisma.JourneyCreateNestedManyWithoutTruckerInput
+}
+
+export type UserUncheckedCreateWithoutCarrierLoadsInput = {
+  id?: string
+  name: string
+  email: string
+  passwordHash: string
+  role: $Enums.Role
+  phone?: string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  loads?: Prisma.LoadUncheckedCreateNestedManyWithoutShipperInput
+  journeys?: Prisma.JourneyUncheckedCreateNestedManyWithoutTruckerInput
+}
+
+export type UserCreateOrConnectWithoutCarrierLoadsInput = {
+  where: Prisma.UserWhereUniqueInput
+  create: Prisma.XOR<Prisma.UserCreateWithoutCarrierLoadsInput, Prisma.UserUncheckedCreateWithoutCarrierLoadsInput>
 }
 
 export type UserUpsertWithoutLoadsInput = {
@@ -483,6 +544,7 @@ export type UserUpdateWithoutLoadsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  carrierLoads?: Prisma.LoadUpdateManyWithoutCarrierNestedInput
   journeys?: Prisma.JourneyUpdateManyWithoutTruckerNestedInput
 }
 
@@ -495,6 +557,44 @@ export type UserUncheckedUpdateWithoutLoadsInput = {
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  carrierLoads?: Prisma.LoadUncheckedUpdateManyWithoutCarrierNestedInput
+  journeys?: Prisma.JourneyUncheckedUpdateManyWithoutTruckerNestedInput
+}
+
+export type UserUpsertWithoutCarrierLoadsInput = {
+  update: Prisma.XOR<Prisma.UserUpdateWithoutCarrierLoadsInput, Prisma.UserUncheckedUpdateWithoutCarrierLoadsInput>
+  create: Prisma.XOR<Prisma.UserCreateWithoutCarrierLoadsInput, Prisma.UserUncheckedCreateWithoutCarrierLoadsInput>
+  where?: Prisma.UserWhereInput
+}
+
+export type UserUpdateToOneWithWhereWithoutCarrierLoadsInput = {
+  where?: Prisma.UserWhereInput
+  data: Prisma.XOR<Prisma.UserUpdateWithoutCarrierLoadsInput, Prisma.UserUncheckedUpdateWithoutCarrierLoadsInput>
+}
+
+export type UserUpdateWithoutCarrierLoadsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loads?: Prisma.LoadUpdateManyWithoutShipperNestedInput
+  journeys?: Prisma.JourneyUpdateManyWithoutTruckerNestedInput
+}
+
+export type UserUncheckedUpdateWithoutCarrierLoadsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  email?: Prisma.StringFieldUpdateOperationsInput | string
+  passwordHash?: Prisma.StringFieldUpdateOperationsInput | string
+  role?: Prisma.EnumRoleFieldUpdateOperationsInput | $Enums.Role
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  loads?: Prisma.LoadUncheckedUpdateManyWithoutShipperNestedInput
   journeys?: Prisma.JourneyUncheckedUpdateManyWithoutTruckerNestedInput
 }
 
@@ -508,6 +608,7 @@ export type UserCreateWithoutJourneysInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   loads?: Prisma.LoadCreateNestedManyWithoutShipperInput
+  carrierLoads?: Prisma.LoadCreateNestedManyWithoutCarrierInput
 }
 
 export type UserUncheckedCreateWithoutJourneysInput = {
@@ -520,6 +621,7 @@ export type UserUncheckedCreateWithoutJourneysInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   loads?: Prisma.LoadUncheckedCreateNestedManyWithoutShipperInput
+  carrierLoads?: Prisma.LoadUncheckedCreateNestedManyWithoutCarrierInput
 }
 
 export type UserCreateOrConnectWithoutJourneysInput = {
@@ -548,6 +650,7 @@ export type UserUpdateWithoutJourneysInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loads?: Prisma.LoadUpdateManyWithoutShipperNestedInput
+  carrierLoads?: Prisma.LoadUpdateManyWithoutCarrierNestedInput
 }
 
 export type UserUncheckedUpdateWithoutJourneysInput = {
@@ -560,6 +663,7 @@ export type UserUncheckedUpdateWithoutJourneysInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   loads?: Prisma.LoadUncheckedUpdateManyWithoutShipperNestedInput
+  carrierLoads?: Prisma.LoadUncheckedUpdateManyWithoutCarrierNestedInput
 }
 
 
@@ -569,11 +673,13 @@ export type UserUncheckedUpdateWithoutJourneysInput = {
 
 export type UserCountOutputType = {
   loads: number
+  carrierLoads: number
   journeys: number
 }
 
 export type UserCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   loads?: boolean | UserCountOutputTypeCountLoadsArgs
+  carrierLoads?: boolean | UserCountOutputTypeCountCarrierLoadsArgs
   journeys?: boolean | UserCountOutputTypeCountJourneysArgs
 }
 
@@ -597,6 +703,13 @@ export type UserCountOutputTypeCountLoadsArgs<ExtArgs extends runtime.Types.Exte
 /**
  * UserCountOutputType without action
  */
+export type UserCountOutputTypeCountCarrierLoadsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.LoadWhereInput
+}
+
+/**
+ * UserCountOutputType without action
+ */
 export type UserCountOutputTypeCountJourneysArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.JourneyWhereInput
 }
@@ -612,6 +725,7 @@ export type UserSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = r
   createdAt?: boolean
   updatedAt?: boolean
   loads?: boolean | Prisma.User$loadsArgs<ExtArgs>
+  carrierLoads?: boolean | Prisma.User$carrierLoadsArgs<ExtArgs>
   journeys?: boolean | Prisma.User$journeysArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["user"]>
@@ -652,6 +766,7 @@ export type UserSelectScalar = {
 export type UserOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "email" | "passwordHash" | "role" | "phone" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
 export type UserInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   loads?: boolean | Prisma.User$loadsArgs<ExtArgs>
+  carrierLoads?: boolean | Prisma.User$carrierLoadsArgs<ExtArgs>
   journeys?: boolean | Prisma.User$journeysArgs<ExtArgs>
   _count?: boolean | Prisma.UserCountOutputTypeDefaultArgs<ExtArgs>
 }
@@ -662,6 +777,7 @@ export type $UserPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   name: "User"
   objects: {
     loads: Prisma.$LoadPayload<ExtArgs>[]
+    carrierLoads: Prisma.$LoadPayload<ExtArgs>[]
     journeys: Prisma.$JourneyPayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1068,6 +1184,7 @@ readonly fields: UserFieldRefs;
 export interface Prisma__UserClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
   loads<T extends Prisma.User$loadsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$loadsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LoadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  carrierLoads<T extends Prisma.User$carrierLoadsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$carrierLoadsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$LoadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   journeys<T extends Prisma.User$journeysArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.User$journeysArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$JourneyPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1502,6 +1619,30 @@ export type UserDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Internal
  * User.loads
  */
 export type User$loadsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Load
+   */
+  select?: Prisma.LoadSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Load
+   */
+  omit?: Prisma.LoadOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.LoadInclude<ExtArgs> | null
+  where?: Prisma.LoadWhereInput
+  orderBy?: Prisma.LoadOrderByWithRelationInput | Prisma.LoadOrderByWithRelationInput[]
+  cursor?: Prisma.LoadWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.LoadScalarFieldEnum | Prisma.LoadScalarFieldEnum[]
+}
+
+/**
+ * User.carrierLoads
+ */
+export type User$carrierLoadsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   /**
    * Select specific fields to fetch from the Load
    */

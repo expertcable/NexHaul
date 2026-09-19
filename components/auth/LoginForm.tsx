@@ -39,7 +39,7 @@ export function LoginForm({ onSwitchToRegister }: { onSwitchToRegister: () => vo
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div className="space-y-2">
-        <Label htmlFor="email" className="text-xs font-semibold text-zinc-400">Email address</Label>
+        <Label htmlFor="email" className="text-xs font-semibold text-slate-400">Email address</Label>
         <Input
           id="email"
           type="email"
@@ -47,11 +47,11 @@ export function LoginForm({ onSwitchToRegister }: { onSwitchToRegister: () => vo
           placeholder="operator@national-freight.in"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          className="bg-[#020617] border-white/10 text-white placeholder-zinc-600 focus-visible:ring-brand-green h-11 rounded-xl text-sm px-4"
+          className="bg-[#07090E] border-white/10 text-white placeholder-slate-600 focus-visible:ring-cyan-500 h-11 rounded-xl text-sm px-4 shadow-inner"
         />
       </div>
       <div className="space-y-2">
-        <Label htmlFor="password" className="text-xs font-semibold text-zinc-400">Password</Label>
+        <Label htmlFor="password" className="text-xs font-semibold text-slate-400">Password</Label>
         <Input
           id="password"
           type="password"
@@ -59,7 +59,7 @@ export function LoginForm({ onSwitchToRegister }: { onSwitchToRegister: () => vo
           placeholder="••••••••"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
-          className="bg-[#020617] border-white/10 text-white placeholder-zinc-600 focus-visible:ring-brand-green h-11 rounded-xl text-sm px-4"
+          className="bg-[#07090E] border-white/10 text-white placeholder-slate-600 focus-visible:ring-cyan-500 h-11 rounded-xl text-sm px-4 shadow-inner"
         />
       </div>
       {error && (
@@ -69,14 +69,14 @@ export function LoginForm({ onSwitchToRegister }: { onSwitchToRegister: () => vo
       )}
       <Button
         type="submit"
-        className="w-full h-11 rounded-xl bg-brand-navy hover:bg-brand-navy/90 text-white font-bold shadow-md transition-all text-sm"
+        className="w-full h-11 rounded-xl bg-gradient-to-r from-blue-600 to-cyan-500 text-white font-bold shadow-lg shadow-cyan-500/20 hover:brightness-110 transition-all text-sm"
         disabled={isLoading}
       >
         {isLoading ? "Authenticating..." : "Log in with credentials"}
       </Button>
-      <p className="mt-6 text-center text-sm text-zinc-400">
+      <p className="mt-6 text-center text-sm text-slate-400">
         Don&apos;t have an account?{" "}
-        <button type="button" onClick={onSwitchToRegister} className="underline font-bold text-brand-green hover:text-brand-green/80">
+        <button type="button" onClick={onSwitchToRegister} className="underline font-bold text-cyan-400 hover:text-cyan-300">
           Register
         </button>
       </p>
