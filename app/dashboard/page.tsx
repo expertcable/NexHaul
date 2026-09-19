@@ -17,6 +17,8 @@ import { ProposeRouteForm } from "@/components/dashboard/ProposeRouteForm";
 import { DeleteRouteButton } from "@/components/dashboard/DeleteRouteButton";
 import { DeleteLoadButton } from "@/components/dashboard/DeleteLoadButton";
 import { CompleteRouteButton } from "@/components/dashboard/CompleteRouteButton";
+import { RecommendedTruckersSection } from "@/components/dashboard/RecommendedTruckersSection";
+import { RecommendedLoadsFeed } from "@/components/dashboard/RecommendedLoadsFeed";
 import {
   Truck,
   MapPin,
@@ -122,6 +124,9 @@ export default async function Dashboard({ searchParams }: DashboardProps) {
             </div>
 
 
+
+            {/* RECOMMENDED TRUCKERS MATCHING ENGINE */}
+            <RecommendedTruckersSection />
 
             {/* MY LOAD REQUESTS SECTION */}
             <div className="space-y-6">
@@ -266,6 +271,8 @@ export default async function Dashboard({ searchParams }: DashboardProps) {
         <main className="flex-1 overflow-y-auto px-8 py-10 space-y-10 pb-24">
           <div className="space-y-8">
 
+            {/* RECOMMENDED LOADS INTELLIGENT FEED */}
+            <RecommendedLoadsFeed />
 
             {/* OPEN BROADCASTS & DISPATCHES */}
             <div className="rounded-2xl border border-white/[0.08] bg-[#0E131F] shadow-sm overflow-hidden mt-10">
